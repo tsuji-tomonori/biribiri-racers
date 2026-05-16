@@ -74,27 +74,28 @@ const ctxMini = minimapCanvas.getContext("2d");
 const keys = new Set();
 
 const trackPoints = [
-  [170, 555],
-  [170, 210],
-  [315, 165],
-  [590, 165],
-  [800, 190],
-  [855, 350],
-  [735, 445],
-  [555, 405],
-  [450, 285],
-  [310, 360],
-  [330, 550],
-  [560, 580],
-  [780, 545],
-  [850, 455],
-  [835, 275],
-  [700, 220],
-  [510, 245],
-  [435, 390],
-  [520, 520],
-  [300, 580],
-  [170, 555],
+  [165, 545],
+  [165, 230],
+  [255, 145],
+  [575, 150],
+  [815, 165],
+  [875, 265],
+  [840, 420],
+  [715, 475],
+  [565, 430],
+  [475, 325],
+  [365, 395],
+  [380, 535],
+  [545, 575],
+  [770, 545],
+  [845, 455],
+  [835, 285],
+  [715, 220],
+  [535, 245],
+  [455, 405],
+  [530, 520],
+  [315, 585],
+  [165, 545],
 ];
 
 const samples = buildSamples(trackPoints, 20);
@@ -409,35 +410,33 @@ function drawTrack(ctx, width, height, race, preview) {
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
 
-  ctx.shadowBlur = 24;
-  ctx.shadowColor = "#47efff";
+  drawMapDecor(ctx, width, height, preview);
+
+  ctx.shadowBlur = 30;
+  ctx.shadowColor = "#6af7ff";
   ctx.strokeStyle = "#fff";
-  ctx.lineWidth = 182;
+  ctx.lineWidth = 192;
   ctx.stroke(trackPath);
 
-  ctx.shadowBlur = 18;
-  ctx.strokeStyle = "#ff53a4";
-  ctx.lineWidth = 168;
+  ctx.shadowBlur = 16;
+  ctx.strokeStyle = "#7dc7ff";
+  ctx.lineWidth = 178;
   ctx.stroke(trackPath);
 
-  ctx.shadowBlur = 20;
-  ctx.strokeStyle = "#1dd5c3";
-  ctx.lineWidth = 154;
-  ctx.setLineDash([170, 110, 90, 130]);
-  ctx.stroke(trackPath);
-  ctx.setLineDash([]);
+  drawBoundaryBlocks(ctx);
 
   ctx.shadowBlur = 0;
-  ctx.strokeStyle = "#d9e5ef";
+  ctx.strokeStyle = "#d7dde8";
   ctx.lineWidth = 138;
   ctx.stroke(trackPath);
 
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 6;
-  ctx.setLineDash([28, 28]);
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.62)";
+  ctx.lineWidth = 8;
+  ctx.setLineDash([32, 28]);
   ctx.stroke(trackPath);
   ctx.setLineDash([]);
 
+  drawRoadTexture(ctx);
   drawFinishLine(ctx);
   drawObstacles(ctx);
   drawElectricity(ctx);
@@ -456,29 +455,110 @@ function drawTrack(ctx, width, height, race, preview) {
 
 function drawBackground(ctx, width, height, preview) {
   const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, preview ? "#dff5ff" : "#bce5ff");
-  gradient.addColorStop(1, preview ? "#eaf7ff" : "#6bc8ff");
+  gradient.addColorStop(0, preview ? "#eaf7ff" : "#bfe8ff");
+  gradient.addColorStop(0.45, preview ? "#d8efff" : "#8ad2ff");
+  gradient.addColorStop(1, preview ? "#eef9ff" : "#39a9ff");
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.fillStyle = "rgba(255,255,255,0.28)";
-  for (let x = 0; x < width; x += 42) {
-    for (let y = 0; y < height; y += 42) {
-      ctx.fillRect(x, y, 22, 22);
+  ctx.fillStyle = "rgba(255,255,255,0.18)";
+  for (let x = 0; x < width; x += 46) {
+    for (let y = 0; y < height; y += 46) {
+      ctx.fillRect(x, y, 26, 26);
     }
   }
 
-  ctx.fillStyle = "rgba(255,255,255,0.8)";
   for (let i = 0; i < 28; i += 1) {
     const x = (i * 149) % width;
     const y = (i * 83) % height;
-    drawStar(ctx, x, y, 7 + (i % 3) * 3, i % 2 ? "#ffd143" : "#ffffff");
+    drawStar(ctx, x, y, 6 + (i % 3) * 3, i % 2 ? "#ffd143" : "#ffffff");
   }
 }
 
+function drawMapDecor(ctx, width, height, preview) {
+  ctx.save();
+  ctx.globalAlpha = preview ? 0.62 : 0.78;
+  const bolts = [
+    [74, 94, "#ffffff", 0.3],
+    [875, 105, "#ffcf35", -0.25],
+    [112, 620, "#ffffff", -0.1],
+    [905, 585, "#ff62aa", 0.18],
+  ];
+  bolts.forEach(([x, y, color, rotate]) => {
+    drawBolt(ctx, x, y, 36, color, rotate);
+  });
+
+  const confetti = ["#ff4f9d", "#25d0bf", "#ffd143", "#2c8fff", "#ffffff"];
+  for (let i = 0; i < 48; i += 1) {
+    const x = (i * 101 + 37) % width;
+    const y = (i * 67 + 29) % height;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate((i % 7) * 0.38);
+    ctx.fillStyle = confetti[i % confetti.length];
+    roundRect(ctx, -4, -2, 8 + (i % 3) * 4, 5, 2);
+    ctx.fill();
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function drawBoundaryBlocks(ctx) {
+  const colors = ["#ff5aa8", "#26cfc3", "#2798ff", "#ffd04a", "#9b7cff"];
+  ctx.save();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  for (let i = 0; i < samples.length - 3; i += 8) {
+    const sample = samples[i];
+    const next = samples[i + 3];
+    const angle = Math.atan2(next.y - sample.y, next.x - sample.x);
+    const normal = angle + Math.PI / 2;
+    [-1, 1].forEach((side, sideIndex) => {
+      const x = sample.x + Math.cos(normal) * 91 * side;
+      const y = sample.y + Math.sin(normal) * 91 * side;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.shadowBlur = 13;
+      ctx.shadowColor = sideIndex ? "#5ff6ff" : "#ff7ed2";
+      const gradient = ctx.createLinearGradient(-24, -14, 24, 14);
+      const color = colors[(i / 8 + sideIndex * 2) % colors.length | 0];
+      gradient.addColorStop(0, "#ffffff");
+      gradient.addColorStop(0.16, color);
+      gradient.addColorStop(1, color);
+      ctx.fillStyle = gradient;
+      roundRect(ctx, -27, -14, 54, 28, 9);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.72)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = "rgba(255,255,255,0.45)";
+      roundRect(ctx, -14, -5, 28, 5, 3);
+      ctx.fill();
+      if ((i + sideIndex) % 4 === 0) {
+        ctx.fillStyle = "rgba(255,255,255,0.86)";
+        drawBolt(ctx, 0, 0, 10, "#ffffff", -0.2);
+      }
+      ctx.restore();
+    });
+  }
+  ctx.restore();
+}
+
+function drawRoadTexture(ctx) {
+  ctx.save();
+  ctx.globalAlpha = 0.26;
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 3;
+  ctx.setLineDash([18, 38]);
+  ctx.stroke(trackPath);
+  ctx.setLineDash([]);
+  ctx.restore();
+}
+
 function drawFinishLine(ctx) {
-  const x = 170;
-  const y = 555;
+  const x = 165;
+  const y = 545;
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(Math.PI / 2);
@@ -490,7 +570,7 @@ function drawFinishLine(ctx) {
     }
   }
   ctx.fillStyle = "#fff";
-  ctx.font = "900 30px sans-serif";
+  ctx.font = "900 31px sans-serif";
   ctx.textAlign = "center";
   ctx.strokeStyle = "#126cf4";
   ctx.lineWidth = 8;
@@ -499,35 +579,60 @@ function drawFinishLine(ctx) {
   ctx.restore();
 
   ctx.save();
-  ctx.translate(800, 545);
-  ctx.rotate(-0.2);
-  ctx.fillStyle = "#ff3f8e";
-  roundRect(ctx, -58, -28, 116, 56, 18);
+  ctx.translate(770, 545);
+  ctx.rotate(-0.02);
+  ctx.fillStyle = "#ff4f9d";
+  roundRect(ctx, -72, -32, 144, 64, 20);
   ctx.fill();
   ctx.strokeStyle = "#fff";
   ctx.lineWidth = 5;
   ctx.stroke();
   ctx.fillStyle = "#fff";
-  ctx.font = "900 26px sans-serif";
+  ctx.font = "900 30px sans-serif";
   ctx.textAlign = "center";
   ctx.fillText("ゴール!", 0, 8);
+  ctx.fillStyle = "#1d2c4d";
+  for (let col = -3; col <= 3; col += 1) {
+    ctx.fillRect(col * 18, 30, 18, 18);
+  }
   ctx.restore();
 }
 
 function drawObstacles(ctx) {
   const blocks = [
-    [410, 250, 92, 78],
-    [690, 338, 102, 54],
-    [520, 470, 70, 96],
+    [455, 250, 118, 76, "#2c8fff"],
+    [690, 355, 118, 62, "#ffffff"],
+    [520, 474, 82, 102, "#25d0bf"],
+    [330, 300, 92, 54, "#ffffff"],
   ];
-  blocks.forEach(([x, y, w, h], index) => {
+  blocks.forEach(([x, y, w, h, color], index) => {
     ctx.save();
-    ctx.fillStyle = index === 0 ? "#4aa6ff" : "#ffffff";
+    ctx.fillStyle = color;
     ctx.strokeStyle = "#87c8ff";
     ctx.lineWidth = 10;
-    ctx.shadowBlur = 12;
+    ctx.shadowBlur = 18;
     ctx.shadowColor = "#4ce8ff";
     roundRect(ctx, x - w / 2, y - h / 2, w, h, 18);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = index % 2 ? "#ff5aa8" : "#ffffff";
+    roundRect(ctx, x - 20, y - 12, 40, 24, 8);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  [
+    [715, 160],
+    [855, 530],
+    [145, 625],
+  ].forEach(([x, y]) => {
+    ctx.save();
+    ctx.fillStyle = "#ff6cae";
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 5;
+    ctx.shadowBlur = 16;
+    ctx.shadowColor = "#ff8bd0";
+    roundRect(ctx, x - 22, y - 28, 44, 56, 14);
     ctx.fill();
     ctx.stroke();
     ctx.restore();
@@ -538,15 +643,26 @@ function drawElectricity(ctx) {
   ctx.save();
   ctx.strokeStyle = "rgba(255,255,255,0.92)";
   ctx.lineWidth = 4;
-  ctx.shadowBlur = 12;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.shadowBlur = 14;
   ctx.shadowColor = "#55f4ff";
-  for (let i = 0; i < samples.length; i += 9) {
+  for (let i = 0; i < samples.length - 4; i += 18) {
     const sample = samples[i];
-    const next = samples[(i + 2) % samples.length];
+    const next = samples[i + 4];
+    const angle = Math.atan2(next.y - sample.y, next.x - sample.x);
+    const normal = angle + Math.PI / 2;
+    const side = i % 36 === 0 ? 1 : -1;
+    const sx = sample.x + Math.cos(normal) * 80 * side;
+    const sy = sample.y + Math.sin(normal) * 80 * side;
+    const mx = (sample.x + next.x) / 2 + Math.cos(normal) * 98 * side;
+    const my = (sample.y + next.y) / 2 + Math.sin(normal) * 98 * side;
+    const ex = next.x + Math.cos(normal) * 80 * side;
+    const ey = next.y + Math.sin(normal) * 80 * side;
     ctx.beginPath();
-    ctx.moveTo(sample.x + Math.sin(i) * 65, sample.y + Math.cos(i) * 65);
-    ctx.lineTo((sample.x + next.x) / 2, (sample.y + next.y) / 2);
-    ctx.lineTo(next.x + Math.cos(i) * 64, next.y + Math.sin(i) * 64);
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(mx, my);
+    ctx.lineTo(ex, ey);
     ctx.stroke();
   }
   ctx.restore();
@@ -554,8 +670,8 @@ function drawElectricity(ctx) {
 
 function drawArrowMarks(ctx) {
   ctx.save();
-  ctx.fillStyle = "rgba(255, 209, 67, 0.8)";
-  [[310, 170, 0], [785, 315, 1.2], [340, 548, -0.2]].forEach(([x, y, rotate]) => {
+  ctx.fillStyle = "rgba(255, 209, 67, 0.86)";
+  [[330, 150, 0], [785, 315, 1.2], [335, 548, -0.2], [690, 500, -0.7]].forEach(([x, y, rotate]) => {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(rotate);
@@ -612,21 +728,58 @@ function drawCar(ctx, x, y, angle, ghost, boost, color = "#168bff") {
 
 function drawMiniMap(race) {
   ctxMini.clearRect(0, 0, minimapCanvas.width, minimapCanvas.height);
+  const gradient = ctxMini.createLinearGradient(0, 0, minimapCanvas.width, minimapCanvas.height);
+  gradient.addColorStop(0, "#f7fdff");
+  gradient.addColorStop(1, "#e4f4ff");
+  ctxMini.fillStyle = gradient;
+  ctxMini.fillRect(0, 0, minimapCanvas.width, minimapCanvas.height);
   ctxMini.save();
   ctxMini.scale(minimapCanvas.width / gameCanvas.width, minimapCanvas.height / gameCanvas.height);
   ctxMini.lineCap = "round";
   ctxMini.lineJoin = "round";
-  ctxMini.strokeStyle = "#dfefff";
-  ctxMini.lineWidth = 120;
+  ctxMini.strokeStyle = "#ffffff";
+  ctxMini.lineWidth = 148;
   ctxMini.stroke(trackPath);
-  ctxMini.strokeStyle = "#178bff";
-  ctxMini.lineWidth = 18;
+  ctxMini.strokeStyle = "#85c9ff";
+  ctxMini.lineWidth = 126;
   ctxMini.stroke(trackPath);
+  ctxMini.strokeStyle = "#d7dde8";
+  ctxMini.lineWidth = 92;
+  ctxMini.stroke(trackPath);
+  ctxMini.strokeStyle = "#3b9cff";
+  ctxMini.lineWidth = 16;
+  ctxMini.setLineDash([78, 42]);
+  ctxMini.stroke(trackPath);
+  ctxMini.setLineDash([]);
   ctxMini.fillStyle = "#ff3f8e";
   ctxMini.beginPath();
-  ctxMini.arc(race.x, race.y, 24, 0, Math.PI * 2);
+  ctxMini.arc(race.x, race.y, 25, 0, Math.PI * 2);
   ctxMini.fill();
+  ctxMini.strokeStyle = "#fff";
+  ctxMini.lineWidth = 7;
+  ctxMini.stroke();
   ctxMini.restore();
+}
+
+function drawBolt(ctx, x, y, size, color, rotate = 0) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rotate);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(-size * 0.16, -size * 0.55);
+  ctx.lineTo(size * 0.28, -size * 0.55);
+  ctx.lineTo(size * 0.08, -size * 0.08);
+  ctx.lineTo(size * 0.42, -size * 0.08);
+  ctx.lineTo(-size * 0.18, size * 0.58);
+  ctx.lineTo(-size * 0.02, size * 0.1);
+  ctx.lineTo(-size * 0.36, size * 0.1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.72)";
+  ctx.lineWidth = Math.max(2, size * 0.08);
+  ctx.stroke();
+  ctx.restore();
 }
 
 function drawStar(ctx, x, y, radius, color) {
