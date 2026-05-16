@@ -27,6 +27,8 @@ python3 -m http.server 4173 --directory app/web
 - ゲーム中画面
 - リザルト画面
 
+各画面の構造、表示文言、操作、状態、視覚表現は [`UI_DESCRIPTION.md`](./UI_DESCRIPTION.md) にまとめています。
+
 ## 初版の制約
 
 - オンライン対戦、コード参加、フレンド、ランキング共有は未実装です。
