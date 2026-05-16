@@ -1,6 +1,4 @@
-import type { CSSProperties } from "react";
 import type { Course } from "../../types";
-import { CoursePartStrip } from "./CoursePartStrip";
 
 interface MiniCourseButtonProps {
   course: Course;
@@ -8,28 +6,18 @@ interface MiniCourseButtonProps {
   onSelect: (courseId: string) => void;
 }
 
-type CourseImageStyle = CSSProperties & {
-  "--card-course-image"?: string;
-};
-
 export function MiniCourseButton({ course, selected, onSelect }: MiniCourseButtonProps) {
-  const style: CourseImageStyle = {
-    "--card-course-image": `url("${course.previewAsset}")`,
-  };
-
   return (
     <button
-      className={`mini-course ${selected ? "is-selected" : ""}`}
+      className={`mini-course course-card-art-frame ${selected ? "is-selected" : ""}`}
       type="button"
       role="option"
       aria-selected={selected}
+      aria-label={`${course.id} ${course.name}を選択`}
       data-course-id={course.id}
       onClick={() => onSelect(course.id)}
     >
-      <span className="mini-course-thumb" style={style} />
-      <CoursePartStrip parts={course.partAssets} />
-      <b>{course.id}</b>
-      <strong>{course.name}</strong>
+      <img className="mini-course-art" src={course.previewAsset} alt={course.name} />
     </button>
   );
 }

@@ -26,9 +26,10 @@ export function MegaButton({
   const classes = ["mega-button", tone, compact ? "compact" : "", full ? "full" : "", className]
     .filter(Boolean)
     .join(" ");
+  const { "aria-label": ariaLabel, ...restButtonProps } = buttonProps;
 
   return (
-    <button className={classes} type="button" data-action={action} {...buttonProps}>
+    <button className={classes} type="button" data-action={action} aria-label={ariaLabel ?? label} {...restButtonProps}>
       <span className="button-icon" aria-hidden="true">{icon}</span>
       <span>
         <strong>{label}</strong>

@@ -13,7 +13,9 @@ import { useRaceController } from "./hooks/useRaceController";
 
 const initialScreen = (): ScreenName => {
   const screen = new URLSearchParams(window.location.search).get("screen");
-  return screen === "room" || screen === "join" || screen === "map" ? screen : "menu";
+  return screen === "room" || screen === "join" || screen === "map" || screen === "ready" || screen === "result"
+    ? screen
+    : "menu";
 };
 
 const defaultState: AppState = {
