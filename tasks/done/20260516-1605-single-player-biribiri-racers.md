@@ -1,6 +1,6 @@
 # ビリビリレーサーズ一人プレイ版
 
-- 状態: doing
+- 状態: done
 - タスク種別: 機能追加
 - 作成日時: 2026-05-16 16:05
 
@@ -66,7 +66,7 @@
 - `.workspace` が worktree に含まれない未追跡素材のため、実装成果物には素材そのものを同梱しない。
 - マルチプレイは UI の将来余地のみで、実機能は未実装。
 - 静的アプリのため、状態はページリロードで消える。
-- リモートが未設定のため、push と PR 作成は blocked。PR コメント完了後に `tasks/done/` へ移動する規約は未実施。
+- GitHub App による PR コメント投稿は 403 のため利用できず、`gh pr comment` にフォールバックした。
 
 ## 実施結果
 
@@ -75,3 +75,6 @@
 - `python3 -m http.server 4173 --directory app/web` で配信確認。
 - `google-chrome --headless=new` でデスクトップ幅とモバイル幅の初期描画を確認。
 - `node --check app/web/app.js` と `git diff --cached --check` は pass。
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/1
+- 受け入れ条件コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/1#issuecomment-4466191461
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/1#issuecomment-4466191462
