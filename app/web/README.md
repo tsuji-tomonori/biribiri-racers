@@ -2,6 +2,7 @@
 
 `app/web` は、ビリビリ棒のように壁へ触れるとスタートへ戻る 2D レーシングゲームの静的 Web 版です。
 提示デザイン仕様に沿って、メニュー、チーム作成、コード参加、マップ一覧、レース待機、ゲーム中 HUD、リザルトの主要画面をローカル一人プレイ向けに実装しています。
+現在の UI は `.workspace` の参照画像に寄せるため、コース 01〜05 の参照コース画像を WebP 化して `app/web/assets/courses/` に取り込み、HOME preview、コースカード、マップ詳細、待機 / ゲーム中 canvas 背景へ使用しています。
 
 ## 起動方法
 
@@ -12,6 +13,7 @@ python3 -m http.server 4173 --directory app/web
 ```
 
 ブラウザで `http://127.0.0.1:4173/` を開きます。
+画面確認用に、`?screen=room`、`?screen=join`、`?screen=map` で主要画面を直接開けます。
 
 ## 操作
 
@@ -34,6 +36,7 @@ python3 -m http.server 4173 --directory app/web
 
 コース表示は `app/web/app.js` の `courses` マスタを正とします。
 画面内の表示名は `courseId` から参照し、名称揺れは `aliases` に保持します。
+参照画像があるコースは `previewAsset` / `mapAsset` に画像パスを持ち、UI はこの値からサムネイルとプレビューを描画します。
 
 実装済み表示:
 
@@ -50,6 +53,8 @@ python3 -m http.server 4173 --directory app/web
 - ルームコード、複数人枠、共有ボタンは将来拡張のための表示であり、接続可能な実データとして扱いません。
 - 記録はブラウザ内の一時状態で、ページリロードにより消えます。
 - コースごとの見た目は CSS / canvas 表現です。画像アセット、9-slice 素材、collision mask はまだ分離していません。
+- コース画像は表示用アセットとして利用しています。ゲーム中の当たり判定は現時点では既存の単一ローカルトラックを使います。
+- 9-slice 素材化やコースごとの collision mask / tile map 分離は未実装です。
 
 ## 確認コマンド
 
