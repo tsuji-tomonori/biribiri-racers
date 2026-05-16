@@ -39,13 +39,13 @@
 
 ## 受け入れ条件
 
-- [ ] HOME から主要画面へ遷移でき、仕様書の主要文言・導線が反映されている。
-- [ ] コース表示は `courseId` を正とするマスタから描画され、表示名の直書き分散が減っている。
-- [ ] TEAM_CREATE、JOIN_BY_CODE、MAP_LIST、RACE_LOBBY、GAMEPLAY、RESULT の主要情報が仕様に沿って表示される。
-- [ ] オンライン未実装の参加、フレンド、ランキング共有などを実データのように見せず、未実装またはローカルプレビューとして明示している。
-- [ ] PC/タッチ向け HUD の表示方針が実装に反映されている。
-- [ ] README が新しい画面・制約・起動方法と整合している。
-- [ ] 変更範囲に対して `git diff --check` と静的 Web の起動確認を実行し、結果を記録している。
+- [x] HOME から主要画面へ遷移でき、仕様書の主要文言・導線が反映されている。
+- [x] コース表示は `courseId` を正とするマスタから描画され、表示名の直書き分散が減っている。
+- [x] TEAM_CREATE、JOIN_BY_CODE、MAP_LIST、RACE_LOBBY、GAMEPLAY、RESULT の主要情報が仕様に沿って表示される。
+- [x] オンライン未実装の参加、フレンド、ランキング共有などを実データのように見せず、未実装またはローカルプレビューとして明示している。
+- [x] PC/タッチ向け HUD の表示方針が実装に反映されている。
+- [x] README が新しい画面・制約・起動方法と整合している。
+- [x] 変更範囲に対して `git diff --check` と静的 Web の起動確認を実行し、結果を記録している。
 
 ## 検証計画
 
@@ -68,4 +68,10 @@
 
 ## 状態
 
-in_progress
+done
+
+## 完了メモ
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/4
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/4#issuecomment-4466527346
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/4#issuecomment-4466528076
