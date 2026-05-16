@@ -1,18 +1,35 @@
 # ビリビリレーサーズ Web 版
 
-`app/web` は、ビリビリ棒のように壁へ触れるとスタートへ戻る 2D レーシングゲームの静的 Web 版です。
+`app/web` は、ビリビリ棒のように壁へ触れるとスタートへ戻る 2D レーシングゲームの Vite + React + TypeScript 版です。
 提示デザイン仕様に沿って、メニュー、チーム作成、コード参加、マップ一覧、レース待機、ゲーム中 HUD、リザルトの主要画面をローカル一人プレイ向けに実装しています。
-現在の UI は `.workspace` の参照画像に寄せるため、コース 01〜05 の参照コース画像を WebP 化して `app/web/assets/courses/` に取り込み、HOME preview、コースカード、マップ詳細、待機 / ゲーム中 canvas 背景へ使用しています。
+現在の UI は `.workspace` の参照画像に寄せるため、コース 01〜05 の参照コース画像を WebP 化して `app/web/public/assets/courses/` に取り込み、HOME preview、コースカード、マップ詳細、待機 / ゲーム中 canvas 背景へ使用しています。
+
+## 構成
+
+- `src/App.tsx`: 画面遷移、選択コース、プレイヤー設定、レース結果のアプリ状態を管理します。
+- `src/components/ui/`: ボタン、画面 wrapper、モーダルなどの共通 UI primitives です。
+- `src/components/course/`: コースカード、コース詳細、コースパーツ表示を扱います。
+- `src/components/screens/`: メニュー、チーム作成、コード参加、マップ、待機、ゲーム、リザルトの各画面です。
+- `src/data/`: コースマスタとアセットパスを保持します。
+- `src/game/`: canvas 描画、トラック形状、画像 preload を扱います。
+- `src/hooks/useRaceController.ts`: キー入力、カウントダウン、レースループ、HUD 更新を閉じ込めます。
 
 ## 起動方法
 
-リポジトリルートから次のコマンドで静的ファイルを配信します。
+初回は `app/web` で依存関係をインストールします。
 
 ```bash
-python3 -m http.server 4173 --directory app/web
+cd app/web
+npm install
 ```
 
-ブラウザで `http://127.0.0.1:4173/` を開きます。
+開発サーバー:
+
+```bash
+npm run dev -- --host 127.0.0.1
+```
+
+ブラウザで Vite が表示する URL を開きます。
 画面確認用に、`?screen=room`、`?screen=join`、`?screen=map` で主要画面を直接開けます。
 
 ## 操作
@@ -34,7 +51,7 @@ python3 -m http.server 4173 --directory app/web
 
 ## コースデータ
 
-コース表示は `app/web/app.js` の `courses` マスタを正とします。
+コース表示は `app/web/src/data/courses.ts` の `courses` マスタを正とします。
 画面内の表示名は `courseId` から参照し、名称揺れは `aliases` に保持します。
 参照画像があるコースは `previewAsset` / `mapAsset` に画像パスを持ち、UI はこの値からサムネイルとプレビューを描画します。
 
@@ -58,11 +75,10 @@ python3 -m http.server 4173 --directory app/web
 
 ## 確認コマンド
 
-構文と静的配信の最低確認:
+TypeScript と production build の最低確認:
 
 ```bash
-node --check app/web/app.js
+cd app/web
+npm run build
 git diff --check
-python3 -m http.server 4173 --directory app/web
-curl -I http://127.0.0.1:4173/
 ```
