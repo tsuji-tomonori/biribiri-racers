@@ -22,6 +22,8 @@ const courses = [
     detail: "カーブがたくさんのテクニカルなコース。中央の惑星ドームと電撃壁に注意。",
     tags: ["おすすめ", "カーブ多め", "3ラップ推奨"],
     palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
+    previewAsset: "./assets/courses/course-01-pastel-planet.webp",
+    mapAsset: "./assets/courses/course-01-pastel-planet.webp",
     records: {},
   },
   {
@@ -37,6 +39,8 @@ const courses = [
     detail: "発光ブロックと細い曲がり角が続く、集中力がいる街コース。",
     tags: ["ネオン", "直線多め", "3ラップ推奨"],
     palette: ["neon_blue", "neon_pink", "cyan", "purple"],
+    previewAsset: "./assets/courses/course-02-pikapika-city.webp",
+    mapAsset: "./assets/courses/course-02-pikapika-city.webp",
     records: {},
   },
   {
@@ -52,6 +56,8 @@ const courses = [
     detail: "大きなS字とループ状カーブが多い、走りやすいパステルコース。",
     tags: ["ワイドターン", "スイート", "2スター"],
     palette: ["pink", "mint", "lavender", "cream_yellow"],
+    previewAsset: "./assets/courses/course-03-candy-loop.webp",
+    mapAsset: "./assets/courses/course-03-candy-loop.webp",
     records: {},
   },
   {
@@ -67,6 +73,8 @@ const courses = [
     detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
     tags: ["氷", "すべる雰囲気", "2スター"],
     palette: ["ice_blue", "cyan", "white", "deep_blue"],
+    previewAsset: "./assets/courses/course-04-ice-tube.webp",
+    mapAsset: "./assets/courses/course-04-ice-tube.webp",
     records: {},
   },
   {
@@ -82,6 +90,8 @@ const courses = [
     detail: "丸い花壇と雷アイコン台座をよけながら走る、明るい庭園コース。",
     tags: ["庭園", "広め", "2スター"],
     palette: ["green", "yellow", "teal", "flower_pink"],
+    previewAsset: "./assets/courses/course-05-thunder-garden.webp",
+    mapAsset: "./assets/courses/course-05-thunder-garden.webp",
     records: {},
   },
   {
@@ -101,6 +111,21 @@ const courses = [
     records: {},
   },
 ];
+
+const courseImages = new Map();
+
+courses.forEach((course) => {
+  if (!course.mapAsset) return;
+  const image = new Image();
+  image.src = course.mapAsset;
+  image.addEventListener("load", () => {
+    if (state.courseId === course.id) {
+      if (state.screen === "ready") drawTrack(ctxReady, readyCanvas.width, readyCanvas.height, null, true);
+      if (state.screen === "game" && state.race) drawMiniMap(state.race);
+    }
+  });
+  courseImages.set(course.id, image);
+});
 
 const state = {
   screen: "menu",
@@ -248,6 +273,15 @@ function selectedCourse() {
   return courses.find((course) => course.id === state.courseId) || courses[0];
 }
 
+function courseAssetStyle(course) {
+  return course.previewAsset ? `style="--card-course-image: url('${course.previewAsset}')"` : "";
+}
+
+function courseImage(course) {
+  const image = courseImages.get(course.id);
+  return image && image.complete && image.naturalWidth > 0 ? image : null;
+}
+
 function renderCourseButtons() {
   elements.coursePicker.innerHTML = "";
   courses.slice(0, 4).forEach((course) => {
@@ -256,7 +290,7 @@ function renderCourseButtons() {
     button.dataset.courseId = course.id;
     button.type = "button";
     button.setAttribute("role", "option");
-    button.textContent = `${course.id} ${course.name}`;
+    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span><b>${course.id}</b><strong>${course.name}</strong>`;
     elements.coursePicker.appendChild(button);
   });
 
@@ -264,7 +298,7 @@ function renderCourseButtons() {
   courses.slice(0, 3).forEach((course) => {
     const card = document.createElement("article");
     card.className = "course-card";
-    card.innerHTML = `<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
+    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
     elements.homeRecommendedCourses.appendChild(card);
   });
 }
@@ -277,7 +311,7 @@ function renderCourseGrid() {
     button.dataset.courseId = course.id;
     button.type = "button";
     const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
-    button.innerHTML = `<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
+    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
     elements.courseGrid.appendChild(button);
   });
 }
@@ -344,6 +378,11 @@ function syncUi() {
     elements.selectedCourseTags.appendChild(span);
   });
   document.body.dataset.courseTheme = course.key;
+  const courseImageValue = course.previewAsset ? `url("${course.previewAsset}")` : "none";
+  document.documentElement.style.setProperty("--course-image", courseImageValue);
+  document.querySelectorAll(".mini-map-art").forEach((element) => {
+    element.classList.toggle("has-course-image", Boolean(course.previewAsset));
+  });
   elements.inputModeLabel.textContent = window.matchMedia("(pointer: coarse)").matches ? "タッチ" : "PC";
 }
 
@@ -574,6 +613,20 @@ function updateHud() {
 
 function drawTrack(ctx, width, height, race, preview) {
   ctx.clearRect(0, 0, width, height);
+  const image = courseImage(selectedCourse());
+  if (image) {
+    drawCourseImageBackground(ctx, width, height, image);
+    drawReferenceCourseOverlay(ctx, width, height);
+    if (race) {
+      drawCar(ctx, race.x, race.y, race.angle, performance.now() < race.invulnerableUntil, performance.now() < race.boostPulseUntil);
+    } else {
+      drawCar(ctx, width * 0.18, height * 0.72, -Math.PI / 2, false, false);
+      drawCar(ctx, width * 0.42, height * 0.42, -0.5, false, true, "#ff3f8e");
+      drawCar(ctx, width * 0.66, height * 0.55, -0.3, false, true, "#20c987");
+    }
+    return;
+  }
+
   drawBackground(ctx, width, height, preview);
 
   ctx.save();
@@ -620,6 +673,30 @@ function drawTrack(ctx, width, height, race, preview) {
     drawCar(ctx, 660, 370, -0.3, false, true, "#20c987");
   }
 
+  ctx.restore();
+}
+
+function drawCourseImageBackground(ctx, width, height, image) {
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  const drawWidth = image.naturalWidth * scale;
+  const drawHeight = image.naturalHeight * scale;
+  const x = (width - drawWidth) / 2;
+  const y = (height - drawHeight) / 2;
+  ctx.drawImage(image, x, y, drawWidth, drawHeight);
+}
+
+function drawReferenceCourseOverlay(ctx, width, height) {
+  ctx.save();
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  gradient.addColorStop(0, "rgba(255,255,255,0.18)");
+  gradient.addColorStop(0.5, "rgba(255,255,255,0)");
+  gradient.addColorStop(1, "rgba(35,164,255,0.18)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = "rgba(255,255,255,0.9)";
+  ctx.lineWidth = 10;
+  roundRect(ctx, 8, 8, width - 16, height - 16, 28);
+  ctx.stroke();
   ctx.restore();
 }
 
@@ -898,6 +975,24 @@ function drawCar(ctx, x, y, angle, ghost, boost, color = "#168bff") {
 
 function drawMiniMap(race) {
   ctxMini.clearRect(0, 0, minimapCanvas.width, minimapCanvas.height);
+  const image = courseImage(selectedCourse());
+  if (image) {
+    drawCourseImageBackground(ctxMini, minimapCanvas.width, minimapCanvas.height, image);
+    ctxMini.fillStyle = "rgba(255,255,255,0.24)";
+    ctxMini.fillRect(0, 0, minimapCanvas.width, minimapCanvas.height);
+    ctxMini.save();
+    ctxMini.scale(minimapCanvas.width / gameCanvas.width, minimapCanvas.height / gameCanvas.height);
+    ctxMini.fillStyle = "#ff3f8e";
+    ctxMini.beginPath();
+    ctxMini.arc(race.x, race.y, 25, 0, Math.PI * 2);
+    ctxMini.fill();
+    ctxMini.strokeStyle = "#fff";
+    ctxMini.lineWidth = 7;
+    ctxMini.stroke();
+    ctxMini.restore();
+    return;
+  }
+
   const gradient = ctxMini.createLinearGradient(0, 0, minimapCanvas.width, minimapCanvas.height);
   gradient.addColorStop(0, "#f7fdff");
   gradient.addColorStop(1, "#e4f4ff");
@@ -1102,3 +1197,8 @@ renderCourseButtons();
 renderCourseGrid();
 syncUi();
 drawTrack(ctxReady, readyCanvas.width, readyCanvas.height, null, true);
+
+const initialScreen = new URLSearchParams(window.location.search).get("screen");
+if (["room", "join", "map"].includes(initialScreen)) {
+  showScreen(initialScreen);
+}
