@@ -86,6 +86,19 @@
 - テスト fixture、Storybook、visual regression mock、ローカル開発 seed は、本番コンポーネントの fallback と分離されている場合のみ許容する。
 - API や実データが存在しない値は、架空値で埋めず「未設定」「利用不可」などの正直な状態にする。推定値を表示する場合は、推定であることと根拠を UI または PR 本文に明記する。
 
+## Visual Reference Web App Workflow
+- 対象: スクリーンショット、Figma frame、画像モック、既存画面キャプチャ、視覚リファレンスをもとに Web アプリ UI を実装・修正・レビューする作業。
+- 必読: `skills/screenshot-to-ui-spec/SKILL.md`、`skills/asset-mapper/SKILL.md`、`skills/webapp-slice-builder/SKILL.md`、`skills/visual-browser-qa/SKILL.md`
+- mobile-first、keyboard、screen reader、contrast、WCAG/JIS、touch target を扱う場合は `skills/mobile-first-web-app-ui-ux-a11y/SKILL.md` も適用する。
+- 画像から直接コードを書かず、原則として `screenshot-to-ui-spec` で UI 仕様・仮定・受け入れ条件を作ってから実装する。
+- visible asset を追加・置換・近似する前に `asset-mapper` で既存 asset、提供 asset、icon component、SVG、placeholder 可否を整理する。
+- 実装は `webapp-slice-builder` に従い、1画面・1 route・1 modal・1 form flow など、検証可能な最小 slice に分ける。
+- 実装後は `visual-browser-qa` で少なくとも mobile 375px と desktop 1440px を確認する。tablet が関連する場合は 768px も確認する。
+- 視覚一致を主張する場合は、実ブラウザまたは Playwright 等でレンダリング結果を確認した根拠を残す。確認できない場合は blocked / partially complete として理由を記載する。
+- Figma が利用できる場合は、スクリーンショット単体の推定より Figma の構造化情報・assets・variants を優先する。
+- deploy preview はローカル build と必要環境変数の確認後にのみ扱う。deploy 先が未指定の場合は今回 scope に含めず、必要になった時点で専用 skill または plugin を追加する。
+- 並列化が必要な場合のみ `agents/visual-analyzer.toml`、`agents/frontend-builder.toml`、`agents/visual-qa.toml`、`agents/accessibility-reviewer.toml` の役割分担を使う。subagent を使わない通常作業でも同等の順序と受け入れ条件を守る。
+
 ## Specification Recovery Skills
 - 対象: 作業レポート、チケット、PR、既存テスト、既存仕様から、要件・仕様・受け入れ条件・E2Eシナリオ・トレーサビリティ・欠落分析を作成または更新する作業。
 - 必読: `skills/rag-assist-spec-completion-orchestrator/SKILL.md`
