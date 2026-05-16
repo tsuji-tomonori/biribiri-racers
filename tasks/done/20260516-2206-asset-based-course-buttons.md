@@ -1,6 +1,6 @@
 # コースとボタンを asset pack v2 ベースで組み立てる
 
-- 状態: do
+- 状態: done
 - タスク種別: 修正
 - ブランチ: `codex/asset-pack-v2-ui`
 - 対象: `app/web/`
@@ -73,3 +73,10 @@
 ## リスク
 
 - 「基本アセット全部」は、全ファイル追加ではなく、基本カテゴリを画面構成に使う意味として扱う。全ファイルを配信対象化すると静的アプリの読み込み重量が大きくなるため、表示に使う asset を中心に取り込む。
+
+## PR / 完了記録
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/7
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/7#issuecomment-4466986876
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/7#issuecomment-4466988325
+- GitHub Apps 操作: 前回確認時に 403 (`Resource not accessible by integration`) のため、PR コメントは `gh` にフォールバックした。
