@@ -1,8 +1,8 @@
 # 画像参照UI実装ワークフロー用 skills / agents 追加
 
-保存先: `tasks/do/20260516-2033-ui-image-workflow-skills.md`
+保存先: `tasks/done/20260516-2033-ui-image-workflow-skills.md`
 
-状態: do
+状態: done
 
 タスク種別: ドキュメント更新
 
@@ -62,14 +62,14 @@
 
 ## 受け入れ条件
 
-- [ ] `screenshot-to-ui-spec` skill が、画像/Figma参照を UI 仕様と受け入れチェックリストに変換する手順を定義している。
-- [ ] `webapp-slice-builder` skill が、既存 repo の routing/components/styles/data flow を確認して1画面または1機能を実装する手順を定義している。
-- [ ] `visual-browser-qa` skill が、ブラウザまたは Playwright で desktop/mobile の視覚差分を確認し反復する手順を定義している。
-- [ ] `asset-mapper` skill が、既存 asset / icon / logo の探索と placeholder 制約を定義している。
-- [ ] 4つの agent TOML が、画像分析、実装、視覚QA、a11yレビューの役割と編集権限を分離している。
-- [ ] `AGENTS.md` が、画像/Figma参照 UI 実装時に「仕様化 -> asset整理 -> 実装 -> 視覚QA -> a11y確認」の順序を要求している。
-- [ ] skill frontmatter、skill名重複、agent TOML構文、Markdown末尾空白、`git diff --check` を検証している。
-- [ ] 作業レポート、commit、push、PR、PR受け入れ条件コメント、タスク完了更新が行われている。
+- [x] `screenshot-to-ui-spec` skill が、画像/Figma参照を UI 仕様と受け入れチェックリストに変換する手順を定義している。
+- [x] `webapp-slice-builder` skill が、既存 repo の routing/components/styles/data flow を確認して1画面または1機能を実装する手順を定義している。
+- [x] `visual-browser-qa` skill が、ブラウザまたは Playwright で desktop/mobile の視覚差分を確認し反復する手順を定義している。
+- [x] `asset-mapper` skill が、既存 asset / icon / logo の探索と placeholder 制約を定義している。
+- [x] 4つの agent TOML が、画像分析、実装、視覚QA、a11yレビューの役割と編集権限を分離している。
+- [x] `AGENTS.md` が、画像/Figma参照 UI 実装時に「仕様化 -> asset整理 -> 実装 -> 視覚QA -> a11y確認」の順序を要求している。
+- [x] skill frontmatter、skill名重複、agent TOML構文、Markdown末尾空白、`git diff --check` を検証している。
+- [x] 作業レポート、commit、push、PR、PR受け入れ条件コメント、タスク完了更新が行われている。
 
 ## 検証計画
 
@@ -92,3 +92,10 @@
 - 決定事項: deploy skill は今回追加しない。現 repo は静的 `app/web` が中心であり、deploy 先が確定していないため。
 - 決定事項: 画像参照 UI workflow は `skills/` と `agents/` に置く。`.agents/skills` や `.codex/agents` ではなく既存 repo の配置に合わせる。
 - リスク: 実際の Codex 環境で repository-local agent TOML の読み込み場所が異なる可能性があるため、PR では既存 `agents/` 形式に合わせた定義として説明する。
+
+## 完了メモ
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/6
+- 受け入れ条件コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/6#issuecomment-4466729245
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/6#issuecomment-4466729912
+- GitHub Apps での PR 作成・コメント投稿は 403 `Resource not accessible by integration` のため、`gh` を代替利用した。

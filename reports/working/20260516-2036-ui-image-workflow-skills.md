@@ -19,7 +19,7 @@
 | R4 | ブラウザ/Playwright で視覚検証する skill を追加する | 高 | 対応 |
 | R5 | asset の探索・近似・placeholder 制約を扱う skill を追加する | 中 | 対応 |
 | R6 | 画像分析、実装、視覚QA、a11yレビューの agent 定義を追加する | 高 | 対応 |
-| R7 | 既存 repository flow に従い task、検証、report、commit、PR まで進める | 高 | 進行中 |
+| R7 | 既存 repository flow に従い task、検証、report、commit、PR まで進める | 高 | 対応 |
 
 ## 3. 検討・判断したこと
 
@@ -39,6 +39,7 @@
 - `agents/visual-analyzer.toml`、`agents/frontend-builder.toml`、`agents/visual-qa.toml`、`agents/accessibility-reviewer.toml` を追加した。
 - `AGENTS.md` に `Visual Reference Web App Workflow` セクションを追加した。
 - skill frontmatter、重複名、agent TOML 構文、末尾空白、pre-commit、`git diff --check` を検証した。
+- PR #6 を作成し、受け入れ条件コメントとセルフレビューコメントを投稿した。
 
 ## 5. 成果物
 
@@ -50,7 +51,8 @@
 | `skills/visual-browser-qa/SKILL.md` | Markdown | ブラウザ視覚検証と差分修正の skill | R4 |
 | `skills/asset-mapper/SKILL.md` | Markdown | 画像内 asset の mapping と placeholder 制約の skill | R5 |
 | `agents/*.toml` | TOML | 4 role の repository-local agent 定義 | R6 |
-| `tasks/do/20260516-2033-ui-image-workflow-skills.md` | Markdown | task、受け入れ条件、検証計画 | R7 |
+| `tasks/done/20260516-2033-ui-image-workflow-skills.md` | Markdown | task、受け入れ条件、検証計画、完了メモ | R7 |
+| PR #6 | GitHub PR | 変更内容、検証結果、未実施理由、作業レポートを記載 | R7 |
 
 ## 6. 指示へのfit評価
 
@@ -79,5 +81,6 @@
 
 - 未対応: deploy skill は追加していない。deploy 先が確定した時点で別 task として追加するのが適切。
 - 制約: 実際の Codex 環境で repository-local agent TOML の探索パスが異なる可能性は未検証。既存 repo の `agents/` 形式には合わせた。
+- 制約: GitHub Apps での PR 作成・コメント投稿は 403 `Resource not accessible by integration` のため、`gh` を代替利用した。
 - リスク: 今回は workflow/skill/agent 定義の変更であり、実際の画像実装タスクに対する効果は今後の運用で検証する必要がある。
 - 未実施の検証: アプリ build/test は未実施。プロダクトコード変更ではなく、Markdown/TOML workflow 定義変更のため対象外と判断した。
