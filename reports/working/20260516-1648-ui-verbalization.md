@@ -39,7 +39,7 @@
 |---|---|---|---|
 | `app/web/UI_DESCRIPTION.md` | Markdown | Web UI の詳細な言語化 | UI 言語化要件に対応 |
 | `app/web/README.md` | Markdown | UI 言語化ドキュメントへの導線 | README から辿れる要件に対応 |
-| `tasks/do/20260516-1645-ui-verbalization.md` | Markdown | 作業 task と受け入れ条件 | repository workflow に対応 |
+| `tasks/done/20260516-1645-ui-verbalization.md` | Markdown | 作業 task と受け入れ条件、完了記録 | repository workflow に対応 |
 | `reports/working/20260516-1648-ui-verbalization.md` | Markdown | 作業完了レポート | Post Task Work Report に対応 |
 
 ## 6. 指示への fit 評価
@@ -59,10 +59,20 @@
 ## 7. 実行した検証
 
 - `git diff --check`: pass
+- `git diff --cached --check`: pass
 - `pre-commit run --files app/web/README.md app/web/UI_DESCRIPTION.md tasks/do/20260516-1645-ui-verbalization.md`: pass
 - `pre-commit run --files app/web/README.md app/web/UI_DESCRIPTION.md tasks/do/20260516-1645-ui-verbalization.md reports/working/20260516-1648-ui-verbalization.md`: pass
+- `pre-commit run --files reports/working/20260516-1648-ui-verbalization.md tasks/done/20260516-1645-ui-verbalization.md`: pass
 
-## 8. 未対応・制約・リスク
+## 8. PR とコメント
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/2
+- PR 作成: GitHub Apps は 403 `Resource not accessible by integration` のため、`gh pr create` でフォールバック。
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/2#issuecomment-4466237633
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/2#issuecomment-4466237629
+- PR コメント投稿: GitHub Apps は 403 `Resource not accessible by integration` のため、`gh pr comment` でフォールバック。
+
+## 9. 未対応・制約・リスク
 
 - ブラウザを起動した実表示確認は未実施。
 - UI 実装そのものは変更していない。
