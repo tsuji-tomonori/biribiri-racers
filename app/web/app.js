@@ -24,6 +24,19 @@ const courses = [
     palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
     previewAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
     mapAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/pastel/theme_badge.png",
+      panorama: "./assets/v2/themes/pastel/panorama.png",
+      floor: "./assets/v2/themes/pastel/floor_tile.png",
+      border: "./assets/v2/themes/pastel/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_002.png",
+      "./assets/v2/course-parts/course_parts_007.png",
+      "./assets/v2/course-parts/course_parts_008.png",
+      "./assets/v2/course-parts/course_parts_012.png",
+      "./assets/v2/course-parts/course_parts_014.png",
+    ],
     records: {},
   },
   {
@@ -41,6 +54,19 @@ const courses = [
     palette: ["neon_blue", "neon_pink", "cyan", "purple"],
     previewAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
     mapAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/city/theme_badge.png",
+      panorama: "./assets/v2/themes/city/panorama.png",
+      floor: "./assets/v2/themes/city/floor_tile.png",
+      border: "./assets/v2/themes/city/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_016.png",
+      "./assets/v2/course-parts/course_parts_022.png",
+      "./assets/v2/course-parts/course_parts_023.png",
+      "./assets/v2/course-parts/course_parts_025.png",
+      "./assets/v2/course-parts/course_parts_028.png",
+    ],
     records: {},
   },
   {
@@ -58,6 +84,19 @@ const courses = [
     palette: ["pink", "mint", "lavender", "cream_yellow"],
     previewAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
     mapAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/candy/theme_badge.png",
+      panorama: "./assets/v2/themes/candy/panorama.png",
+      floor: "./assets/v2/themes/candy/floor_tile.png",
+      border: "./assets/v2/themes/candy/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_030.png",
+      "./assets/v2/course-parts/course_parts_035.png",
+      "./assets/v2/course-parts/course_parts_036.png",
+      "./assets/v2/course-parts/course_parts_039.png",
+      "./assets/v2/course-parts/course_parts_042.png",
+    ],
     records: {},
   },
   {
@@ -75,6 +114,19 @@ const courses = [
     palette: ["green", "yellow", "teal", "flower_pink"],
     previewAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
     mapAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/garden/theme_badge.png",
+      panorama: "./assets/v2/themes/garden/panorama.png",
+      floor: "./assets/v2/themes/garden/floor_tile.png",
+      border: "./assets/v2/themes/garden/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_058.png",
+      "./assets/v2/course-parts/course_parts_065.png",
+      "./assets/v2/course-parts/course_parts_066.png",
+      "./assets/v2/course-parts/course_parts_067.png",
+      "./assets/v2/course-parts/course_parts_071.png",
+    ],
     records: {},
   },
   {
@@ -92,6 +144,19 @@ const courses = [
     palette: ["ice_blue", "cyan", "white", "deep_blue"],
     previewAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
     mapAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/ice/theme_badge.png",
+      panorama: "./assets/v2/themes/ice/panorama.png",
+      floor: "./assets/v2/themes/ice/floor_tile.png",
+      border: "./assets/v2/themes/ice/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_044.png",
+      "./assets/v2/course-parts/course_parts_050.png",
+      "./assets/v2/course-parts/course_parts_051.png",
+      "./assets/v2/course-parts/course_parts_053.png",
+      "./assets/v2/course-parts/course_parts_056.png",
+    ],
     records: {},
   },
   {
@@ -109,6 +174,13 @@ const courses = [
     palette: ["sky_blue", "white", "yellow"],
     previewAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
     mapAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
+    themeAssets: null,
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_001.png",
+      "./assets/v2/course-parts/course_parts_006.png",
+      "./assets/v2/course-parts/course_parts_021.png",
+      "./assets/v2/course-parts/course_parts_049.png",
+    ],
     implementationStatus: "thumbnail_only",
     records: {},
   },
@@ -190,6 +262,8 @@ const elements = {
   mapDetailLaps: document.getElementById("map-detail-laps"),
   mapDetailTime: document.getElementById("map-detail-time"),
   mapDetailRecord: document.getElementById("map-detail-record"),
+  selectedCourseBadge: document.getElementById("selected-course-badge"),
+  mapDetailBadge: document.getElementById("map-detail-badge"),
   countdownBadge: document.getElementById("countdown-badge"),
   raceTime: document.getElementById("race-time"),
   raceLap: document.getElementById("race-lap"),
@@ -298,6 +372,14 @@ function courseAssetStyle(course) {
   return course.previewAsset ? `style="--card-course-image: url('${course.previewAsset}')"` : "";
 }
 
+function coursePartStrip(course) {
+  const parts = course.partAssets || [];
+  return `<span class="course-part-strip" aria-hidden="true">${parts
+    .slice(0, 4)
+    .map((src, index) => `<img class="part-strip-${index + 1}" src="${src}" alt="">`)
+    .join("")}</span>`;
+}
+
 function courseImage(course) {
   const image = courseImages.get(course.id);
   return image && image.complete && image.naturalWidth > 0 ? image : null;
@@ -324,7 +406,7 @@ function renderCourseButtons() {
     button.dataset.courseId = course.id;
     button.type = "button";
     button.setAttribute("role", "option");
-    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span><b>${course.id}</b><strong>${course.name}</strong>`;
+    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span>${coursePartStrip(course)}<b>${course.id}</b><strong>${course.name}</strong>`;
     elements.coursePicker.appendChild(button);
   });
 
@@ -332,7 +414,8 @@ function renderCourseButtons() {
   courses.slice(0, 3).forEach((course) => {
     const card = document.createElement("article");
     card.className = "course-card";
-    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
+    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
+    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
     elements.homeRecommendedCourses.appendChild(card);
   });
 }
@@ -345,7 +428,8 @@ function renderCourseGrid() {
     button.dataset.courseId = course.id;
     button.type = "button";
     const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
-    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
+    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
+    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
     elements.courseGrid.appendChild(button);
   });
 }
@@ -413,10 +497,19 @@ function syncUi() {
   });
   document.body.dataset.courseTheme = course.key;
   const courseImageValue = course.previewAsset ? `url("${course.previewAsset}")` : "none";
+  const theme = course.themeAssets || {};
   document.documentElement.style.setProperty("--course-image", courseImageValue);
   document.documentElement.style.setProperty("--stage-course-image", courseImageValue);
+  document.documentElement.style.setProperty("--theme-panorama", theme.panorama ? `url("${theme.panorama}")` : courseImageValue);
+  document.documentElement.style.setProperty("--theme-floor", theme.floor ? `url("${theme.floor}")` : courseImageValue);
+  document.documentElement.style.setProperty("--theme-border", theme.border ? `url("${theme.border}")` : "none");
   document.querySelectorAll(".mini-map-art").forEach((element) => {
     element.classList.toggle("has-course-image", Boolean(course.previewAsset));
+  });
+  [elements.selectedCourseBadge, elements.mapDetailBadge].forEach((image) => {
+    if (!image) return;
+    image.hidden = !theme.badge;
+    if (theme.badge) image.src = theme.badge;
   });
   elements.inputModeLabel.textContent = window.matchMedia("(pointer: coarse)").matches ? "タッチ" : "PC";
 }

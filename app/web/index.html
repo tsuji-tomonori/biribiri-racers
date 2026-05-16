@@ -50,6 +50,14 @@
             <button class="map-shortcut" data-action="map">マップ一覧</button>
             <div class="course-stage" aria-hidden="true">
               <div class="track-preview">
+                <div class="theme-panorama" aria-hidden="true"></div>
+                <div class="course-parts-layer" aria-hidden="true">
+                  <img class="course-part part-banner" src="./assets/v2/course-parts/course_parts_002.png" alt="">
+                  <img class="course-part part-start" src="./assets/v2/course-parts/course_parts_007.png" alt="">
+                  <img class="course-part part-road-a" src="./assets/v2/course-parts/course_parts_008.png" alt="">
+                  <img class="course-part part-road-b" src="./assets/v2/course-parts/course_parts_014.png" alt="">
+                  <img class="course-part part-boost" src="./assets/v2/course-parts/course_parts_012.png" alt="">
+                </div>
                 <img class="stage-logo" src="./assets/v2/logo/start_badge.png" alt="">
                 <img class="stage-kart stage-kart-blue" src="./assets/v2/karts/blue_boost.png" alt="">
                 <img class="stage-kart stage-kart-pink" src="./assets/v2/karts/pink_boost.png" alt="">
@@ -154,6 +162,7 @@
               <h3 id="course-title">コース選択</h3>
               <div class="course-picker" role="listbox" aria-label="コース" id="course-picker"></div>
               <div class="course-detail">
+                <img class="theme-badge-art" id="selected-course-badge" src="./assets/v2/themes/pastel/theme_badge.png" alt="">
                 <div class="mini-map-art" id="selected-course-art" aria-hidden="true"></div>
                 <div>
                   <strong id="selected-course-name">パステルプラネット</strong>
@@ -230,6 +239,7 @@
             <section class="course-grid" id="course-grid" aria-label="コースカード一覧"></section>
             <aside class="panel map-detail-panel">
               <div class="course-detail map-detail">
+                <img class="theme-badge-art" id="map-detail-badge" src="./assets/v2/themes/pastel/theme_badge.png" alt="">
                 <div class="mini-map-art large" id="map-detail-art" aria-hidden="true"></div>
                 <div>
                   <span class="status-pill">おすすめ</span>
