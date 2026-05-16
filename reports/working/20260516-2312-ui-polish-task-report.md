@@ -30,6 +30,8 @@
 - repository-local skill と既存 task を確認した。
 - `.worktrees/asset-pack-v2-ui` と現行 `app/web/assets/v2/` の asset 利用状況を確認した。
 - `tasks/todo/20260516-2312-ui-asset-layout-polish.md` を追加し、背景、改善ポイント、軽量なぜなぜ分析、実装計画、受け入れ条件、検証計画を記載した。
+- `codex/ui-polish-task` ブランチを push し、PR #9 を作成した。
+- PR に受け入れ条件確認コメントとセルフレビューコメントを投稿した。
 
 ## 5. 成果物
 
@@ -46,6 +48,13 @@
 
 ## 7. 未対応・制約・リスク
 
-- 未対応事項: UI 実装修正、実ブラウザでのスクリーンショット再検証、PR コメントは今回未実施。
+- 未対応事項: UI 実装修正、実ブラウザでのスクリーンショット再検証は今回未実施。
 - 制約: ユーザーが指す「`.worktree にある画像」の具体ファイル名は未指定のため、task には参照元再確認をリスクとして明記した。
 - リスク: 後続実装で参照画像を取り違える可能性があるため、実装前に対象画像ファイルを明示確認する必要がある。
+
+## 8. PR 記録
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/9
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/9#issuecomment-4467108571
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/9#issuecomment-4467109063
+- GitHub Apps 操作: PR 作成・コメント投稿ともに 403 (`Resource not accessible by integration`) のため、`gh` にフォールバックした。
