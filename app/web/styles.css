@@ -1431,7 +1431,7 @@ kbd {
 .avatar {
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.88) 0 34%, transparent 35%),
-    url("./assets/v2/karts/blue_up.png") center / 86% auto no-repeat,
+    url("/assets/v2/karts/blue_up.png") center / 86% auto no-repeat,
     linear-gradient(180deg, #c7f6ff, #1687ff);
 }
 
@@ -1524,7 +1524,7 @@ kbd {
 .tiny-car {
   border: 0;
   border-radius: 0;
-  background: url("./assets/v2/karts/blue_up.png") center / contain no-repeat;
+  background: url("/assets/v2/karts/blue_up.png") center / contain no-repeat;
   box-shadow: none;
 }
 
@@ -1536,7 +1536,7 @@ kbd {
 .big-car {
   border: 0;
   border-radius: 0;
-  background: url("./assets/v2/karts/blue_boost.png") center / contain no-repeat;
+  background: url("/assets/v2/karts/blue_boost.png") center / contain no-repeat;
   box-shadow: none;
 }
 
@@ -1597,7 +1597,7 @@ kbd {
   inset: auto -22px -22px auto;
   width: 88px;
   height: 88px;
-  background: url("./assets/v2/effects/confetti_all.png") center / contain no-repeat;
+  background: url("/assets/v2/effects/confetti_all.png") center / contain no-repeat;
   opacity: 0.18;
   z-index: -1;
 }
@@ -2971,10 +2971,10 @@ body {
 
 /* Asset-pack composition pass: buttons, course parts, UI frames, and course themes. */
 :root {
-  --theme-panorama: url("./assets/v2/themes/pastel/panorama.png");
-  --theme-floor: url("./assets/v2/themes/pastel/floor_tile.png");
-  --theme-border: url("./assets/v2/themes/pastel/border_03.png");
-  --button-art: url("./assets/v2/buttons/top_blank_ribbon.png");
+  --theme-panorama: url("/assets/v2/themes/pastel/panorama.png");
+  --theme-floor: url("/assets/v2/themes/pastel/floor_tile.png");
+  --theme-border: url("/assets/v2/themes/pastel/border_03.png");
+  --button-art: url("/assets/v2/buttons/top_blank_ribbon.png");
 }
 
 .app-shell {
@@ -3015,7 +3015,7 @@ body {
   right: 10px;
   width: 83px;
   height: 37px;
-  background: url("./assets/v2/ui/ui_frames_controls_060.png") center / contain no-repeat;
+  background: url("/assets/v2/ui/ui_frames_controls_060.png") center / contain no-repeat;
   pointer-events: none;
   opacity: 0.78;
 }
@@ -3031,18 +3031,18 @@ body {
 .profile-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 245, 252, 0.94)),
-    url("./assets/v2/ui/ui_frames_controls_056.png") right center / auto 92% no-repeat;
+    url("/assets/v2/ui/ui_frames_controls_056.png") right center / auto 92% no-repeat;
 }
 
 .avatar {
   color: transparent;
   background:
-    url("./assets/v2/icons/icons_001.png") center / 78% auto no-repeat,
+    url("/assets/v2/icons/icons_001.png") center / 78% auto no-repeat,
     linear-gradient(180deg, #fff, #dff8ff);
 }
 
 .mega-button {
-  --button-art: url("./assets/v2/buttons/top_blank_ribbon.png");
+  --button-art: url("/assets/v2/buttons/top_blank_ribbon.png");
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -3061,71 +3061,46 @@ body {
   inset: auto 12px 7px auto;
   width: 58px;
   height: 27px;
-  background: url("./assets/v2/ui/ui_frames_controls_064.png") center / contain no-repeat;
+  background: url("/assets/v2/ui/ui_frames_controls_064.png") center / contain no-repeat;
   pointer-events: none;
   z-index: -1;
 }
 
 .mega-button[data-action="room"] {
-  --button-art: url("./assets/v2/buttons/menu_button_005.png");
+  --button-art: url("/assets/v2/buttons/menu_button_005.png");
 }
 
 .mega-button[data-action="join"],
 .mega-button[data-action="join-submit"] {
-  --button-art: url("./assets/v2/buttons/menu_button_006.png");
+  --button-art: url("/assets/v2/buttons/menu_button_006.png");
 }
 
 .mega-button[data-action="howto"] {
-  --button-art: url("./assets/v2/buttons/menu_button_011.png");
+  --button-art: url("/assets/v2/buttons/menu_button_011.png");
 }
 
 .mega-button[data-action="settings"] {
-  --button-art: url("./assets/v2/buttons/menu_button_010.png");
+  --button-art: url("/assets/v2/buttons/menu_button_010.png");
 }
 
 .mega-button[data-action="map"] {
-  --button-art: url("./assets/v2/buttons/menu_button_009.png");
+  --button-art: url("/assets/v2/buttons/menu_button_009.png");
 }
 
 .mega-button[data-action="menu"] {
-  --button-art: url("./assets/v2/buttons/menu_button_012.png");
+  --button-art: url("/assets/v2/buttons/menu_button_012.png");
 }
 
 .mega-button[data-action="start"] {
-  --button-art: url("./assets/v2/buttons/menu_button_005.png");
+  --button-art: url("/assets/v2/buttons/menu_button_005.png");
 }
 
 .mega-button[data-action="select-map-course"] {
-  --button-art: url("./assets/v2/buttons/menu_button_018.png");
+  --button-art: url("/assets/v2/buttons/menu_button_018.png");
 }
 
 .mega-button[data-action="paste-code"] {
-  --button-art: url("./assets/v2/buttons/menu_button_019.png");
-}
-
-.mega-button[data-action="room"] > span:not(.button-icon),
-.mega-button[data-action="join"] > span:not(.button-icon),
-.mega-button[data-action="howto"] > span:not(.button-icon),
-.mega-button[data-action="settings"] > span:not(.button-icon),
-.mega-button[data-action="map"] > span:not(.button-icon),
-.mega-button[data-action="menu"] > strong,
-.mega-button[data-action="paste-code"] > strong {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.mega-button[data-action="room"] .button-icon,
-.mega-button[data-action="join"] .button-icon,
-.mega-button[data-action="howto"] .button-icon,
-.mega-button[data-action="settings"] .button-icon,
-.mega-button[data-action="map"] .button-icon,
-.mega-button[data-action="menu"] .button-icon,
-.mega-button[data-action="paste-code"] .button-icon {
-  display: none;
+  --button-art: url("/assets/v2/buttons/menu_button_019.png");
 }
 
 .mega-button strong,
@@ -3138,36 +3113,36 @@ body {
 .button-icon {
   color: transparent;
   border: 0;
-  background: url("./assets/v2/ui/ui_frames_controls_067.png") center / 34px auto no-repeat;
+  background: url("/assets/v2/ui/ui_frames_controls_067.png") center / 34px auto no-repeat;
   box-shadow: none;
 }
 
 .mega-button[data-action="settings"] .button-icon {
-  background-image: url("./assets/v2/ui/ui_frames_controls_035.png");
+  background-image: url("/assets/v2/ui/ui_frames_controls_035.png");
 }
 
 .mega-button[data-action="howto"] .button-icon {
-  background-image: url("./assets/v2/ui/ui_frames_controls_033.png");
+  background-image: url("/assets/v2/ui/ui_frames_controls_033.png");
 }
 
 .mega-button[data-action="join"] .button-icon,
 .mega-button[data-action="join-submit"] .button-icon {
-  background-image: url("./assets/v2/ui/ui_frames_controls_019.png");
+  background-image: url("/assets/v2/ui/ui_frames_controls_019.png");
 }
 
 .mega-button[data-action="menu"] .button-icon {
-  background-image: url("./assets/v2/ui/ui_frames_controls_018.png");
+  background-image: url("/assets/v2/ui/ui_frames_controls_018.png");
 }
 
 .mega-button[data-action="start"] .button-icon,
 .mega-button[data-action="select-map-course"] .button-icon {
-  background-image: url("./assets/v2/ui/ui_frames_controls_021.png");
+  background-image: url("/assets/v2/ui/ui_frames_controls_021.png");
 }
 
 .icon-button {
   color: transparent;
   background:
-    url("./assets/v2/ui/ui_frames_controls_018.png") center / 76% auto no-repeat,
+    url("/assets/v2/ui/ui_frames_controls_018.png") center / 76% auto no-repeat,
     linear-gradient(180deg, #eaf7ff, #9edbff);
 }
 
@@ -3175,7 +3150,7 @@ body {
   min-height: 70px;
   color: transparent;
   background:
-    url("./assets/v2/buttons/menu_button_009.png") center / 100% 100% no-repeat,
+    url("/assets/v2/buttons/menu_button_009.png") center / 100% 100% no-repeat,
     linear-gradient(180deg, #57ddcf, #13bfa7);
 }
 
@@ -3343,26 +3318,26 @@ body {
 }
 
 .footer-shortcuts button:nth-child(1) {
-  background-image: url("./assets/v2/buttons/menu_button_020.png");
+  background-image: url("/assets/v2/buttons/menu_button_020.png");
 }
 
 .footer-shortcuts button:nth-child(2) {
-  background-image: url("./assets/v2/buttons/menu_button_014.png");
+  background-image: url("/assets/v2/buttons/menu_button_014.png");
 }
 
 .footer-shortcuts button:nth-child(3) {
-  background-image: url("./assets/v2/buttons/menu_button_019.png");
+  background-image: url("/assets/v2/buttons/menu_button_019.png");
 }
 
 .footer-shortcuts button:nth-child(4) {
-  background-image: url("./assets/v2/buttons/menu_button_013.png");
+  background-image: url("/assets/v2/buttons/menu_button_013.png");
 }
 
 .setting-row input,
 .code-input input {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(246, 251, 255, 0.92)),
-    url("./assets/v2/ui/ui_frames_controls_038.png") center / 100% 100% no-repeat;
+    url("/assets/v2/ui/ui_frames_controls_038.png") center / 100% 100% no-repeat;
 }
 
 .stepper button,
@@ -3370,7 +3345,7 @@ body {
 .toggle-pill {
   background-image:
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(0, 0, 0, 0.04)),
-    url("./assets/v2/ui/ui_frames_controls_014.png");
+    url("/assets/v2/ui/ui_frames_controls_014.png");
   background-size: auto, 100% 100%;
 }
 
@@ -3444,6 +3419,19 @@ body {
   }
 
   .mega-button::after {
+    display: none;
+  }
+
+  .menu-actions .mega-button[data-action] > span:not(.button-icon) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .menu-actions .mega-button[data-action] .button-icon {
     display: none;
   }
 
