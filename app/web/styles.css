@@ -1366,3 +1366,453 @@ kbd {
     transition-duration: 0.01ms !important;
   }
 }
+
+.map-shortcut {
+  position: absolute;
+  top: 110px;
+  right: 22px;
+  z-index: 2;
+  min-height: 48px;
+  padding: 8px 18px;
+  border: 3px solid #fff;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(180deg, #ff77b5, var(--pink-600));
+  font-weight: 1000;
+  box-shadow: 0 7px 0 rgba(0, 78, 166, 0.18);
+}
+
+.help-card {
+  position: absolute;
+  right: 24px;
+  top: 188px;
+  z-index: 2;
+  width: min(300px, calc(100% - 48px));
+  padding: 16px;
+  border: 4px solid #fff;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.help-card h2,
+.help-card p {
+  margin: 0;
+}
+
+.help-card h2 {
+  color: var(--pink-600);
+  font-size: 1.45rem;
+}
+
+.help-card p {
+  margin-top: 8px;
+  color: #244d91;
+  font-weight: 900;
+}
+
+.footer-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.footer-shortcuts button,
+.quick-chat button {
+  min-height: 42px;
+  border: 3px solid #fff;
+  border-radius: 14px;
+  color: #12458f;
+  background: #fff;
+  font-weight: 1000;
+  box-shadow: 0 4px 0 rgba(13, 115, 246, 0.12);
+}
+
+.segmented {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(82px, 1fr));
+  border: 3px solid #b6d7ff;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #eaf6ff;
+}
+
+.segmented button {
+  min-height: 44px;
+  border: 0;
+  color: #1261cc;
+  background: transparent;
+  font-weight: 1000;
+}
+
+.segmented button.is-selected {
+  color: #fff;
+  background: linear-gradient(180deg, #ff86bd, var(--pink-600));
+}
+
+.screen-join.is-active,
+.screen-map.is-active {
+  display: block;
+}
+
+.join-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.95fr) minmax(300px, 0.95fr) minmax(420px, 1.25fr);
+  gap: 18px;
+}
+
+.code-input {
+  display: grid;
+  gap: 8px;
+  font-weight: 1000;
+}
+
+.code-input input {
+  min-height: 76px;
+  padding: 0 18px;
+  border: 4px solid #b6d7ff;
+  border-radius: 22px;
+  color: #5528df;
+  background: #fff;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.button-row > * {
+  flex: 1 1 180px;
+}
+
+.inline-status,
+.empty-state {
+  margin: 16px 0 0;
+  padding: 16px;
+  border-radius: 18px;
+  color: #244d91;
+  background: #eef8ff;
+  border: 3px dashed #acd8ff;
+  font-weight: 900;
+}
+
+.empty-state {
+  display: grid;
+  gap: 8px;
+  min-height: 130px;
+  align-content: center;
+  text-align: center;
+}
+
+.empty-state strong {
+  color: var(--pink-600);
+  font-size: 1.35rem;
+}
+
+.empty-state.electric {
+  background:
+    linear-gradient(115deg, transparent 0 45%, rgba(255, 255, 255, 0.85) 46% 48%, transparent 49% 100%),
+    #f5fbff;
+}
+
+.rule-summary,
+.meta-list {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.rule-summary div,
+.meta-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid #cde8ff;
+  font-weight: 900;
+}
+
+.rule-summary dt,
+.meta-list dt {
+  color: #1261cc;
+}
+
+.rule-summary dd,
+.meta-list dd {
+  margin: 0;
+  text-align: right;
+}
+
+.unlock-badge {
+  margin-left: auto;
+  min-width: 132px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(180deg, #61e3d0, #13bfa7);
+  border: 4px solid #fff;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.unlock-badge strong,
+.unlock-badge span {
+  display: block;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: minmax(460px, 1fr) minmax(480px, 1.05fr);
+  gap: 18px;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.map-card {
+  min-height: 154px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.map-card em {
+  display: block;
+  margin-top: 10px;
+  color: #30466f;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.map-card.is-selected {
+  border-color: var(--pink-600);
+  transform: scale(1.015);
+  box-shadow: 0 0 0 4px rgba(255, 79, 163, 0.18), 0 8px 0 rgba(13, 115, 246, 0.08);
+}
+
+.map-detail-panel {
+  align-self: stretch;
+}
+
+.course-detail.map-detail {
+  grid-template-columns: minmax(220px, 0.8fr) minmax(260px, 1fr);
+  align-items: start;
+}
+
+.mini-map-art.large {
+  min-height: 330px;
+}
+
+.quick-chat {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.touch-controls {
+  position: absolute;
+  inset: auto 24px 24px 24px;
+  display: none;
+  align-items: end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.virtual-stick {
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(18, 108, 244, 0.36);
+  border: 5px solid rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 24px rgba(255, 255, 255, 0.18);
+}
+
+.virtual-stick span {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--pink-600);
+  border: 4px solid #fff;
+}
+
+.touch-item {
+  width: 132px;
+  height: 132px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  background: radial-gradient(circle, #fff766 0 24%, #35ddcb 25% 48%, #1489ff 49% 100%);
+  font-weight: 1000;
+  pointer-events: auto;
+}
+
+.mega-button.disabled,
+.mega-button:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+body[data-course-theme="city"] .mini-map-art {
+  background:
+    radial-gradient(circle at 50% 48%, #ff55b0 0 11%, transparent 12%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 18px, transparent 18px 36px),
+    #18245f;
+  box-shadow:
+    inset 0 0 0 17px rgba(255, 63, 142, 0.88),
+    inset 0 0 0 30px rgba(42, 223, 255, 0.9),
+    0 9px 18px rgba(0, 80, 170, 0.18);
+}
+
+body[data-course-theme="garden"] .mini-map-art {
+  background:
+    radial-gradient(circle at 50% 48%, #ffe45c 0 12%, transparent 13%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.22) 0 17px, transparent 17px 34px),
+    #b9f2be;
+  box-shadow:
+    inset 0 0 0 17px rgba(255, 206, 53, 0.9),
+    inset 0 0 0 30px rgba(46, 214, 191, 0.9),
+    0 9px 18px rgba(0, 80, 170, 0.18);
+}
+
+@media (pointer: coarse) {
+  .touch-controls {
+    display: flex;
+  }
+
+  .pc-controls {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .join-grid,
+  .map-grid,
+  .room-grid,
+  .race-layout,
+  .game-board,
+  .result-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card,
+  .map-shortcut,
+  .help-card {
+    position: static;
+    width: auto;
+    margin-bottom: 12px;
+  }
+
+  .course-grid,
+  .recommended-courses,
+  .footer-shortcuts {
+    grid-template-columns: 1fr;
+  }
+
+  .touch-controls {
+    display: flex;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-shell {
+    padding: 12px;
+  }
+
+  .game-app,
+  .screen,
+  .hero-panel,
+  .showcase-panel,
+  .panel,
+  .side-panel {
+    min-width: 0;
+  }
+
+  .screen-menu.is-active {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .hero-panel,
+  .showcase-panel,
+  .panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .eyebrow,
+  .notice-bar {
+    width: 100%;
+    font-size: 0.92rem;
+  }
+
+  .eyebrow {
+    display: block;
+    max-width: 100%;
+    line-height: 1.35;
+    border-radius: 18px;
+  }
+
+  .notice-bar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: flex-start;
+  }
+
+  .notice-bar span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .logo-title {
+    font-size: clamp(2.4rem, 15vw, 3.6rem);
+  }
+
+  .mega-button {
+    width: 100%;
+    min-height: 62px;
+    gap: 12px;
+    padding: 10px 14px;
+  }
+
+  .mega-button strong {
+    font-size: 1.45rem;
+  }
+
+  .button-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+  }
+
+  .track-preview {
+    width: min(78vw, 360px);
+  }
+
+  .course-detail.map-detail,
+  .course-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hud-top {
+    grid-template-columns: 1fr;
+  }
+}
