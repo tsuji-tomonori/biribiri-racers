@@ -1,58 +1,155 @@
 const screens = {
   menu: document.getElementById("screen-menu"),
   room: document.getElementById("screen-room"),
+  join: document.getElementById("screen-join"),
+  map: document.getElementById("screen-map"),
   ready: document.getElementById("screen-ready"),
   game: document.getElementById("screen-game"),
   result: document.getElementById("screen-result"),
 };
 
+const courses = [
+  {
+    id: "01",
+    key: "pastel",
+    name: "パステルプラネット",
+    aliases: ["パステルパーク"],
+    theme: "パステル宇宙 / おもちゃ惑星",
+    difficultyStars: 3,
+    recommendedLaps: 3,
+    expectedTimeSec: 135,
+    description: "カラフルなかべにきをつけてさいごまでかけぬけよう！",
+    detail: "カーブがたくさんのテクニカルなコース。中央の惑星ドームと電撃壁に注意。",
+    tags: ["おすすめ", "カーブ多め", "3ラップ推奨"],
+    palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
+    records: {},
+  },
+  {
+    id: "02",
+    key: "city",
+    name: "ピカピカシティ",
+    aliases: ["ネオンストリート"],
+    theme: "夜のネオンシティ",
+    difficultyStars: 3,
+    recommendedLaps: 3,
+    expectedTimeSec: 128,
+    description: "ネオンひかるまちをかけぬけるテクニカルコース！",
+    detail: "発光ブロックと細い曲がり角が続く、集中力がいる街コース。",
+    tags: ["ネオン", "直線多め", "3ラップ推奨"],
+    palette: ["neon_blue", "neon_pink", "cyan", "purple"],
+    records: {},
+  },
+  {
+    id: "03",
+    key: "candy",
+    name: "キャンディループ",
+    aliases: [],
+    theme: "キャンディ / お菓子",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: 142,
+    description: "あまーいおかしのくにをぐるぐるまわるスイートコース！",
+    detail: "大きなS字とループ状カーブが多い、走りやすいパステルコース。",
+    tags: ["ワイドターン", "スイート", "2スター"],
+    palette: ["pink", "mint", "lavender", "cream_yellow"],
+    records: {},
+  },
+  {
+    id: "04",
+    key: "ice",
+    name: "アイスチューブ",
+    aliases: [],
+    theme: "氷 / チューブ / 雪",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: 150,
+    description: "つめたいこおりのトンネルをすべってかけぬける！",
+    detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
+    tags: ["氷", "すべる雰囲気", "2スター"],
+    palette: ["ice_blue", "cyan", "white", "deep_blue"],
+    records: {},
+  },
+  {
+    id: "05",
+    key: "garden",
+    name: "サンダーガーデン",
+    aliases: [],
+    theme: "庭園 / 草花 / 雷",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: 138,
+    description: "でんげきがはしるはなのにわをじょうずにひらりとよけよう！",
+    detail: "丸い花壇と雷アイコン台座をよけながら走る、明るい庭園コース。",
+    tags: ["庭園", "広め", "2スター"],
+    palette: ["green", "yellow", "teal", "flower_pink"],
+    records: {},
+  },
+  {
+    id: "06",
+    key: "sky",
+    name: "スカイスパイラル",
+    aliases: [],
+    theme: "空 / 雲 / 高所",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: undefined,
+    description: "そらのうえをぐんぐんのぼるスリリングなそらちゅうコース！",
+    detail: "詳細マップは未確定です。現時点では一覧カードのみ表示します。",
+    tags: ["詳細未確定", "空", "未確定"],
+    palette: ["sky_blue", "white", "yellow"],
+    implementationStatus: "thumbnail_only",
+    records: {},
+  },
+];
+
 const state = {
   screen: "menu",
   playerName: "ビリビリくん",
+  roomName: "ビリビリ最強チーム！",
+  maxPlayers: 4,
+  visibility: "public",
   laps: 3,
   boostEnabled: true,
-  course: "neon",
-  courseName: "ネオンストリート",
+  courseId: "01",
+  courseName: "パステルプラネット",
   countdownTimer: null,
   race: null,
   lastResult: null,
 };
 
-const courseCopy = {
-  neon: {
-    name: "ネオンストリート",
-    copy: "ネオンが輝く夜の街を、かべに気をつけてかけぬけよう！",
-    tags: ["直線多め", "初心者向け", "3ラップ推奨"],
-  },
-  pastel: {
-    name: "パステルプラネット",
-    copy: "カラフルなかべが続く、リズムよく曲がるコース。",
-    tags: ["カーブ多め", "集中力", "3ラップ推奨"],
-  },
-  garden: {
-    name: "サンダーガーデン",
-    copy: "明るい庭園を走る、ゆるやかだけど油断できないコース。",
-    tags: ["広め", "復帰しやすい", "初心者向け"],
-  },
-};
-
 const elements = {
+  profileName: document.getElementById("profile-name"),
+  roomName: document.getElementById("room-name"),
   playerName: document.getElementById("player-name"),
   slotPlayerName: document.getElementById("slot-player-name"),
   readyPlayerName: document.getElementById("ready-player-name"),
   resultPlayerName: document.getElementById("result-player-name"),
+  maxPlayerOutput: document.getElementById("max-player-output"),
+  playerCountLabel: document.getElementById("player-count-label"),
   lapOutput: document.getElementById("lap-output"),
   missionLaps: document.getElementById("mission-laps"),
   boostToggle: document.getElementById("boost-toggle"),
+  coursePicker: document.getElementById("course-picker"),
+  courseGrid: document.getElementById("course-grid"),
+  homeRecommendedCourses: document.getElementById("home-recommended-courses"),
   selectedCourseName: document.getElementById("selected-course-name"),
   selectedCourseCopy: document.getElementById("selected-course-copy"),
+  selectedCourseTags: document.getElementById("selected-course-tags"),
   readyCourseName: document.getElementById("ready-course-name"),
+  readyCourseTag: document.getElementById("ready-course-tag"),
   resultCourseName: document.getElementById("result-course-name"),
+  resultCourseDescription: document.getElementById("result-course-description"),
+  mapDetailName: document.getElementById("map-detail-name"),
+  mapDetailCopy: document.getElementById("map-detail-copy"),
+  mapDetailLaps: document.getElementById("map-detail-laps"),
+  mapDetailTime: document.getElementById("map-detail-time"),
+  mapDetailRecord: document.getElementById("map-detail-record"),
   countdownBadge: document.getElementById("countdown-badge"),
   raceTime: document.getElementById("race-time"),
   raceLap: document.getElementById("race-lap"),
   crashCount: document.getElementById("crash-count"),
   boostStatus: document.getElementById("boost-status"),
+  inputModeLabel: document.getElementById("input-mode-label"),
   rankName: document.getElementById("rank-name"),
   rankScore: document.getElementById("rank-score"),
   raceToast: document.getElementById("race-toast"),
@@ -60,6 +157,8 @@ const elements = {
   resultCrashes: document.getElementById("result-crashes"),
   leaderName: document.getElementById("leader-name"),
   leaderTime: document.getElementById("leader-time"),
+  joinCodeInput: document.getElementById("join-code-input"),
+  joinStatus: document.getElementById("join-status"),
   modal: document.getElementById("info-modal"),
 };
 
@@ -138,6 +237,51 @@ function formatTime(ms) {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(centiseconds).padStart(2, "0")}`;
 }
 
+function formatExpectedTime(seconds) {
+  if (!seconds) return "未確定";
+  const minutes = Math.floor(seconds / 60);
+  const rest = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
+}
+
+function selectedCourse() {
+  return courses.find((course) => course.id === state.courseId) || courses[0];
+}
+
+function renderCourseButtons() {
+  elements.coursePicker.innerHTML = "";
+  courses.slice(0, 4).forEach((course) => {
+    const button = document.createElement("button");
+    button.className = "mini-course";
+    button.dataset.courseId = course.id;
+    button.type = "button";
+    button.setAttribute("role", "option");
+    button.textContent = `${course.id} ${course.name}`;
+    elements.coursePicker.appendChild(button);
+  });
+
+  elements.homeRecommendedCourses.innerHTML = "";
+  courses.slice(0, 3).forEach((course) => {
+    const card = document.createElement("article");
+    card.className = "course-card";
+    card.innerHTML = `<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
+    elements.homeRecommendedCourses.appendChild(card);
+  });
+}
+
+function renderCourseGrid() {
+  elements.courseGrid.innerHTML = "";
+  courses.forEach((course) => {
+    const button = document.createElement("button");
+    button.className = "course-card map-card";
+    button.dataset.courseId = course.id;
+    button.type = "button";
+    const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
+    button.innerHTML = `<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
+    elements.courseGrid.appendChild(button);
+  });
+}
+
 function showScreen(name) {
   Object.entries(screens).forEach(([key, screen]) => {
     screen.classList.toggle("is-active", key === name);
@@ -154,34 +298,53 @@ function showScreen(name) {
 
 function syncUi() {
   const safeName = state.playerName.trim() || "ビリビリくん";
+  const safeRoomName = state.roomName.trim() || "ビリビリ最強チーム！";
+  const course = selectedCourse();
   state.playerName = safeName;
+  state.roomName = safeRoomName;
+  state.courseName = course.name;
+  elements.profileName.textContent = safeName;
+  elements.roomName.value = safeRoomName;
   elements.playerName.value = safeName;
   elements.slotPlayerName.textContent = safeName;
   elements.readyPlayerName.textContent = safeName;
   elements.resultPlayerName.textContent = safeName;
   elements.rankName.textContent = safeName;
   elements.leaderName.textContent = safeName;
+  elements.maxPlayerOutput.textContent = state.maxPlayers;
+  elements.playerCountLabel.textContent = `1/${state.maxPlayers}`;
   elements.lapOutput.textContent = state.laps;
   elements.missionLaps.textContent = state.laps;
   elements.boostToggle.textContent = state.boostEnabled ? "ON" : "OFF";
   elements.boostToggle.classList.toggle("is-on", state.boostEnabled);
-
-  const course = courseCopy[state.course];
-  state.courseName = course.name;
   elements.selectedCourseName.textContent = course.name;
-  elements.selectedCourseCopy.textContent = course.copy;
+  elements.selectedCourseCopy.textContent = course.description;
   elements.readyCourseName.textContent = course.name;
+  elements.readyCourseTag.textContent = course.aliases[0] || course.theme;
   elements.resultCourseName.textContent = course.name;
-  document.querySelectorAll(".mini-course").forEach((button) => {
-    button.classList.toggle("is-selected", button.dataset.course === state.course);
+  elements.resultCourseDescription.textContent = course.description;
+  elements.mapDetailName.textContent = course.name;
+  elements.mapDetailCopy.textContent = `${course.description} ${course.detail}`;
+  elements.mapDetailLaps.textContent = course.recommendedLaps;
+  elements.mapDetailTime.textContent = formatExpectedTime(course.expectedTimeSec);
+  elements.mapDetailRecord.textContent = course.records.bestTimeMs
+    ? formatTime(course.records.bestTimeMs)
+    : "未記録";
+  document.querySelectorAll("[data-course-id]").forEach((button) => {
+    const selected = button.dataset.courseId === state.courseId;
+    button.classList.toggle("is-selected", selected);
+    if (button.getAttribute("role") === "option") {
+      button.setAttribute("aria-selected", selected ? "true" : "false");
+    }
   });
-  const tagRow = document.querySelector(".course-panel .tag-row");
-  tagRow.innerHTML = "";
+  elements.selectedCourseTags.innerHTML = "";
   course.tags.forEach((tag) => {
     const span = document.createElement("span");
     span.textContent = tag;
-    tagRow.appendChild(span);
+    elements.selectedCourseTags.appendChild(span);
   });
+  document.body.dataset.courseTheme = course.key;
+  elements.inputModeLabel.textContent = window.matchMedia("(pointer: coarse)").matches ? "タッチ" : "PC";
 }
 
 function openModal(title) {
@@ -252,14 +415,21 @@ function finishRace() {
   const elapsed = performance.now() - race.startedAt;
   race.running = false;
   state.lastResult = {
+    courseId: state.courseId,
     time: elapsed,
     crashes: race.crashes,
     playerName: state.playerName,
     courseName: state.courseName,
   };
+  const course = selectedCourse();
+  if (!course.records.bestTimeMs || elapsed < course.records.bestTimeMs) {
+    course.records.bestTimeMs = elapsed;
+    course.records.bestPlayerName = state.playerName;
+  }
   elements.resultTime.textContent = formatTime(elapsed);
   elements.resultCrashes.textContent = `${race.crashes}回`;
   elements.leaderTime.textContent = formatTime(elapsed);
+  syncUi();
   showScreen("result");
 }
 
@@ -813,11 +983,16 @@ document.addEventListener("click", (event) => {
   if (!button) return;
 
   const action = button.dataset.action;
+  if (button.dataset.courseId) {
+    state.courseId = button.dataset.courseId;
+    state.laps = selectedCourse().recommendedLaps;
+    syncUi();
+  }
   if (!action) return;
 
-  if (action === "solo" || action === "room") {
-    showScreen(action === "solo" ? "room" : "room");
-  }
+  if (action === "room") showScreen("room");
+  if (action === "join") showScreen("join");
+  if (action === "map") showScreen("map");
   if (action === "menu") showScreen("menu");
   if (action === "start") startReadyCountdown();
   if (action === "force-start") startRace();
@@ -826,11 +1001,30 @@ document.addEventListener("click", (event) => {
   if (action === "settings") openModal("設定");
   if (action === "close-modal") closeModal();
   if (action === "lap-down") {
-    state.laps = Math.max(1, state.laps - 1);
+    const options = [1, 3, 5, 7];
+    const current = options.includes(state.laps) ? options.indexOf(state.laps) : 1;
+    state.laps = options[Math.max(0, current - 1)];
     syncUi();
   }
   if (action === "lap-up") {
-    state.laps = Math.min(7, state.laps + 1);
+    const options = [1, 3, 5, 7];
+    const current = options.includes(state.laps) ? options.indexOf(state.laps) : 1;
+    state.laps = options[Math.min(options.length - 1, current + 1)];
+    syncUi();
+  }
+  if (action === "player-down") {
+    state.maxPlayers = Math.max(2, state.maxPlayers - 1);
+    syncUi();
+  }
+  if (action === "player-up") {
+    state.maxPlayers = Math.min(8, state.maxPlayers + 1);
+    syncUi();
+  }
+  if (action === "visibility-public" || action === "visibility-private") {
+    state.visibility = action === "visibility-public" ? "public" : "private";
+    document.querySelectorAll(".segmented button").forEach((item) => {
+      item.classList.toggle("is-selected", item === button);
+    });
     syncUi();
   }
   if (action === "boost-toggle") {
@@ -838,16 +1032,42 @@ document.addEventListener("click", (event) => {
     syncUi();
   }
   if (action === "boost") triggerBoost();
-
-  if (button.dataset.course) {
-    state.course = button.dataset.course;
-    syncUi();
+  if (action === "select-map-course") {
+    showScreen("room");
   }
+  if (action === "paste-code") {
+    elements.joinStatus.textContent = "クリップボード連携は未実装です。コードは手入力してください。";
+  }
+  if (action === "join-submit") {
+    const rawCode = elements.joinCodeInput.value.trim().toUpperCase().replace(/\s+/g, "-");
+    const valid = /^[A-Z]{4}-[0-9]{4}$/.test(rawCode);
+    elements.joinCodeInput.value = rawCode;
+    elements.joinStatus.textContent = valid
+      ? "コード形式は正しいです。オンライン検索サービスは未接続です。"
+      : "コード形式は AAAA-9999 で入力してください。";
+  }
+});
+
+elements.roomName.addEventListener("input", () => {
+  state.roomName = elements.roomName.value.trim() || "ビリビリ最強チーム！";
 });
 
 elements.playerName.addEventListener("input", () => {
   state.playerName = elements.playerName.value.trim() || "ビリビリくん";
   syncUi();
+});
+
+elements.joinCodeInput.addEventListener("input", () => {
+  const cursorAtEnd = elements.joinCodeInput.selectionStart === elements.joinCodeInput.value.length;
+  const normalized = elements.joinCodeInput.value
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "")
+    .replace(/^([A-Z]{4})([0-9])/, "$1-$2")
+    .slice(0, 9);
+  elements.joinCodeInput.value = normalized;
+  if (cursorAtEnd) {
+    elements.joinCodeInput.setSelectionRange(normalized.length, normalized.length);
+  }
 });
 
 document.addEventListener("keydown", (event) => {
@@ -856,7 +1076,7 @@ document.addEventListener("keydown", (event) => {
   }
   if (event.code === "Escape") {
     if (!elements.modal.hidden) closeModal();
-    else if (state.screen === "room") showScreen("menu");
+    else if (["room", "join", "map"].includes(state.screen)) showScreen("menu");
   }
   if (event.code === "Enter" && state.screen === "ready") {
     startRace();
@@ -875,7 +1095,10 @@ window.addEventListener("resize", () => {
   if (state.screen === "ready") {
     drawTrack(ctxReady, readyCanvas.width, readyCanvas.height, null, true);
   }
+  syncUi();
 });
 
+renderCourseButtons();
+renderCourseGrid();
 syncUi();
 drawTrack(ctxReady, readyCanvas.width, readyCanvas.height, null, true);
