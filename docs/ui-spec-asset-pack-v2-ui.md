@@ -77,6 +77,14 @@
 | Kart sprites | `00_curated_named_png/kart_sprites/*_*.png` | copy selected player-color sprites and use in DOM plus canvas drawing when loaded | exact | canvas keeps CSS/vector fallback until images finish loading |
 | Existing canvas track | `app/web/app.js` drawn path | retain as gameplay surface | existing | v2 course images are presentation assets, not collision maps |
 
+### Asset Text And Scale Rules
+
+- Course-card PNGs are complete visual cards with course number, name, stars, copy, laps, and expected time already baked in. Render them as a single `<img>` and do not duplicate those labels as visible HTML inside the same card.
+- HTML course metadata remains the source for accessibility names and for adjacent detail panels, not for overlaying text on top of baked-in PNG labels.
+- Baked-label button PNGs should provide the visible label. The semantic button text remains in the DOM as a screen-reader-only accessible name.
+- Card and decoration PNGs must keep their intrinsic ratio via `height: auto`, `object-fit: contain`, or `background-size: contain`; do not use `background-size: cover` for complete cards.
+- Selection and status states should use outer rings, shadows, or separate text below the card, not text placed over the PNG.
+
 ## Accessibility Expectations
 
 - All meaningful images have concise Japanese `alt`.
@@ -96,8 +104,10 @@
 ## Acceptance Checklist
 
 - [ ] v2 course-card PNGs are visible in menu/course-related screens.
+- [ ] v2 course-card PNGs are rendered without cover-cropping or visible duplicate HTML labels.
 - [ ] v2 kart/effect PNGs are visible in preview/result/race-adjacent UI.
 - [ ] v2 menu-button PNGs are visible on primary/secondary action controls.
+- [ ] Buttons that use baked-label PNGs retain accessible names while hiding duplicate visible text/icons.
 - [ ] v2 course-part PNGs are visible in course picker, map cards, and the menu stage.
 - [ ] v2 background theme assets change with selected course where theme assets exist.
 - [ ] 375px mobile and 1440px desktop render without incoherent overlap or horizontal page overflow.

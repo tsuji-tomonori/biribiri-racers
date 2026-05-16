@@ -13,7 +13,7 @@ python3 -m http.server 4173 --directory app/web
 ```
 
 ブラウザで `http://127.0.0.1:4173/` を開きます。
-画面確認用に、`?screen=room`、`?screen=join`、`?screen=map` で主要画面を直接開けます。
+画面確認用に、`?screen=room`、`?screen=join`、`?screen=map`、`?screen=ready`、`?screen=result` で主要画面を直接開けます。
 
 ## 操作
 

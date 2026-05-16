@@ -368,16 +368,25 @@ function selectedCourse() {
   return courses.find((course) => course.id === state.courseId) || courses[0];
 }
 
-function courseAssetStyle(course) {
-  return course.previewAsset ? `style="--card-course-image: url('${course.previewAsset}')"` : "";
+function escapeAttribute(value) {
+  return String(value).replace(/[&<>"']/g, (char) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return entities[char];
+  });
 }
 
-function coursePartStrip(course) {
-  const parts = course.partAssets || [];
-  return `<span class="course-part-strip" aria-hidden="true">${parts
-    .slice(0, 4)
-    .map((src, index) => `<img class="part-strip-${index + 1}" src="${src}" alt="">`)
-    .join("")}</span>`;
+function courseCardArt(course, className = "course-card-art") {
+  const label = escapeAttribute(course.name);
+  if (!course.previewAsset) {
+    return `<span class="${className} fallback-art" role="img" aria-label="${label}">${escapeAttribute(course.id)}</span>`;
+  }
+  return `<img class="${className}" src="${escapeAttribute(course.previewAsset)}" alt="${label}">`;
 }
 
 function courseImage(course) {
@@ -402,20 +411,21 @@ function renderCourseButtons() {
   elements.coursePicker.innerHTML = "";
   courses.slice(0, 4).forEach((course) => {
     const button = document.createElement("button");
-    button.className = "mini-course";
+    button.className = "mini-course course-card-art-frame";
     button.dataset.courseId = course.id;
     button.type = "button";
     button.setAttribute("role", "option");
-    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span>${coursePartStrip(course)}<b>${course.id}</b><strong>${course.name}</strong>`;
+    button.setAttribute("aria-label", `${course.id} ${course.name}を選択`);
+    button.innerHTML = courseCardArt(course, "mini-course-art");
     elements.coursePicker.appendChild(button);
   });
 
   elements.homeRecommendedCourses.innerHTML = "";
   courses.slice(0, 3).forEach((course) => {
     const card = document.createElement("article");
-    card.className = "course-card";
-    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
-    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
+    card.className = "course-card course-card-art-frame";
+    card.setAttribute("aria-label", `おすすめコース ${course.id} ${course.name}`);
+    card.innerHTML = courseCardArt(course);
     elements.homeRecommendedCourses.appendChild(card);
   });
 }
@@ -424,12 +434,16 @@ function renderCourseGrid() {
   elements.courseGrid.innerHTML = "";
   courses.forEach((course) => {
     const button = document.createElement("button");
-    button.className = "course-card map-card";
+    button.className = "course-card map-card course-card-art-frame";
     button.dataset.courseId = course.id;
     button.type = "button";
     const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
-    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
-    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
+    button.setAttribute("aria-label", `${course.id} ${course.name}。${status}。${course.description}`);
+    const statusLabel =
+      course.implementationStatus === "thumbnail_only"
+        ? `<span class="course-card-status">詳細未確定</span>`
+        : "";
+    button.innerHTML = `${courseCardArt(course)}${statusLabel}`;
     elements.courseGrid.appendChild(button);
   });
 }
@@ -1344,6 +1358,6 @@ syncUi();
 drawTrack(ctxReady, readyCanvas.width, readyCanvas.height, null, true);
 
 const initialScreen = new URLSearchParams(window.location.search).get("screen");
-if (["room", "join", "map"].includes(initialScreen)) {
+if (["room", "join", "map", "ready", "result"].includes(initialScreen)) {
   showScreen(initialScreen);
 }
