@@ -15,7 +15,7 @@
 | R1 | `origin/main` との競合を解消する | 高 | 対応 |
 | R2 | 旧 `app.js`/静的 UI 側の修正意図を React/Vite 側へ移植する | 高 | 対応 |
 | R3 | build と実ブラウザで破綻がないことを確認する | 高 | 対応 |
-| R4 | PR に日本語で結果を残せる状態にする | 高 | 対応予定 |
+| R4 | PR に日本語で結果を残す | 高 | 対応 |
 
 ## 3. 検討・判断したこと
 
@@ -72,3 +72,9 @@
 - GitHub Apps 経由の PR コメントは、前回同様に権限エラーになる可能性がある。失敗時は `gh pr comment` で代替する。
 - レース開始からゴールまでの手動操作フローは今回再検証していない。build と map/result の視覚確認を最小十分な検証とした。
 - Chrome の DBus warning は headless Linux 環境由来で、スクリーンショット生成自体は成功している。
+
+## 9. PR コメント
+
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/10#issuecomment-4467284870
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/10#issuecomment-4467286425
+- GitHub Apps コメント投稿は 403 `Resource not accessible by integration` のため、`gh pr comment` で代替した。
