@@ -22,8 +22,8 @@ const courses = [
     detail: "カーブがたくさんのテクニカルなコース。中央の惑星ドームと電撃壁に注意。",
     tags: ["おすすめ", "カーブ多め", "3ラップ推奨"],
     palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
-    previewAsset: "./assets/courses/course-01-pastel-planet.webp",
-    mapAsset: "./assets/courses/course-01-pastel-planet.webp",
+    previewAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
+    mapAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
     records: {},
   },
   {
@@ -39,8 +39,8 @@ const courses = [
     detail: "発光ブロックと細い曲がり角が続く、集中力がいる街コース。",
     tags: ["ネオン", "直線多め", "3ラップ推奨"],
     palette: ["neon_blue", "neon_pink", "cyan", "purple"],
-    previewAsset: "./assets/courses/course-02-pikapika-city.webp",
-    mapAsset: "./assets/courses/course-02-pikapika-city.webp",
+    previewAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
+    mapAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
     records: {},
   },
   {
@@ -56,29 +56,12 @@ const courses = [
     detail: "大きなS字とループ状カーブが多い、走りやすいパステルコース。",
     tags: ["ワイドターン", "スイート", "2スター"],
     palette: ["pink", "mint", "lavender", "cream_yellow"],
-    previewAsset: "./assets/courses/course-03-candy-loop.webp",
-    mapAsset: "./assets/courses/course-03-candy-loop.webp",
+    previewAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
+    mapAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
     records: {},
   },
   {
     id: "04",
-    key: "ice",
-    name: "アイスチューブ",
-    aliases: [],
-    theme: "氷 / チューブ / 雪",
-    difficultyStars: 2,
-    recommendedLaps: 3,
-    expectedTimeSec: 150,
-    description: "つめたいこおりのトンネルをすべってかけぬける！",
-    detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
-    tags: ["氷", "すべる雰囲気", "2スター"],
-    palette: ["ice_blue", "cyan", "white", "deep_blue"],
-    previewAsset: "./assets/courses/course-04-ice-tube.webp",
-    mapAsset: "./assets/courses/course-04-ice-tube.webp",
-    records: {},
-  },
-  {
-    id: "05",
     key: "garden",
     name: "サンダーガーデン",
     aliases: [],
@@ -90,8 +73,25 @@ const courses = [
     detail: "丸い花壇と雷アイコン台座をよけながら走る、明るい庭園コース。",
     tags: ["庭園", "広め", "2スター"],
     palette: ["green", "yellow", "teal", "flower_pink"],
-    previewAsset: "./assets/courses/course-05-thunder-garden.webp",
-    mapAsset: "./assets/courses/course-05-thunder-garden.webp",
+    previewAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
+    mapAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
+    records: {},
+  },
+  {
+    id: "05",
+    key: "ice",
+    name: "アイスキューブ",
+    aliases: [],
+    theme: "氷 / キューブ / 雪",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: 150,
+    description: "つめたいこおりのキューブをすべってかけぬける！",
+    detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
+    tags: ["氷", "すべる雰囲気", "2スター"],
+    palette: ["ice_blue", "cyan", "white", "deep_blue"],
+    previewAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
+    mapAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
     records: {},
   },
   {
@@ -107,12 +107,27 @@ const courses = [
     detail: "詳細マップは未確定です。現時点では一覧カードのみ表示します。",
     tags: ["詳細未確定", "空", "未確定"],
     palette: ["sky_blue", "white", "yellow"],
+    previewAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
+    mapAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
     implementationStatus: "thumbnail_only",
     records: {},
   },
 ];
 
 const courseImages = new Map();
+const kartSprites = {
+  default: "./assets/v2/karts/blue_up.png",
+  blue: "./assets/v2/karts/blue_up.png",
+  blueBoost: "./assets/v2/karts/blue_boost.png",
+  blueDamage: "./assets/v2/karts/blue_damage.png",
+  pink: "./assets/v2/karts/pink_up.png",
+  pinkBoost: "./assets/v2/karts/pink_boost.png",
+  green: "./assets/v2/karts/green_up.png",
+  greenBoost: "./assets/v2/karts/green_boost.png",
+  yellow: "./assets/v2/karts/yellow_up.png",
+  yellowBoost: "./assets/v2/karts/yellow_boost.png",
+};
+const kartImages = new Map();
 
 courses.forEach((course) => {
   if (!course.mapAsset) return;
@@ -125,6 +140,12 @@ courses.forEach((course) => {
     }
   });
   courseImages.set(course.id, image);
+});
+
+Object.entries(kartSprites).forEach(([key, src]) => {
+  const image = new Image();
+  image.src = src;
+  kartImages.set(key, image);
 });
 
 const state = {
@@ -282,6 +303,19 @@ function courseImage(course) {
   return image && image.complete && image.naturalWidth > 0 ? image : null;
 }
 
+function loadedKartImage(key) {
+  const image = kartImages.get(key);
+  return image && image.complete && image.naturalWidth > 0 ? image : null;
+}
+
+function spriteKeyForColor(color, boost, ghost) {
+  if (ghost) return "blueDamage";
+  if (color === "#ff3f8e") return boost ? "pinkBoost" : "pink";
+  if (color === "#20c987") return boost ? "greenBoost" : "green";
+  if (color === "#ffbf22") return boost ? "yellowBoost" : "yellow";
+  return boost ? "blueBoost" : "blue";
+}
+
 function renderCourseButtons() {
   elements.coursePicker.innerHTML = "";
   courses.slice(0, 4).forEach((course) => {
@@ -380,6 +414,7 @@ function syncUi() {
   document.body.dataset.courseTheme = course.key;
   const courseImageValue = course.previewAsset ? `url("${course.previewAsset}")` : "none";
   document.documentElement.style.setProperty("--course-image", courseImageValue);
+  document.documentElement.style.setProperty("--stage-course-image", courseImageValue);
   document.querySelectorAll(".mini-map-art").forEach((element) => {
     element.classList.toggle("has-course-image", Boolean(course.previewAsset));
   });
@@ -941,6 +976,23 @@ function drawCar(ctx, x, y, angle, ghost, boost, color = "#168bff") {
   ctx.translate(x, y);
   ctx.rotate(angle + Math.PI / 2);
   ctx.globalAlpha = ghost ? 0.55 : 1;
+
+  const sprite = loadedKartImage(spriteKeyForColor(color, boost, ghost));
+  if (sprite) {
+    const size = boost ? 92 : 78;
+    if (boost) {
+      const trail = loadedKartImage("blueBoost");
+      if (trail && sprite !== trail) {
+        ctx.save();
+        ctx.globalAlpha = 0.38;
+        ctx.drawImage(trail, -size * 0.55, -size * 0.26, size * 1.1, size * 1.1);
+        ctx.restore();
+      }
+    }
+    ctx.drawImage(sprite, -size / 2, -size / 2, size, size);
+    ctx.restore();
+    return;
+  }
 
   if (boost) {
     ctx.fillStyle = "rgba(255, 209, 67, 0.55)";

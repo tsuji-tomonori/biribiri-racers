@@ -12,7 +12,9 @@
         <section class="screen screen-menu is-active" id="screen-menu" aria-labelledby="menu-title">
           <div class="hero-panel">
             <p class="eyebrow">さわるとビリビリ！ はしりぬけて、いちばんのりをめざそう！</p>
-            <h1 id="menu-title" class="logo-title">ビリビリ<br>レーサーズ</h1>
+            <h1 id="menu-title" class="logo-title">
+              <img src="./assets/v2/logo/main_logo.png" alt="ビリビリレーサーズ">
+            </h1>
             <div class="menu-actions" aria-label="メインメニュー">
               <button class="mega-button pink" data-action="room">
                 <span class="button-icon" aria-hidden="true">⚡</span>
@@ -32,8 +34,8 @@
               </button>
             </div>
             <div class="notice-bar">
-              <span class="notice-icon" aria-hidden="true">!</span>
-              <span><b>おしらせ</b> 5/30 新コース「パステルプラネット」追加予定！</span>
+              <img class="notice-icon" src="./assets/v2/logo/new_badge.png" alt="" aria-hidden="true">
+              <span><b>おしらせ</b> コースカードとカート画像を新しいアセットに更新しました。</span>
             </div>
           </div>
 
@@ -48,10 +50,12 @@
             <button class="map-shortcut" data-action="map">マップ一覧</button>
             <div class="course-stage" aria-hidden="true">
               <div class="track-preview">
-                <div class="preview-car blue-car"></div>
-                <div class="preview-car pink-car"></div>
-                <div class="preview-car green-car"></div>
-                <div class="goal-banner">GOAL!</div>
+                <img class="stage-logo" src="./assets/v2/logo/start_badge.png" alt="">
+                <img class="stage-kart stage-kart-blue" src="./assets/v2/karts/blue_boost.png" alt="">
+                <img class="stage-kart stage-kart-pink" src="./assets/v2/karts/pink_boost.png" alt="">
+                <img class="stage-kart stage-kart-green" src="./assets/v2/karts/green_boost.png" alt="">
+                <img class="stage-effect stage-effect-spark" src="./assets/v2/effects/electric_spark_blue.png" alt="">
+                <img class="goal-banner" src="./assets/v2/logo/goal_badge.png" alt="">
               </div>
             </div>
             <section class="help-card" aria-labelledby="help-title">
@@ -137,9 +141,9 @@
               <div class="player-slot unavailable">3P 募集中（オンライン未接続）</div>
               <div class="player-slot unavailable">4P 募集中（オンライン未接続）</div>
               <div class="room-code">
-                <small>チームコード表示サンプル</small>
-                <strong>BIRI 1234</strong>
-                <span>コード参加は準備中のため、このコードでは接続できません。</span>
+                <small>チームコード</small>
+                <strong>未発行</strong>
+                <span>コード参加は準備中のため、現在はローカルプレイのみ利用できます。</span>
               </div>
               <button class="mega-button blue compact full" data-action="join">
                 <span class="button-icon" aria-hidden="true">↪</span><strong>コードで参加画面へ</strong>
@@ -272,8 +276,9 @@
 
             <div class="ready-stage">
               <canvas id="ready-canvas" width="960" height="620" aria-label="レース開始前のコースプレビュー"></canvas>
+              <img class="ready-effect ready-effect-spark" src="./assets/v2/effects/electric_spark_blue.png" alt="" aria-hidden="true">
               <div class="countdown-badge" id="countdown-badge">3</div>
-              <div class="start-line-label">START</div>
+              <img class="start-line-label" src="./assets/v2/logo/start_badge.png" alt="" aria-hidden="true">
             </div>
 
             <aside class="side-panel right">
@@ -337,6 +342,7 @@
               </section>
               <section class="hud-panel stats">
                 <h3>アイテム</h3>
+                <img class="hud-boost-art" src="./assets/v2/effects/boost_trail_blue.png" alt="" aria-hidden="true">
                 <p><span>かべ接触</span><strong id="crash-count">0回</strong></p>
                 <p><span>ブースト</span><strong id="boost-status">OK</strong></p>
               </section>
@@ -355,10 +361,11 @@
           <div class="result-hero">
             <div class="winner-card">
               <p class="winner-en">WINNER!</p>
+              <img class="winner-banner-art" src="./assets/v2/logo/winner_banner.png" alt="" aria-hidden="true">
               <h2 id="result-title">ゆうしょう！</h2>
               <p class="ribbon">レース おつかれさま！</p>
               <div class="podium">
-                <div class="medal">1st</div>
+                <img class="medal" src="./assets/v2/effects/medal_1st.png" alt="1st">
                 <div class="big-car"></div>
               </div>
               <div class="winner-name" id="result-player-name">ビリビリくん</div>
