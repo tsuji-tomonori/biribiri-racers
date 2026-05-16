@@ -5,12 +5,12 @@
 - `.workspace/biribiri_racers_asset_pack_v2.zip`
 - `.workspace/ChatGPT Image 2026年5月16日 14_30_*.png`
 - Existing screen: `app/web/index.html`
-- Existing behavior: `app/web/app.js`
+- Existing behavior: `app/web/src/`
 - Existing styles: `app/web/styles.css`
 
 ## Screen
 
-- Route: static single-page app at `app/web/index.html`
+- Route: Vite single-page app at `app/web/index.html`
 - Target screens: menu, room/course selection, map/course list, ready, game, result
 
 ## Layout Structure
@@ -66,16 +66,16 @@
 
 | Reference asset | Source path | Method | Exactness | Notes |
 |---|---|---|---|---|
-| Course cards | `00_curated_named_png/course_cards/*.png` | copy selected PNGs to `app/web/assets/v2/course-cards/` and render with `img`/background | exact | six course cards available |
+| Course cards | `00_curated_named_png/course_cards/*.png` | copy selected PNGs to `app/web/public/assets/v2/course-cards/` and render with `img`/background | exact | six course cards available |
 | Effects/badges | `00_curated_named_png/effects_badges/*.png` | copy selected badges and decorative effects | exact | boost/confetti/spark/medal |
 | Logo and result banners | `00_curated_named_png/logo_and_buttons/main_logo.png`, `start_badge.png`, `goal_badge.png`, `winner_banner.png`, `new_badge.png` | copy selected PNGs and render in menu/result/status UI | exact | replaces text-only logo/stage badges while preserving accessible labels |
-| Menu button skins | `00_curated_named_png/logo_and_buttons/menu_button_004.png` through `menu_button_020.png`, `top_blank_ribbon.png` | copy to `app/web/assets/v2/buttons/` and use as button/shortcut backgrounds | exact | semantic button text remains the accessible name |
-| Course parts | `00_curated_named_png/course_parts/*.png` | copy to `app/web/assets/v2/course-parts/` and attach per-course strips/stage layers | exact | course cards remain previews; parts make the UI feel assembled from the base kit |
-| UI frames/controls | `00_curated_named_png/ui_frames_controls/*.png` | copy to `app/web/assets/v2/ui/` and use for icons, input frames, panel marks, and control skins | exact | text labels remain separate from decorative frames |
-| Background themes | `00_curated_named_png/background_themes/*/{theme_badge,panorama,floor_tile,border_*}.png` | copy per theme to `app/web/assets/v2/themes/` and switch via selected course metadata | exact for available five themes | no dedicated Sky Spiral theme exists in the pack, so Sky keeps the course-card fallback |
-| Icons | `00_curated_named_png/icons/*.png` | copy to `app/web/assets/v2/icons/` and use only for decorative player/icon accents | approximate | accessible names come from text or aria-labels |
+| Menu button skins | `00_curated_named_png/logo_and_buttons/menu_button_004.png` through `menu_button_020.png`, `top_blank_ribbon.png` | copy to `app/web/public/assets/v2/buttons/` and use as button/shortcut backgrounds | exact | semantic button text remains the accessible name |
+| Course parts | `00_curated_named_png/course_parts/*.png` | copy to `app/web/public/assets/v2/course-parts/` and attach per-course strips/stage layers | exact | course cards remain previews; parts make the UI feel assembled from the base kit |
+| UI frames/controls | `00_curated_named_png/ui_frames_controls/*.png` | copy to `app/web/public/assets/v2/ui/` and use for icons, input frames, panel marks, and control skins | exact | text labels remain separate from decorative frames |
+| Background themes | `00_curated_named_png/background_themes/*/{theme_badge,panorama,floor_tile,border_*}.png` | copy per theme to `app/web/public/assets/v2/themes/` and switch via selected course metadata | exact for available five themes | no dedicated Sky Spiral theme exists in the pack, so Sky keeps the course-card fallback |
+| Icons | `00_curated_named_png/icons/*.png` | copy to `app/web/public/assets/v2/icons/` and use only for decorative player/icon accents | approximate | accessible names come from text or aria-labels |
 | Kart sprites | `00_curated_named_png/kart_sprites/*_*.png` | copy selected player-color sprites and use in DOM plus canvas drawing when loaded | exact | canvas keeps CSS/vector fallback until images finish loading |
-| Existing canvas track | `app/web/app.js` drawn path | retain as gameplay surface | existing | v2 course images are presentation assets, not collision maps |
+| Existing canvas track | `app/web/src/game/track.ts` / `app/web/src/game/drawing.ts` drawn path | retain as gameplay surface | existing | v2 course images are presentation assets, not collision maps |
 
 ### Asset Text And Scale Rules
 

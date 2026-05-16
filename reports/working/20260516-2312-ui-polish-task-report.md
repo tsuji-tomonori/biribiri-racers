@@ -1,0 +1,60 @@
+# 作業完了レポート
+
+保存先: `reports/working/20260516-2312-ui-polish-task-report.md`
+
+## 1. 受けた指示
+
+- 主な依頼: UI の問題点を洗い出し、task の中に入れる。
+- 具体症状: アセット上に文字がある、コースが `.worktree` にある画像のようになっていない、アセットの縮尺比がおかしい。
+- 成果物: 改善点と受け入れ条件を記載した task md。
+
+## 2. 要件整理
+
+| 要件ID | 指示・要件 | 重要度 | 対応状況 |
+|---|---|---:|---|
+| R1 | UI で改善すべき点を洗い出す | 高 | 対応 |
+| R2 | アセット上の文字重なりを改善観点に含める | 高 | 対応 |
+| R3 | 参照画像と異なるコース表現を改善観点に含める | 高 | 対応 |
+| R4 | アセット縮尺比の不自然さを改善観点に含める | 高 | 対応 |
+| R5 | task として後続実装可能な形にする | 高 | 対応 |
+
+## 3. 検討・判断したこと
+
+- 現行 `app/web/styles.css` と `app/web/app.js` を確認し、ボタン背景、`track-preview`、`course_parts`、コースカード、ミニマップの使われ方を見た。
+- 改善 task は実装作業ではなく後続修正の入口にするため、状態は `todo` とした。
+- 既存 task の受け入れ条件には今回の 3 症状が個別に入っていなかったため、新しい task では症状別の検収項目を明記した。
+- README/API/運用手順は今回変更していない。理由は、実装挙動ではなく後続 UI 修正 task の作成が成果物であるため。
+
+## 4. 実施作業
+
+- repository-local skill と既存 task を確認した。
+- `.worktrees/asset-pack-v2-ui` と現行 `app/web/assets/v2/` の asset 利用状況を確認した。
+- `tasks/todo/20260516-2312-ui-asset-layout-polish.md` を追加し、背景、改善ポイント、軽量なぜなぜ分析、実装計画、受け入れ条件、検証計画を記載した。
+- `codex/ui-polish-task` ブランチを push し、PR #9 を作成した。
+- PR に受け入れ条件確認コメントとセルフレビューコメントを投稿した。
+
+## 5. 成果物
+
+| 成果物 | 形式 | 内容 | 指示との対応 |
+|---|---|---|---|
+| `tasks/todo/20260516-2312-ui-asset-layout-polish.md` | Markdown | UI 仕上げ改善 task | 改善点を task に入れる依頼に対応 |
+| `reports/working/20260516-2312-ui-polish-task-report.md` | Markdown | 作業完了レポート | repository ルールに対応 |
+
+## 6. Fit 評価
+
+総合fit: 4.6 / 5.0（約92%）
+
+理由: 指示された 3 症状を task の改善ポイントと受け入れ条件に落とし込んだ。今回は実装修正そのものや browser QA は依頼範囲外として行っていないため満点ではない。
+
+## 7. 未対応・制約・リスク
+
+- 未対応事項: UI 実装修正、実ブラウザでのスクリーンショット再検証は今回未実施。
+- 制約: ユーザーが指す「`.worktree にある画像」の具体ファイル名は未指定のため、task には参照元再確認をリスクとして明記した。
+- リスク: 後続実装で参照画像を取り違える可能性があるため、実装前に対象画像ファイルを明示確認する必要がある。
+
+## 8. PR 記録
+
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/9
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/9#issuecomment-4467108571
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/9#issuecomment-4467109063
+- GitHub Apps 操作: PR 作成・コメント投稿ともに 403 (`Resource not accessible by integration`) のため、`gh` にフォールバックした。
