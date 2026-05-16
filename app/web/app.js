@@ -22,8 +22,21 @@ const courses = [
     detail: "カーブがたくさんのテクニカルなコース。中央の惑星ドームと電撃壁に注意。",
     tags: ["おすすめ", "カーブ多め", "3ラップ推奨"],
     palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
-    previewAsset: "./assets/courses/course-01-pastel-planet.webp",
-    mapAsset: "./assets/courses/course-01-pastel-planet.webp",
+    previewAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
+    mapAsset: "./assets/v2/course-cards/course_01_pastel_planet_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/pastel/theme_badge.png",
+      panorama: "./assets/v2/themes/pastel/panorama.png",
+      floor: "./assets/v2/themes/pastel/floor_tile.png",
+      border: "./assets/v2/themes/pastel/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_002.png",
+      "./assets/v2/course-parts/course_parts_007.png",
+      "./assets/v2/course-parts/course_parts_008.png",
+      "./assets/v2/course-parts/course_parts_012.png",
+      "./assets/v2/course-parts/course_parts_014.png",
+    ],
     records: {},
   },
   {
@@ -39,8 +52,21 @@ const courses = [
     detail: "発光ブロックと細い曲がり角が続く、集中力がいる街コース。",
     tags: ["ネオン", "直線多め", "3ラップ推奨"],
     palette: ["neon_blue", "neon_pink", "cyan", "purple"],
-    previewAsset: "./assets/courses/course-02-pikapika-city.webp",
-    mapAsset: "./assets/courses/course-02-pikapika-city.webp",
+    previewAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
+    mapAsset: "./assets/v2/course-cards/course_02_pikapika_city_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/city/theme_badge.png",
+      panorama: "./assets/v2/themes/city/panorama.png",
+      floor: "./assets/v2/themes/city/floor_tile.png",
+      border: "./assets/v2/themes/city/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_016.png",
+      "./assets/v2/course-parts/course_parts_022.png",
+      "./assets/v2/course-parts/course_parts_023.png",
+      "./assets/v2/course-parts/course_parts_025.png",
+      "./assets/v2/course-parts/course_parts_028.png",
+    ],
     records: {},
   },
   {
@@ -56,29 +82,25 @@ const courses = [
     detail: "大きなS字とループ状カーブが多い、走りやすいパステルコース。",
     tags: ["ワイドターン", "スイート", "2スター"],
     palette: ["pink", "mint", "lavender", "cream_yellow"],
-    previewAsset: "./assets/courses/course-03-candy-loop.webp",
-    mapAsset: "./assets/courses/course-03-candy-loop.webp",
+    previewAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
+    mapAsset: "./assets/v2/course-cards/course_03_candy_loop_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/candy/theme_badge.png",
+      panorama: "./assets/v2/themes/candy/panorama.png",
+      floor: "./assets/v2/themes/candy/floor_tile.png",
+      border: "./assets/v2/themes/candy/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_030.png",
+      "./assets/v2/course-parts/course_parts_035.png",
+      "./assets/v2/course-parts/course_parts_036.png",
+      "./assets/v2/course-parts/course_parts_039.png",
+      "./assets/v2/course-parts/course_parts_042.png",
+    ],
     records: {},
   },
   {
     id: "04",
-    key: "ice",
-    name: "アイスチューブ",
-    aliases: [],
-    theme: "氷 / チューブ / 雪",
-    difficultyStars: 2,
-    recommendedLaps: 3,
-    expectedTimeSec: 150,
-    description: "つめたいこおりのトンネルをすべってかけぬける！",
-    detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
-    tags: ["氷", "すべる雰囲気", "2スター"],
-    palette: ["ice_blue", "cyan", "white", "deep_blue"],
-    previewAsset: "./assets/courses/course-04-ice-tube.webp",
-    mapAsset: "./assets/courses/course-04-ice-tube.webp",
-    records: {},
-  },
-  {
-    id: "05",
     key: "garden",
     name: "サンダーガーデン",
     aliases: [],
@@ -90,8 +112,51 @@ const courses = [
     detail: "丸い花壇と雷アイコン台座をよけながら走る、明るい庭園コース。",
     tags: ["庭園", "広め", "2スター"],
     palette: ["green", "yellow", "teal", "flower_pink"],
-    previewAsset: "./assets/courses/course-05-thunder-garden.webp",
-    mapAsset: "./assets/courses/course-05-thunder-garden.webp",
+    previewAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
+    mapAsset: "./assets/v2/course-cards/course_04_thunder_garden_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/garden/theme_badge.png",
+      panorama: "./assets/v2/themes/garden/panorama.png",
+      floor: "./assets/v2/themes/garden/floor_tile.png",
+      border: "./assets/v2/themes/garden/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_058.png",
+      "./assets/v2/course-parts/course_parts_065.png",
+      "./assets/v2/course-parts/course_parts_066.png",
+      "./assets/v2/course-parts/course_parts_067.png",
+      "./assets/v2/course-parts/course_parts_071.png",
+    ],
+    records: {},
+  },
+  {
+    id: "05",
+    key: "ice",
+    name: "アイスキューブ",
+    aliases: [],
+    theme: "氷 / キューブ / 雪",
+    difficultyStars: 2,
+    recommendedLaps: 3,
+    expectedTimeSec: 150,
+    description: "つめたいこおりのキューブをすべってかけぬける！",
+    detail: "透明感のあるアイスブロックと細いチューブ道が続く冷たいコース。",
+    tags: ["氷", "すべる雰囲気", "2スター"],
+    palette: ["ice_blue", "cyan", "white", "deep_blue"],
+    previewAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
+    mapAsset: "./assets/v2/course-cards/course_05_ice_cube_card.png",
+    themeAssets: {
+      badge: "./assets/v2/themes/ice/theme_badge.png",
+      panorama: "./assets/v2/themes/ice/panorama.png",
+      floor: "./assets/v2/themes/ice/floor_tile.png",
+      border: "./assets/v2/themes/ice/border_03.png",
+    },
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_044.png",
+      "./assets/v2/course-parts/course_parts_050.png",
+      "./assets/v2/course-parts/course_parts_051.png",
+      "./assets/v2/course-parts/course_parts_053.png",
+      "./assets/v2/course-parts/course_parts_056.png",
+    ],
     records: {},
   },
   {
@@ -107,12 +172,34 @@ const courses = [
     detail: "詳細マップは未確定です。現時点では一覧カードのみ表示します。",
     tags: ["詳細未確定", "空", "未確定"],
     palette: ["sky_blue", "white", "yellow"],
+    previewAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
+    mapAsset: "./assets/v2/course-cards/course_06_sky_spiral_card.png",
+    themeAssets: null,
+    partAssets: [
+      "./assets/v2/course-parts/course_parts_001.png",
+      "./assets/v2/course-parts/course_parts_006.png",
+      "./assets/v2/course-parts/course_parts_021.png",
+      "./assets/v2/course-parts/course_parts_049.png",
+    ],
     implementationStatus: "thumbnail_only",
     records: {},
   },
 ];
 
 const courseImages = new Map();
+const kartSprites = {
+  default: "./assets/v2/karts/blue_up.png",
+  blue: "./assets/v2/karts/blue_up.png",
+  blueBoost: "./assets/v2/karts/blue_boost.png",
+  blueDamage: "./assets/v2/karts/blue_damage.png",
+  pink: "./assets/v2/karts/pink_up.png",
+  pinkBoost: "./assets/v2/karts/pink_boost.png",
+  green: "./assets/v2/karts/green_up.png",
+  greenBoost: "./assets/v2/karts/green_boost.png",
+  yellow: "./assets/v2/karts/yellow_up.png",
+  yellowBoost: "./assets/v2/karts/yellow_boost.png",
+};
+const kartImages = new Map();
 
 courses.forEach((course) => {
   if (!course.mapAsset) return;
@@ -125,6 +212,12 @@ courses.forEach((course) => {
     }
   });
   courseImages.set(course.id, image);
+});
+
+Object.entries(kartSprites).forEach(([key, src]) => {
+  const image = new Image();
+  image.src = src;
+  kartImages.set(key, image);
 });
 
 const state = {
@@ -169,6 +262,8 @@ const elements = {
   mapDetailLaps: document.getElementById("map-detail-laps"),
   mapDetailTime: document.getElementById("map-detail-time"),
   mapDetailRecord: document.getElementById("map-detail-record"),
+  selectedCourseBadge: document.getElementById("selected-course-badge"),
+  mapDetailBadge: document.getElementById("map-detail-badge"),
   countdownBadge: document.getElementById("countdown-badge"),
   raceTime: document.getElementById("race-time"),
   raceLap: document.getElementById("race-lap"),
@@ -277,9 +372,30 @@ function courseAssetStyle(course) {
   return course.previewAsset ? `style="--card-course-image: url('${course.previewAsset}')"` : "";
 }
 
+function coursePartStrip(course) {
+  const parts = course.partAssets || [];
+  return `<span class="course-part-strip" aria-hidden="true">${parts
+    .slice(0, 4)
+    .map((src, index) => `<img class="part-strip-${index + 1}" src="${src}" alt="">`)
+    .join("")}</span>`;
+}
+
 function courseImage(course) {
   const image = courseImages.get(course.id);
   return image && image.complete && image.naturalWidth > 0 ? image : null;
+}
+
+function loadedKartImage(key) {
+  const image = kartImages.get(key);
+  return image && image.complete && image.naturalWidth > 0 ? image : null;
+}
+
+function spriteKeyForColor(color, boost, ghost) {
+  if (ghost) return "blueDamage";
+  if (color === "#ff3f8e") return boost ? "pinkBoost" : "pink";
+  if (color === "#20c987") return boost ? "greenBoost" : "green";
+  if (color === "#ffbf22") return boost ? "yellowBoost" : "yellow";
+  return boost ? "blueBoost" : "blue";
 }
 
 function renderCourseButtons() {
@@ -290,7 +406,7 @@ function renderCourseButtons() {
     button.dataset.courseId = course.id;
     button.type = "button";
     button.setAttribute("role", "option");
-    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span><b>${course.id}</b><strong>${course.name}</strong>`;
+    button.innerHTML = `<span class="mini-course-thumb" ${courseAssetStyle(course)}></span>${coursePartStrip(course)}<b>${course.id}</b><strong>${course.name}</strong>`;
     elements.coursePicker.appendChild(button);
   });
 
@@ -298,7 +414,8 @@ function renderCourseButtons() {
   courses.slice(0, 3).forEach((course) => {
     const card = document.createElement("article");
     card.className = "course-card";
-    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
+    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
+    card.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} ${formatExpectedTime(course.expectedTimeSec)}</small>`;
     elements.homeRecommendedCourses.appendChild(card);
   });
 }
@@ -311,7 +428,8 @@ function renderCourseGrid() {
     button.dataset.courseId = course.id;
     button.type = "button";
     const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
-    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}></div><span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
+    const badge = course.themeAssets?.badge ? `<img class="course-card-badge" src="${course.themeAssets.badge}" alt="">` : "";
+    button.innerHTML = `<div class="course-thumb" ${courseAssetStyle(course)}>${badge}</div>${coursePartStrip(course)}<span>${course.id}</span><strong>${course.name}</strong><small>${"★".repeat(course.difficultyStars)} / ${status}</small><em>${course.description}</em>`;
     elements.courseGrid.appendChild(button);
   });
 }
@@ -379,9 +497,19 @@ function syncUi() {
   });
   document.body.dataset.courseTheme = course.key;
   const courseImageValue = course.previewAsset ? `url("${course.previewAsset}")` : "none";
+  const theme = course.themeAssets || {};
   document.documentElement.style.setProperty("--course-image", courseImageValue);
+  document.documentElement.style.setProperty("--stage-course-image", courseImageValue);
+  document.documentElement.style.setProperty("--theme-panorama", theme.panorama ? `url("${theme.panorama}")` : courseImageValue);
+  document.documentElement.style.setProperty("--theme-floor", theme.floor ? `url("${theme.floor}")` : courseImageValue);
+  document.documentElement.style.setProperty("--theme-border", theme.border ? `url("${theme.border}")` : "none");
   document.querySelectorAll(".mini-map-art").forEach((element) => {
     element.classList.toggle("has-course-image", Boolean(course.previewAsset));
+  });
+  [elements.selectedCourseBadge, elements.mapDetailBadge].forEach((image) => {
+    if (!image) return;
+    image.hidden = !theme.badge;
+    if (theme.badge) image.src = theme.badge;
   });
   elements.inputModeLabel.textContent = window.matchMedia("(pointer: coarse)").matches ? "タッチ" : "PC";
 }
@@ -941,6 +1069,23 @@ function drawCar(ctx, x, y, angle, ghost, boost, color = "#168bff") {
   ctx.translate(x, y);
   ctx.rotate(angle + Math.PI / 2);
   ctx.globalAlpha = ghost ? 0.55 : 1;
+
+  const sprite = loadedKartImage(spriteKeyForColor(color, boost, ghost));
+  if (sprite) {
+    const size = boost ? 92 : 78;
+    if (boost) {
+      const trail = loadedKartImage("blueBoost");
+      if (trail && sprite !== trail) {
+        ctx.save();
+        ctx.globalAlpha = 0.38;
+        ctx.drawImage(trail, -size * 0.55, -size * 0.26, size * 1.1, size * 1.1);
+        ctx.restore();
+      }
+    }
+    ctx.drawImage(sprite, -size / 2, -size / 2, size, size);
+    ctx.restore();
+    return;
+  }
 
   if (boost) {
     ctx.fillStyle = "rgba(255, 209, 67, 0.55)";
