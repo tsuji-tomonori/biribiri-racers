@@ -4,7 +4,7 @@ import { formatTime } from "../utils/format";
 import { kartSprites } from "../data/assets";
 import { drawMiniMap, drawTrack, isOnRoad, type DrawingCaches } from "../game/drawing";
 import { preloadImages } from "../game/imageCache";
-import { nearestProgress, trackSamples } from "../game/track";
+import { chipRespawnPose, chipTrackForCourse, nearestChipProgress } from "../game/chips/chipTrack";
 
 const initialHud: RaceHud = {
   time: "00:00.00",
@@ -53,9 +53,9 @@ export function useRaceController({
   const onFinishRef = useRef(onFinish);
 
   const caches = useMemo<DrawingCaches>(() => {
-    const courseImages = preloadImages(Object.fromEntries(courses.map((item) => [item.id, item.mapAsset])));
+    const trackImages = preloadImages(trackAssetSources(courses));
     const kartImages = preloadImages(kartSprites);
-    return { courseImages, kartImages };
+    return { trackImages, kartImages };
   }, [courses]);
 
   useEffect(() => {
@@ -130,12 +130,14 @@ export function useRaceController({
   }, [setScreen]);
 
   const resetToStart = useCallback((race: RaceState, now: number) => {
-    const start = trackSamples[0];
+    const start = chipRespawnPose(chipTrackForCourse(courseRef.current.id));
     race.x = start.x;
     race.y = start.y;
     race.vx = 0;
     race.vy = 0;
-    race.angle = -Math.PI / 2;
+    race.angle = start.angle;
+    race.progress = 0;
+    race.lastProgress = 0;
     race.crashes += 1;
     race.invulnerableUntil = now + 1100;
     race.toastUntil = now + 1200;
@@ -173,7 +175,7 @@ export function useRaceController({
 
     const nextX = race.x + race.vx * dt;
     const nextY = race.y + race.vy * dt;
-    if (!isOnRoad(ctx, nextX, nextY) && now > race.invulnerableUntil) {
+    if (!isOnRoad(ctx, courseRef.current, nextX, nextY) && now > race.invulnerableUntil) {
       resetToStart(race, now);
       return;
     }
@@ -181,7 +183,7 @@ export function useRaceController({
     race.x = nextX;
     race.y = nextY;
     race.lastProgress = race.progress;
-    race.progress = nearestProgress(trackSamples, race.x, race.y);
+    race.progress = nearestChipProgress(chipTrackForCourse(courseRef.current.id), race.x, race.y);
 
     if (race.lastProgress > 0.86 && race.progress < 0.1 && now - race.startedAt > 1600) {
       race.completedLaps += 1;
@@ -220,14 +222,14 @@ export function useRaceController({
     if (animationFrameRef.current !== null) {
       window.cancelAnimationFrame(animationFrameRef.current);
     }
-    const start = trackSamples[0];
+    const start = chipRespawnPose(chipTrackForCourse(courseRef.current.id));
     const now = performance.now();
     raceRef.current = {
       x: start.x,
       y: start.y,
       vx: 0,
       vy: 0,
-      angle: -Math.PI / 2,
+      angle: start.angle,
       running: true,
       startedAt: now,
       lastFrame: now,
@@ -282,7 +284,7 @@ export function useRaceController({
     const redraw = () => {
       if (appStateRef.current.screen === "ready") drawReadyPreview();
     };
-    const images = [...caches.courseImages.values(), ...caches.kartImages.values()];
+    const images = [...caches.trackImages.values(), ...caches.kartImages.values()];
     images.forEach((image) => image.addEventListener("load", redraw));
     return () => images.forEach((image) => image.removeEventListener("load", redraw));
   }, [caches, drawReadyPreview]);
@@ -328,4 +330,11 @@ export function useRaceController({
     triggerBoost,
     stopRace,
   };
+}
+
+function trackAssetSources(courses: Course[]): string[] {
+  return [...new Set(courses.flatMap((item) => [
+    item.themeAssets?.floor,
+    ...item.partAssets,
+  ]).filter((source): source is string => Boolean(source)))];
 }
