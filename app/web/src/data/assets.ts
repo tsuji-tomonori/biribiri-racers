@@ -11,6 +11,7 @@ export const logoAssets = {
 export const effectAssets = {
   electricSparkBlue: assetPath("v2/effects/electric_spark_blue.png"),
   boostTrailBlue: assetPath("v2/effects/boost_trail_blue.png"),
+  confettiAll: assetPath("v2/effects/confetti_all.png"),
   medalFirst: assetPath("v2/effects/medal_1st.png"),
 };
 

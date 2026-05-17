@@ -8,6 +8,7 @@ interface MegaButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   description?: string;
   action?: string;
+  bakedLabel?: boolean;
   compact?: boolean;
   full?: boolean;
 }
@@ -18,12 +19,13 @@ export function MegaButton({
   label,
   description,
   action,
+  bakedLabel = false,
   compact = false,
   full = false,
   className = "",
   ...buttonProps
 }: MegaButtonProps) {
-  const classes = ["mega-button", tone, compact ? "compact" : "", full ? "full" : "", className]
+  const classes = ["mega-button", tone, bakedLabel ? "is-baked-label" : "", compact ? "compact" : "", full ? "full" : "", className]
     .filter(Boolean)
     .join(" ");
   const { "aria-label": ariaLabel, ...restButtonProps } = buttonProps;

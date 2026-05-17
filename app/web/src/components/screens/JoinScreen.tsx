@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ScreenName } from "../../types";
+import { effectAssets, logoAssets } from "../../data/assets";
 import { MegaButton } from "../ui/MegaButton";
 import { Screen } from "../ui/Screen";
 import { ScreenHeader } from "../ui/ScreenHeader";
@@ -37,7 +38,8 @@ export function JoinScreen({ current, onNavigate }: JoinScreenProps) {
         onBack={() => onNavigate("menu")}
       />
       <div className="join-grid">
-        <section className="panel">
+        <section className="panel join-code-panel">
+          <img className="join-badge-art" src={logoAssets.startBadge} alt="" aria-hidden="true" />
           <h3>ルームコードを入力</h3>
           <label className="code-input">
             <span>BIRI-1234 形式</span>
@@ -51,8 +53,8 @@ export function JoinScreen({ current, onNavigate }: JoinScreenProps) {
             />
           </label>
           <div className="button-row">
-            <MegaButton action="paste-code" tone="blue" icon="⌘" label="貼り付け" compact onClick={() => setStatus("クリップボード連携は未実装です。コードは手入力してください。")} />
-            <MegaButton action="join-submit" tone="pink" icon="↪" label="参加する" compact onClick={submit} />
+            <MegaButton tone="blue" icon="⌘" label="貼り付け" compact onClick={() => setStatus("クリップボード連携は未実装です。コードは手入力してください。")} />
+            <MegaButton action="join-submit" tone="pink" icon="↪" label="参加する" compact bakedLabel onClick={submit} />
           </div>
           <p className="inline-status">{status}</p>
         </section>
@@ -64,6 +66,7 @@ export function JoinScreen({ current, onNavigate }: JoinScreenProps) {
           </div>
         </section>
         <section className="panel found-team-panel">
+          <img className="join-spark-art" src={effectAssets.electricSparkBlue} alt="" aria-hidden="true" />
           <h3>見つかったチーム</h3>
           <div className="empty-state electric">
             <strong>検索サービス未接続</strong>
@@ -74,7 +77,7 @@ export function JoinScreen({ current, onNavigate }: JoinScreenProps) {
             <div><dt>壁ルール</dt><dd>かべにさわるとスタートにもどる</dd></div>
             <div><dt>操作</dt><dd>WASD / 矢印キー、Space</dd></div>
           </dl>
-          <MegaButton action="room" tone="teal" icon="＋" label="自分でルーム作成" compact full onClick={() => onNavigate("room")} />
+          <MegaButton action="room" tone="teal" icon="＋" label="自分でルーム作成" compact full bakedLabel onClick={() => onNavigate("room")} />
         </section>
       </div>
     </Screen>

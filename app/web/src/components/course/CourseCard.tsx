@@ -1,4 +1,5 @@
 import type { Course } from "../../types";
+import { CoursePartStrip } from "./CoursePartStrip";
 
 interface CourseCardProps {
   course: Course;
@@ -9,7 +10,7 @@ interface CourseCardProps {
 
 export function CourseCard({ course, selected = false, mode = "home", onSelect }: CourseCardProps) {
   const status = course.implementationStatus === "thumbnail_only" ? "詳細未確定" : course.theme;
-  const art = <img className="course-card-art" src={course.previewAsset} alt={course.name} />;
+  const art = <img className="course-card-art" src={course.previewAsset} alt={`${course.name}のコースカード`} />;
 
   if (mode === "map") {
     return (
@@ -21,6 +22,7 @@ export function CourseCard({ course, selected = false, mode = "home", onSelect }
         onClick={() => onSelect?.(course.id)}
       >
         {art}
+        <CoursePartStrip parts={course.partAssets} />
         {course.implementationStatus === "thumbnail_only" ? <span className="course-card-status">詳細未確定</span> : null}
       </button>
     );
@@ -32,6 +34,7 @@ export function CourseCard({ course, selected = false, mode = "home", onSelect }
       aria-label={`おすすめコース ${course.id} ${course.name}`}
     >
       {art}
+      <CoursePartStrip parts={course.partAssets} />
     </article>
   );
 }

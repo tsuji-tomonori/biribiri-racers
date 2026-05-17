@@ -1,9 +1,11 @@
-import type { RaceHud, RaceRefs, ScreenName } from "../../types";
-import { effectAssets } from "../../data/assets";
+import type { Course, RaceHud, RaceRefs, ScreenName } from "../../types";
+import { effectAssets, kartSprites } from "../../data/assets";
+import { CoursePartStrip } from "../course/CoursePartStrip";
 import { Screen } from "../ui/Screen";
 
 interface GameScreenProps {
   current: ScreenName;
+  course: Course;
   playerName: string;
   laps: number;
   inputMode: string;
@@ -12,7 +14,7 @@ interface GameScreenProps {
   onBoost: () => void;
 }
 
-export function GameScreen({ current, playerName, laps, inputMode, hud, refs, onBoost }: GameScreenProps) {
+export function GameScreen({ current, course, playerName, laps, inputMode, hud, refs, onBoost }: GameScreenProps) {
   return (
     <Screen name="game" current={current} labelledBy="game-title">
       <h2 id="game-title" className="sr-only">ゲーム中</h2>
@@ -25,6 +27,11 @@ export function GameScreen({ current, playerName, laps, inputMode, hud, refs, on
 
       <div className="game-board">
         <aside className="hud-column left">
+          <section className="hud-panel race-course">
+            <h3>コース</h3>
+            <img className="hud-course-art" src={course.previewAsset} alt={`${course.name}のコースカード`} />
+            <CoursePartStrip parts={course.partAssets} />
+          </section>
           <section className="hud-panel ranking">
             <h3>ランキング</h3>
             <div className="rank-row active"><span>1</span><b>{playerName}</b><em>{hud.rankScore}</em></div>
@@ -60,15 +67,14 @@ export function GameScreen({ current, playerName, laps, inputMode, hud, refs, on
           <section className="hud-panel stats">
             <h3>アイテム</h3>
             <img className="hud-boost-art" src={effectAssets.boostTrailBlue} alt="" aria-hidden="true" />
+            <img className="hud-kart-art" src={kartSprites.blueBoost} alt="" aria-hidden="true" />
             <p><span>かべ接触</span><strong>{hud.crashes}</strong></p>
             <p><span>ブースト</span><strong>{hud.boostStatus}</strong></p>
           </section>
           <button className="boost-button" type="button" onClick={onBoost} aria-label="ブーストを使う">⚡<span>つかう</span></button>
           <section className="quick-chat" aria-label="クイックチャット">
-            <button type="button">いいね！</button>
-            <button type="button">ナイス！</button>
-            <button type="button">いくよー！</button>
-            <button type="button">ドンマイ！</button>
+            <button type="button" disabled>定型文は準備中</button>
+            <button type="button" disabled>オンライン未接続</button>
           </section>
         </aside>
       </div>
