@@ -3070,6 +3070,10 @@ body {
   --button-art: url("/assets/v2/buttons/menu_button_005.png");
 }
 
+.mega-button[data-action="room-create"] {
+  --button-art: url("/assets/v2/buttons/menu_button_005.png");
+}
+
 .mega-button[data-action="join"],
 .mega-button[data-action="join-submit"] {
   --button-art: url("/assets/v2/buttons/menu_button_006.png");
@@ -3092,7 +3096,7 @@ body {
 }
 
 .mega-button[data-action="start"] {
-  --button-art: url("/assets/v2/buttons/menu_button_005.png");
+  --button-art: url("/assets/v2/buttons/menu_button_018.png");
 }
 
 .mega-button[data-action="select-map-course"] {
@@ -3599,16 +3603,7 @@ body {
   background-position: center, center top;
 }
 
-.mega-button[data-action="room"] > span:not(.button-icon),
-.mega-button[data-action="join"] > span:not(.button-icon),
-.mega-button[data-action="join-submit"] > span:not(.button-icon),
-.mega-button[data-action="howto"] > span:not(.button-icon),
-.mega-button[data-action="settings"] > span:not(.button-icon),
-.mega-button[data-action="map"] > span:not(.button-icon),
-.mega-button[data-action="menu"] > span:not(.button-icon),
-.mega-button[data-action="start"] > span:not(.button-icon),
-.mega-button[data-action="select-map-course"] > span:not(.button-icon),
-.mega-button[data-action="paste-code"] > span:not(.button-icon) {
+.mega-button.is-baked-label > span:not(.button-icon) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -3617,16 +3612,7 @@ body {
   white-space: nowrap;
 }
 
-.mega-button[data-action="room"] .button-icon,
-.mega-button[data-action="join"] .button-icon,
-.mega-button[data-action="join-submit"] .button-icon,
-.mega-button[data-action="howto"] .button-icon,
-.mega-button[data-action="settings"] .button-icon,
-.mega-button[data-action="map"] .button-icon,
-.mega-button[data-action="menu"] .button-icon,
-.mega-button[data-action="start"] .button-icon,
-.mega-button[data-action="select-map-course"] .button-icon,
-.mega-button[data-action="paste-code"] .button-icon {
+.mega-button.is-baked-label .button-icon {
   display: none;
 }
 
@@ -3761,5 +3747,900 @@ body {
     width: 52px;
     height: auto;
     max-height: 34px;
+  }
+}
+
+/* Asset pack v2 visual refresh: final presentation layer. */
+:root {
+  --asset-panel-radius: 22px;
+  --asset-card-radius: 18px;
+  --asset-action-min: 64px;
+  --asset-shadow-soft: 0 14px 32px rgba(0, 92, 194, 0.18);
+  --asset-shadow-pop: 0 10px 0 rgba(0, 91, 180, 0.16), 0 18px 34px rgba(0, 92, 194, 0.2);
+}
+
+html,
+body {
+  min-height: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  height: auto;
+  overflow: hidden;
+  padding: 18px;
+}
+
+.game-app {
+  height: auto;
+  min-height: calc(100dvh - 36px);
+}
+
+.screen {
+  height: auto;
+  min-height: calc(100dvh - 36px);
+  overflow: visible;
+  padding: 14px;
+}
+
+.screen-room,
+.screen-join,
+.screen-map,
+.screen-ready,
+.screen-game,
+.screen-result {
+  overflow: visible;
+}
+
+.hero-panel,
+.showcase-panel,
+.panel,
+.side-panel,
+.hud-panel,
+.hud-card,
+.help-card,
+.profile-card,
+.room-code,
+.course-card,
+.mini-course,
+.player-slot,
+.winner-card {
+  border-radius: var(--asset-panel-radius);
+  box-shadow: var(--asset-shadow-soft), inset 0 0 0 3px rgba(35, 164, 255, 0.16);
+}
+
+.screen-menu.is-active {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.72fr) minmax(640px, 1.28fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.hero-panel {
+  justify-content: center;
+  gap: 12px;
+}
+
+.eyebrow,
+.notice-bar,
+.help-card p,
+.setting-row,
+.course-detail p,
+.inline-status,
+.empty-state,
+.rule-summary,
+.meta-list,
+.hud-panel p,
+.leader-row,
+.rank-row {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.logo-title img {
+  width: min(100%, 420px);
+}
+
+.mega-button {
+  min-height: var(--asset-action-min);
+  border-radius: 28px;
+  padding: 10px 22px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  box-shadow: var(--asset-shadow-pop);
+}
+
+.mega-button.compact {
+  min-height: 58px;
+}
+
+.mega-button.is-baked-label > span:not(.button-icon),
+.map-shortcut > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.mega-button.is-baked-label > span:not(.button-icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.mega-button.is-baked-label .button-icon {
+  display: none;
+}
+
+.showcase-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 0.42fr);
+  grid-template-rows: auto minmax(360px, 1fr) auto auto;
+  gap: 14px;
+  min-height: 0;
+  overflow: visible;
+}
+
+.profile-card,
+.map-shortcut,
+.help-card {
+  position: static;
+  z-index: auto;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.profile-card {
+  grid-column: 1;
+  min-height: 82px;
+}
+
+.map-shortcut {
+  grid-column: 2;
+  min-height: 68px;
+  border: 0;
+  border-radius: 22px;
+  box-shadow: var(--asset-shadow-pop);
+  display: grid;
+  place-items: center;
+  color: transparent;
+  font-size: 1.12rem;
+  text-shadow: none;
+}
+
+.course-stage {
+  grid-column: 1;
+  grid-row: 2;
+  height: auto;
+  min-height: 360px;
+  place-items: stretch;
+}
+
+.help-card {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+}
+
+.recommended-courses,
+.footer-shortcuts {
+  grid-column: 1 / -1;
+}
+
+.recommended-courses {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.track-preview {
+  width: 100%;
+  max-width: 760px;
+  height: 100%;
+  min-height: 360px;
+  aspect-ratio: auto;
+  border: 8px solid #fff;
+  border-radius: 30px;
+  transform: none;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.06)),
+    var(--theme-panorama),
+    var(--theme-floor);
+  background-size: auto, cover, 120px 120px;
+  background-position: center, center top, center;
+}
+
+.theme-panorama {
+  inset: 10px;
+  opacity: 0.24;
+}
+
+.featured-course-card {
+  position: absolute;
+  z-index: 4;
+  left: 7%;
+  top: 50%;
+  width: min(48%, 300px);
+  height: auto;
+  max-height: 82%;
+  object-fit: contain;
+  transform: translateY(-50%) rotate(-3deg);
+  filter: drop-shadow(0 16px 18px rgba(0, 82, 170, 0.24));
+}
+
+.stage-logo {
+  left: 5%;
+  top: 4%;
+  width: min(28%, 150px);
+}
+
+.goal-banner {
+  right: 4%;
+  bottom: 4%;
+  width: min(30%, 176px);
+}
+
+.stage-kart {
+  z-index: 6;
+  width: clamp(72px, 13%, 116px);
+}
+
+.stage-kart-blue {
+  left: 46%;
+  bottom: 14%;
+}
+
+.stage-kart-pink {
+  left: 61%;
+  top: 18%;
+}
+
+.stage-kart-green {
+  right: 7%;
+  bottom: 30%;
+}
+
+.stage-effect {
+  z-index: 3;
+  right: 9%;
+  top: 9%;
+  width: min(24%, 160px);
+}
+
+.course-part {
+  z-index: 2;
+  max-height: 130px;
+  object-fit: contain;
+}
+
+.part-banner {
+  left: 43%;
+  top: 8%;
+  width: 20%;
+}
+
+.part-start {
+  left: 37%;
+  bottom: 9%;
+  width: 28%;
+}
+
+.part-road-a {
+  right: 20%;
+  top: 29%;
+  width: 18%;
+}
+
+.part-road-b {
+  right: 6%;
+  bottom: 17%;
+  width: 16%;
+}
+
+.part-boost {
+  left: 64%;
+  bottom: 9%;
+  width: 11%;
+}
+
+.course-card-art-frame {
+  padding: 7px;
+  border-radius: var(--asset-card-radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 251, 255, 0.94)),
+    var(--theme-floor);
+  background-size: auto, 92px 92px;
+}
+
+.course-card-art,
+.mini-course-art,
+.course-detail-art,
+.hud-course-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.course-card-art,
+.mini-course-art,
+.course-detail-art {
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 88, 180, 0.16);
+}
+
+.course-card.is-selected,
+.mini-course.is-selected {
+  outline: 4px solid var(--arcade-pink);
+  outline-offset: 3px;
+}
+
+.course-part-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 34px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.course-card .course-part-strip,
+.mini-course .course-part-strip {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+}
+
+.course-part-strip img {
+  display: block;
+  width: auto;
+  max-width: 46px;
+  height: 30px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgba(0, 88, 180, 0.18));
+}
+
+.course-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  overflow: visible;
+}
+
+.mini-course.course-card-art-frame {
+  flex: initial;
+  width: 100%;
+  padding: 5px;
+  border-radius: 16px;
+}
+
+.mini-course .course-part-strip {
+  min-height: 28px;
+}
+
+.mini-course .course-part-strip img {
+  max-width: 32px;
+  height: 22px;
+}
+
+.course-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.map-grid {
+  grid-template-columns: minmax(0, 1.18fr) minmax(330px, 0.82fr);
+}
+
+.map-card.course-card-art-frame {
+  text-align: center;
+}
+
+.footer-shortcuts button {
+  position: relative;
+  color: transparent;
+  text-shadow: none;
+}
+
+.course-card-status {
+  position: static;
+  align-self: center;
+}
+
+.course-detail,
+.course-detail.map-detail,
+.result-course {
+  display: grid;
+  grid-template-columns: minmax(72px, 92px) minmax(180px, 0.8fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-top: 14px;
+  overflow: visible;
+}
+
+.course-detail::before {
+  display: none;
+}
+
+.course-detail-visual {
+  display: grid;
+  gap: 6px;
+  align-self: start;
+}
+
+.course-detail-art {
+  background: #fff;
+  padding: 5px;
+}
+
+.theme-badge-art {
+  width: 78px;
+  max-width: 100%;
+}
+
+.course-info-card {
+  display: grid;
+  gap: 10px;
+}
+
+.course-info-card .course-detail-visual {
+  max-width: 220px;
+  margin-inline: auto;
+}
+
+.course-info-card .course-part-strip {
+  display: flex;
+}
+
+.course-panel .course-detail,
+.map-detail-panel .course-detail.map-detail {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.course-panel .course-detail .course-detail-visual,
+.course-panel .course-detail > div:last-child,
+.map-detail-panel .course-detail.map-detail .course-detail-visual,
+.map-detail-panel .course-detail.map-detail > div:last-child {
+  grid-column: 1 / -1;
+}
+
+.course-panel .course-detail .course-detail-visual,
+.map-detail-panel .course-detail.map-detail .course-detail-visual {
+  width: min(100%, 240px);
+  justify-self: center;
+}
+
+.join-code-panel,
+.found-team-panel,
+.winner-card {
+  overflow: hidden;
+}
+
+.join-badge-art,
+.join-spark-art,
+.ready-kart-art,
+.confetti-art,
+.result-kart-art,
+.hud-kart-art {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.join-badge-art {
+  float: right;
+  width: min(34%, 128px);
+  margin: -6px -4px 6px 10px;
+}
+
+.join-spark-art {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  width: min(34%, 150px);
+  opacity: 0.34;
+}
+
+.race-layout {
+  grid-template-columns: minmax(230px, 0.66fr) minmax(520px, 1.5fr) minmax(230px, 0.66fr);
+}
+
+.ready-stage,
+.canvas-wrap {
+  min-height: min(66dvh, 650px);
+}
+
+.ready-stage {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.06)),
+    var(--theme-panorama) center top / cover no-repeat;
+}
+
+.start-line-label {
+  display: block;
+  left: 4%;
+  bottom: 5%;
+  width: min(24%, 150px);
+}
+
+.ready-kart-art {
+  position: absolute;
+  z-index: 3;
+  width: min(18%, 120px);
+  filter: drop-shadow(0 10px 12px rgba(0, 82, 170, 0.24));
+}
+
+.ready-kart-blue {
+  right: 9%;
+  bottom: 12%;
+  transform: rotate(9deg);
+}
+
+.ready-kart-yellow {
+  right: 22%;
+  top: 9%;
+  transform: rotate(-18deg);
+}
+
+.screen-game {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.1)),
+    var(--theme-floor);
+  background-size: auto, 118px 118px;
+}
+
+.hud-top {
+  grid-template-columns: 170px 210px 150px minmax(130px, 1fr);
+}
+
+.game-board {
+  grid-template-columns: minmax(210px, 260px) minmax(560px, 1fr) minmax(210px, 260px);
+}
+
+.hud-course-art {
+  max-height: 180px;
+  margin-inline: auto;
+  border-radius: 12px;
+  filter: drop-shadow(0 7px 10px rgba(0, 88, 180, 0.14));
+}
+
+.hud-kart-art {
+  width: min(100%, 110px);
+  margin: -12px auto 2px;
+  filter: drop-shadow(0 8px 10px rgba(0, 88, 180, 0.16));
+}
+
+.quick-chat {
+  grid-template-columns: 1fr;
+}
+
+.quick-chat button:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  color: #244d91;
+  background: #eef8ff;
+}
+
+.result-hero {
+  grid-template-columns: minmax(360px, 0.86fr) minmax(420px, 1fr);
+}
+
+.winner-card {
+  position: relative;
+}
+
+.winner-card h2 {
+  font-size: 4.4rem;
+  line-height: 1.02;
+  overflow-wrap: anywhere;
+}
+
+.confetti-art {
+  position: absolute;
+  z-index: 0;
+  width: min(34%, 180px);
+  opacity: 0.48;
+}
+
+.confetti-left {
+  left: -28px;
+  top: 24px;
+}
+
+.confetti-right {
+  right: -24px;
+  top: 72px;
+  transform: scaleX(-1);
+}
+
+.winner-card > *:not(.confetti-art) {
+  position: relative;
+  z-index: 1;
+}
+
+.podium {
+  min-height: 190px;
+}
+
+.result-kart-art {
+  width: clamp(150px, 24vw, 230px);
+  filter: drop-shadow(0 14px 16px rgba(0, 88, 180, 0.22));
+  transform: rotate(-8deg);
+}
+
+.result-course {
+  grid-template-columns: minmax(160px, 210px) minmax(0, 1fr);
+}
+
+.result-course .course-detail-visual {
+  max-width: 210px;
+}
+
+@media (max-width: 1180px) {
+  .screen-menu.is-active,
+  .room-grid,
+  .join-grid,
+  .map-grid,
+  .race-layout,
+  .game-board,
+  .result-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .profile-card,
+  .map-shortcut,
+  .course-stage,
+  .help-card,
+  .recommended-courses,
+  .footer-shortcuts {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .course-stage {
+    min-height: 380px;
+  }
+
+  .course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hud-top {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  *,
+  *::before,
+  *::after {
+    min-width: 0;
+  }
+
+  .app-shell {
+    padding: 8px;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .game-app,
+  .screen,
+  .hero-panel,
+  .showcase-panel,
+  .panel,
+  .side-panel,
+  .hud-panel {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .screen {
+    min-height: calc(100dvh - 16px);
+    padding: 8px;
+    border-radius: 20px;
+    border-width: 4px;
+    overflow-x: hidden;
+  }
+
+  .hero-panel,
+  .showcase-panel,
+  .panel,
+  .side-panel,
+  .hud-panel,
+  .winner-card {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .logo-title img {
+    width: min(100%, 286px);
+  }
+
+  .mega-button,
+  .mega-button.compact {
+    min-height: 56px;
+    border-radius: 20px;
+  }
+
+  .showcase-panel {
+    gap: 12px;
+  }
+
+  .course-stage,
+  .track-preview {
+    min-height: 310px;
+  }
+
+  .featured-course-card {
+    left: 8%;
+    width: min(54%, 190px);
+  }
+
+  .stage-logo {
+    width: 92px;
+  }
+
+  .stage-kart {
+    width: 70px;
+  }
+
+  .stage-kart-blue {
+    left: 48%;
+  }
+
+  .stage-kart-pink {
+    left: auto;
+    right: 7%;
+  }
+
+  .stage-kart-green {
+    display: none;
+  }
+
+  .goal-banner {
+    width: 100px;
+  }
+
+  .recommended-courses,
+  .course-grid,
+  .course-picker,
+  .footer-shortcuts {
+    grid-template-columns: 1fr;
+  }
+
+  .course-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .course-detail,
+  .course-detail.map-detail,
+  .result-course {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .course-detail-visual {
+    grid-column: 1 / -1;
+    width: min(100%, 230px);
+    justify-self: center;
+  }
+
+  .theme-badge-art {
+    width: 54px;
+  }
+
+  .screen-header {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    padding-right: 0;
+  }
+
+  .screen-header h2 {
+    font-size: 2rem;
+    white-space: normal;
+  }
+
+  .screen-header .eyebrow {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .unlock-badge {
+    position: static;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .ready-stage,
+  .canvas-wrap {
+    min-height: 420px;
+  }
+
+  .ready-kart-art,
+  .ready-effect {
+    width: 86px;
+  }
+
+  .hud-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hud-card.logo-mini {
+    display: block;
+  }
+
+  .result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .button-row > * {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .key-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .winner-card h2 {
+    font-size: 3rem;
+    line-height: 1.08;
+  }
+
+  .winner-banner-art {
+    width: min(78%, 270px);
+  }
+
+  .podium {
+    min-height: 160px;
+    gap: 8px;
+  }
+
+  .result-kart-art {
+    width: min(56%, 180px);
+  }
+}
+
+@media (max-width: 420px) {
+  .course-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .hud-top {
+    grid-template-columns: 1fr;
+  }
+
+  .track-preview {
+    min-height: 286px;
   }
 }

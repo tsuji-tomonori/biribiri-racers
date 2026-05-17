@@ -1,5 +1,6 @@
 import type { Course } from "../../types";
 import { formatExpectedTime, formatTime } from "../../utils/format";
+import { CoursePartStrip } from "./CoursePartStrip";
 
 interface CourseDetailProps {
   course: Course;
@@ -7,10 +8,17 @@ interface CourseDetailProps {
 }
 
 export function CourseDetail({ course, variant = "room" }: CourseDetailProps) {
+  const visual = (
+    <div className="course-detail-visual">
+      <img className="course-detail-art" src={course.mapAsset} alt={`${course.name}のコースカード`} />
+      <CoursePartStrip parts={course.partAssets} />
+    </div>
+  );
+
   if (variant === "ready") {
     return (
       <div className="course-info-card">
-        <div className="mini-map-art small has-course-image" aria-hidden="true" />
+        {visual}
         <strong>{course.name}</strong>
         <span>{course.aliases[0] || course.theme}</span>
       </div>
@@ -21,11 +29,14 @@ export function CourseDetail({ course, variant = "room" }: CourseDetailProps) {
     return (
       <div className="course-detail map-detail">
         {course.themeAssets ? <img className="theme-badge-art" src={course.themeAssets.badge} alt="" /> : null}
-        <div className="mini-map-art large has-course-image" aria-hidden="true" />
+        {visual}
         <div>
-          <span className="status-pill">おすすめ</span>
+          <span className="status-pill">{course.implementationStatus === "thumbnail_only" ? "詳細未確定" : "おすすめ"}</span>
           <strong>{course.name}</strong>
           <p>{course.description} {course.detail}</p>
+          <div className="tag-row">
+            {course.tags.map((tag) => <span key={tag}>{tag}</span>)}
+          </div>
           <dl className="meta-list">
             <div><dt>ラップ数</dt><dd>{course.recommendedLaps}</dd></div>
             <div><dt>想定タイム</dt><dd>{formatExpectedTime(course.expectedTimeSec)}</dd></div>
@@ -39,7 +50,7 @@ export function CourseDetail({ course, variant = "room" }: CourseDetailProps) {
   if (variant === "result") {
     return (
       <div className="course-detail result-course">
-        <div className="mini-map-art small has-course-image" aria-hidden="true" />
+        {visual}
         <div>
           <small>今回のコース</small>
           <strong>{course.name}</strong>
@@ -53,7 +64,7 @@ export function CourseDetail({ course, variant = "room" }: CourseDetailProps) {
   return (
     <div className="course-detail">
       {course.themeAssets ? <img className="theme-badge-art" src={course.themeAssets.badge} alt="" /> : null}
-      <div className="mini-map-art has-course-image" aria-hidden="true" />
+      {visual}
       <div>
         <strong>{course.name}</strong>
         <p>{course.description}</p>

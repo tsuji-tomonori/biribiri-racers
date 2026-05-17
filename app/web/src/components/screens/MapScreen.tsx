@@ -39,8 +39,8 @@ export function MapScreen({ current, courses, selectedCourse, selectedCourseId, 
         <aside className="panel map-detail-panel">
           <CourseDetail course={selectedCourse} variant="map" />
           <div className="button-row">
-            <MegaButton action="select-map-course" tone="pink" icon="✓" label="このコース" compact onClick={() => onNavigate("room")} />
-            <MegaButton action="room" tone="blue" icon="←" label="チームへ" compact onClick={() => onNavigate("room")} />
+            <MegaButton tone="pink" icon="✓" label="このコース" compact onClick={() => onNavigate("room")} />
+            <MegaButton tone="blue" icon="←" label="チームへ" compact onClick={() => onNavigate("room")} />
           </div>
         </aside>
       </div>

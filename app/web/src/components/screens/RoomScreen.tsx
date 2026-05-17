@@ -123,13 +123,13 @@ export function RoomScreen({
             <strong>未発行</strong>
             <span>コード参加は準備中のため、現在はローカルプレイのみ利用できます。</span>
           </div>
-          <MegaButton action="join" tone="blue" icon="↪" label="コードで参加画面へ" compact full onClick={() => onNavigate("join")} />
+          <MegaButton action="join" tone="blue" icon="↪" label="コードで参加画面へ" compact full bakedLabel onClick={() => onNavigate("join")} />
         </section>
 
         <section className="panel course-panel" aria-labelledby="course-title">
           <h3 id="course-title">コース選択</h3>
           <div className="course-picker" role="listbox" aria-label="コース">
-            {courses.slice(0, 4).map((course) => (
+            {courses.map((course) => (
               <MiniCourseButton
                 course={course}
                 selected={course.id === appState.courseId}
@@ -139,13 +139,13 @@ export function RoomScreen({
             ))}
           </div>
           <CourseDetail course={selectedCourse} />
-          <MegaButton action="map" tone="teal" icon="▦" label="マップ一覧" compact full onClick={() => onNavigate("map")} />
+          <MegaButton action="map" tone="teal" icon="▦" label="マップ一覧" compact full bakedLabel onClick={() => onNavigate("map")} />
         </section>
       </div>
 
       <footer className="screen-footer">
-        <MegaButton action="menu" tone="blue" icon="←" label="もどる" compact onClick={() => onNavigate("menu")} />
-        <MegaButton action="start" tone="pink" icon="🏁" label="作成する" compact onClick={onStart} />
+        <MegaButton action="menu" tone="blue" icon="←" label="もどる" compact bakedLabel onClick={() => onNavigate("menu")} />
+        <MegaButton action="room-create" tone="pink" icon="🏁" label="作成する" compact bakedLabel onClick={onStart} />
       </footer>
     </Screen>
   );

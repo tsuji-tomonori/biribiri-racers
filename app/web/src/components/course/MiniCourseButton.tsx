@@ -1,4 +1,5 @@
 import type { Course } from "../../types";
+import { CoursePartStrip } from "./CoursePartStrip";
 
 interface MiniCourseButtonProps {
   course: Course;
@@ -17,7 +18,8 @@ export function MiniCourseButton({ course, selected, onSelect }: MiniCourseButto
       data-course-id={course.id}
       onClick={() => onSelect(course.id)}
     >
-      <img className="mini-course-art" src={course.previewAsset} alt={course.name} />
+      <img className="mini-course-art" src={course.previewAsset} alt={`${course.name}のコースカード`} />
+      <CoursePartStrip parts={course.partAssets} />
     </button>
   );
 }

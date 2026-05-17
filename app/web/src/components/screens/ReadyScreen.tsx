@@ -1,5 +1,5 @@
 import type { Course, RaceRefs, ScreenName } from "../../types";
-import { effectAssets, logoAssets } from "../../data/assets";
+import { effectAssets, kartSprites, logoAssets } from "../../data/assets";
 import { CourseDetail } from "../course/CourseDetail";
 import { MegaButton } from "../ui/MegaButton";
 import { Screen } from "../ui/Screen";
@@ -38,6 +38,8 @@ export function ReadyScreen({ current, course, playerName, countdownBadge, refs,
         <div className="ready-stage">
           <canvas ref={refs.readyCanvasRef} width={960} height={620} aria-label="レース開始前のコースプレビュー" />
           <img className="ready-effect ready-effect-spark" src={effectAssets.electricSparkBlue} alt="" aria-hidden="true" />
+          <img className="ready-kart-art ready-kart-blue" src={kartSprites.blueBoost} alt="" aria-hidden="true" />
+          <img className="ready-kart-art ready-kart-yellow" src={kartSprites.yellowBoost} alt="" aria-hidden="true" />
           <div className="countdown-badge">{countdownBadge}</div>
           <img className="start-line-label" src={logoAssets.startBadge} alt="" aria-hidden="true" />
         </div>
@@ -49,7 +51,7 @@ export function ReadyScreen({ current, course, playerName, countdownBadge, refs,
             <div><strong>{playerName}</strong><small>準備OK / ローカル</small></div>
             <span className="check-mark">✓</span>
           </div>
-          <MegaButton action="start" tone="green" icon="🏁" label="全員準備OK！" compact full onClick={onForceStart} />
+          <MegaButton action="start" tone="green" icon="🏁" label="全員準備OK！" compact full bakedLabel onClick={onForceStart} />
         </aside>
       </div>
       <div className="tip-bar">TIP かべギリギリを攻めると速いけど、ぶつからないように気をつけてね！</div>

@@ -137,6 +137,7 @@ export function App() {
         <MenuScreen
           current={appState.screen}
           playerName={appState.playerName}
+          featuredCourse={selectedCourse}
           recommendedCourses={courses.slice(0, 3)}
           onNavigate={setScreen}
           onOpenModal={setModalTitle}
@@ -170,6 +171,7 @@ export function App() {
         />
         <GameScreen
           current={appState.screen}
+          course={selectedCourse}
           playerName={appState.playerName}
           laps={appState.laps}
           inputMode={inputMode}
