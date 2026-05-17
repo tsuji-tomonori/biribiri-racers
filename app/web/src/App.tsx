@@ -13,7 +13,7 @@ import { useRaceController } from "./hooks/useRaceController";
 
 const initialScreen = (): ScreenName => {
   const screen = new URLSearchParams(window.location.search).get("screen");
-  return screen === "room" || screen === "join" || screen === "map" || screen === "ready" || screen === "result"
+  return screen === "room" || screen === "join" || screen === "map" || screen === "ready" || screen === "game" || screen === "result"
     ? screen
     : "menu";
 };
@@ -107,10 +107,11 @@ export function App() {
 
   useEffect(() => {
     const courseImageValue = selectedCourse.previewAsset ? `url("${selectedCourse.previewAsset}")` : "none";
+    const boardImageValue = selectedCourse.boardAsset ? `url("${selectedCourse.boardAsset}")` : courseImageValue;
     const theme = selectedCourse.themeAssets;
     document.body.dataset.courseTheme = selectedCourse.key;
     document.documentElement.style.setProperty("--course-image", courseImageValue);
-    document.documentElement.style.setProperty("--stage-course-image", courseImageValue);
+    document.documentElement.style.setProperty("--stage-course-image", boardImageValue);
     document.documentElement.style.setProperty("--theme-panorama", theme?.panorama ? `url("${theme.panorama}")` : courseImageValue);
     document.documentElement.style.setProperty("--theme-floor", theme?.floor ? `url("${theme.floor}")` : courseImageValue);
     document.documentElement.style.setProperty("--theme-border", theme?.border ? `url("${theme.border}")` : "none");
@@ -133,7 +134,7 @@ export function App() {
 
   return (
     <div className="app-shell">
-      <main className="game-app" aria-live="polite">
+      <main className="game-app reference-artboard" aria-live="polite">
         <MenuScreen
           current={appState.screen}
           playerName={appState.playerName}

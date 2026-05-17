@@ -1,0 +1,37 @@
+.app-shell {
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: clamp(8px, 2vw, 24px);
+}
+
+.reference-artboard {
+  position: relative;
+  width: min(1680px, 100%);
+  min-height: calc(100svh - clamp(16px, 4vw, 48px));
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.reference-artboard > .screen {
+  min-height: 100%;
+  height: auto;
+}
+
+.reference-artboard .screen.is-active {
+  min-height: 100%;
+}
+
+@media (min-width: 900px) {
+  .app-shell {
+    display: grid;
+    place-items: start center;
+    padding: 0;
+  }
+
+  .reference-artboard {
+    width: min(100vw, calc(100svh * 1672 / 941));
+    aspect-ratio: 1672 / 941;
+    min-height: 100svh;
+  }
+}

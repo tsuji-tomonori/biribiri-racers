@@ -18,7 +18,14 @@ export function drawTrack(
   race: RaceState | null,
   preview: boolean,
 ): void {
-  drawChipTrack(ctx, width, height, course, { preview, assets: caches.trackImages });
+  ctx.clearRect(0, 0, width, height);
+  const board = course.boardAsset ? loadedImage(caches.trackImages, course.boardAsset) : null;
+
+  if (board) {
+    drawImageContain(ctx, board, width, height);
+  } else {
+    drawChipTrack(ctx, width, height, course, { preview, assets: caches.trackImages });
+  }
 
   if (race) {
     drawCar(ctx, caches.kartImages, race.x, race.y, race.angle, performance.now() < race.invulnerableUntil, performance.now() < race.boostPulseUntil);
@@ -50,6 +57,15 @@ export function drawMiniMap(
 
 export function isOnRoad(ctx: CanvasRenderingContext2D, course: Course, x: number, y: number): boolean {
   return isPointOnChipRoad(ctx, course, x, y);
+}
+
+function drawImageContain(ctx: CanvasRenderingContext2D, image: HTMLImageElement, width: number, height: number): void {
+  const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+  const drawWidth = image.naturalWidth * scale;
+  const drawHeight = image.naturalHeight * scale;
+  const x = (width - drawWidth) / 2;
+  const y = (height - drawHeight) / 2;
+  ctx.drawImage(image, x, y, drawWidth, drawHeight);
 }
 
 function drawMiniMapMarker(ctx: CanvasRenderingContext2D, scaleX: number, scaleY: number, race: RaceState): void {
