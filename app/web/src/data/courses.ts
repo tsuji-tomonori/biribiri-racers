@@ -48,6 +48,7 @@ export const courses: Course[] = [
     palette: ["neon_blue", "neon_pink", "cyan", "purple"],
     previewAsset: assetPath("v2/course-cards/course_02_pikapika_city_card.png"),
     mapAsset: assetPath("v2/course-cards/course_02_pikapika_city_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_02_pikapika_city_board.png"),
     themeAssets: {
       badge: assetPath("v2/themes/city/theme_badge.png"),
       panorama: assetPath("v2/themes/city/panorama.png"),
@@ -78,6 +79,7 @@ export const courses: Course[] = [
     palette: ["pink", "mint", "lavender", "cream_yellow"],
     previewAsset: assetPath("v2/course-cards/course_03_candy_loop_card.png"),
     mapAsset: assetPath("v2/course-cards/course_03_candy_loop_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_03_candy_loop_board.png"),
     themeAssets: {
       badge: assetPath("v2/themes/candy/theme_badge.png"),
       panorama: assetPath("v2/themes/candy/panorama.png"),
@@ -108,6 +110,7 @@ export const courses: Course[] = [
     palette: ["green", "yellow", "teal", "flower_pink"],
     previewAsset: assetPath("v2/course-cards/course_04_thunder_garden_card.png"),
     mapAsset: assetPath("v2/course-cards/course_04_thunder_garden_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_04_thunder_garden_board.png"),
     themeAssets: {
       badge: assetPath("v2/themes/garden/theme_badge.png"),
       panorama: assetPath("v2/themes/garden/panorama.png"),
@@ -138,6 +141,7 @@ export const courses: Course[] = [
     palette: ["ice_blue", "cyan", "white", "deep_blue"],
     previewAsset: assetPath("v2/course-cards/course_05_ice_cube_card.png"),
     mapAsset: assetPath("v2/course-cards/course_05_ice_cube_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_05_ice_cube_board.png"),
     themeAssets: {
       badge: assetPath("v2/themes/ice/theme_badge.png"),
       panorama: assetPath("v2/themes/ice/panorama.png"),
@@ -168,6 +172,7 @@ export const courses: Course[] = [
     palette: ["sky_blue", "white", "yellow"],
     previewAsset: assetPath("v2/course-cards/course_06_sky_spiral_card.png"),
     mapAsset: assetPath("v2/course-cards/course_06_sky_spiral_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_06_sky_spiral_board.png"),
     themeAssets: null,
     partAssets: [
       assetPath("v2/course-parts/course_parts_001.png"),
