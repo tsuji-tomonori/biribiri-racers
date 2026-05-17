@@ -7,6 +7,8 @@ build/
 coverage/
 cdk.out/
 infra/lambda-dist/
+app/web/test-results/
+app/web/playwright-report/
 
 # TypeScript incremental build info
 *.tsbuildinfo

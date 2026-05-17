@@ -9,8 +9,13 @@
   - `app/web/public/assets/reference/ready.png`
   - `app/web/public/assets/reference/game.png`
   - `app/web/public/assets/reference/result.png`
-- Course board source copied from workspace:
+- Course board sources:
   - `app/web/public/assets/v2/course-boards/course_01_pastel_planet_board.png`
+  - `app/web/public/assets/v2/course-boards/course_02_pikapika_city_board.png`
+  - `app/web/public/assets/v2/course-boards/course_03_candy_loop_board.png`
+  - `app/web/public/assets/v2/course-boards/course_04_thunder_garden_board.png`
+  - `app/web/public/assets/v2/course-boards/course_05_ice_cube_board.png`
+  - `app/web/public/assets/v2/course-boards/course_06_sky_spiral_board.png`
 - Asset pack: `.workspace/biribiri_racers_asset_pack_v2.zip`
 - Existing screen: `app/web/index.html`
 - Existing behavior: `app/web/src/`
@@ -84,7 +89,8 @@
 | Background themes | `00_curated_named_png/background_themes/*/{theme_badge,panorama,floor_tile,border_*}.png` | copy per theme to `app/web/public/assets/v2/themes/` and switch via selected course metadata | exact for available five themes | no dedicated Sky Spiral theme exists in the pack, so Sky keeps the course-card fallback |
 | Icons | `00_curated_named_png/icons/*.png` | copy to `app/web/public/assets/v2/icons/` and use only for decorative player/icon accents | approximate | accessible names come from text or aria-labels |
 | Kart sprites | `00_curated_named_png/kart_sprites/*_*.png` | copy selected player-color sprites and use in DOM plus canvas drawing when loaded | exact | canvas keeps CSS/vector fallback until images finish loading |
-| Pastel Planet course board | `app/web/public/assets/v2/course-boards/course_01_pastel_planet_board.png` | draw as the race canvas background through `Course.boardAsset` | close | visual board source is a completed course image; collision still uses `chipTrack.ts` until coordinates are recalibrated |
+| Course boards 01-05 | `app/web/public/assets/v2/course-boards/course_01_pastel_planet_board.png` through `course_05_ice_cube_board.png` | draw as the race canvas background through `Course.boardAsset` | close | 02-05 are normalized PNG derivatives of existing completed course images; collision still uses `chipTrack.ts` until coordinates are recalibrated |
+| Sky Spiral course board | `app/web/public/assets/v2/course-boards/course_06_sky_spiral_board.png` | draw as the race canvas background through `Course.boardAsset` | approximate | cropped from the v2 course card because no standalone Sky board source is present in the repository |
 | Existing chip track | `app/web/src/game/chips/*` generated path | retain as fallback and collision source | existing | not the target visual when `boardAsset` is loaded |
 
 ### Asset Text And Scale Rules
@@ -107,7 +113,8 @@
 
 - The six `app/web/public/assets/reference/*.png` files are treated as canonical for desktop visual hierarchy.
 - Course card images are presentation previews; race collision logic currently remains the existing chip path.
-- `course_01_pastel_planet_board.png` does not yet have matching `chipTrack.ts` collision coordinates, so road visuals and collision may differ until follow-up calibration.
+- `Course.boardAsset` is now expected for all six courses. Course 06 is an approximate derivative because the repository does not contain a standalone board source.
+- `course_*.png` board images do not yet have matching `chipTrack.ts` collision coordinates, so road visuals and collision may differ until follow-up calibration.
 - Online features remain unavailable states, not fake live data.
 - "基本アセットにあるものは全部使う" は全ファイル配信ではなく、基本カテゴリを UI の主要部品として使う意味で扱う。無差別な全ファイル追加は初回表示重量を増やすため避ける。
 - Background themes are available for Pastel, City, Candy, Ice, and Thunder Garden. Sky Spiral uses its course card and generic course-part fallback because a dedicated theme directory is not included.
@@ -125,5 +132,5 @@
 - [ ] Existing game controls and menu navigation still work.
 - [ ] Missing online/ranking data is shown as unavailable/empty, not fabricated live data.
 - [ ] 1672x941 visual regression checks exist for menu, room, map, ready, game, and result.
-- [ ] `Course.boardAsset` is preloaded and used as the race canvas background before car sprites are drawn.
+- [ ] `Course.boardAsset` is present for all six courses, preloaded, and used as the race canvas background before car sprites are drawn.
 - [ ] `chipTrack.ts` coordinates are recalibrated or explicitly marked as an open mismatch for each board-backed course.
