@@ -17,6 +17,7 @@ export const courses: Course[] = [
     palette: ["pink", "mint", "sky_blue", "yellow", "pastel_purple"],
     previewAsset: assetPath("v2/course-cards/course_01_pastel_planet_card.png"),
     mapAsset: assetPath("v2/course-cards/course_01_pastel_planet_card.png"),
+    boardAsset: assetPath("v2/course-boards/course_01_pastel_planet_board.png"),
     themeAssets: {
       badge: assetPath("v2/themes/pastel/theme_badge.png"),
       panorama: assetPath("v2/themes/pastel/panorama.png"),

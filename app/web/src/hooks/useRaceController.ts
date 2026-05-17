@@ -78,6 +78,36 @@ export function useRaceController({
     drawTrack(ctx, canvas.width, canvas.height, courseRef.current, caches, null, true);
   }, [caches, refs.readyCanvasRef]);
 
+  const drawGamePreview = useCallback(() => {
+    const gameCanvas = refs.gameCanvasRef.current;
+    const minimapCanvas = refs.minimapCanvasRef.current;
+    const gameCtx = gameCanvas?.getContext("2d");
+    const minimapCtx = minimapCanvas?.getContext("2d");
+    if (!gameCanvas || !minimapCanvas || !gameCtx || !minimapCtx) return;
+    drawTrack(gameCtx, gameCanvas.width, gameCanvas.height, courseRef.current, caches, null, false);
+    const start = chipRespawnPose(chipTrackForCourse(courseRef.current.id));
+    drawMiniMap(minimapCtx, minimapCanvas.width, minimapCanvas.height, gameCanvas.width, gameCanvas.height, courseRef.current, caches, {
+      x: start.x,
+      y: start.y,
+      vx: 0,
+      vy: 0,
+      angle: start.angle,
+      running: false,
+      startedAt: 0,
+      lastFrame: 0,
+      lap: 1,
+      completedLaps: 0,
+      crashes: 0,
+      progress: 0,
+      lastProgress: 0,
+      invulnerableUntil: 0,
+      boostCooldownUntil: 0,
+      boostPulseUntil: 0,
+      toastUntil: 0,
+      toastMessage: "",
+    });
+  }, [caches, refs.gameCanvasRef, refs.minimapCanvasRef]);
+
   const updateHud = useCallback((race: RaceState) => {
     const now = performance.now();
     const laps = appStateRef.current.laps;
@@ -283,18 +313,20 @@ export function useRaceController({
   useEffect(() => {
     const redraw = () => {
       if (appStateRef.current.screen === "ready") drawReadyPreview();
+      if (appStateRef.current.screen === "game" && !raceRef.current?.running) drawGamePreview();
     };
     const images = [...caches.trackImages.values(), ...caches.kartImages.values()];
     images.forEach((image) => image.addEventListener("load", redraw));
     return () => images.forEach((image) => image.removeEventListener("load", redraw));
-  }, [caches, drawReadyPreview]);
+  }, [caches, drawGamePreview, drawReadyPreview]);
 
   useEffect(() => {
     if (appState.screen === "ready") drawReadyPreview();
+    if (appState.screen === "game" && !raceRef.current?.running) drawGamePreview();
     if (appState.screen !== "game" && raceRef.current) {
       raceRef.current.running = false;
     }
-  }, [appState.screen, course.id, drawReadyPreview]);
+  }, [appState.screen, course.id, drawGamePreview, drawReadyPreview]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -334,6 +366,7 @@ export function useRaceController({
 
 function trackAssetSources(courses: Course[]): string[] {
   return [...new Set(courses.flatMap((item) => [
+    item.boardAsset,
     item.themeAssets?.floor,
     ...item.partAssets,
   ]).filter((source): source is string => Boolean(source)))];

@@ -1,9 +1,17 @@
-# UI Spec: asset pack v2 visual refresh
+# UI Spec: canonical reference artboard UI
 
 ## Source References
 
-- `.workspace/biribiri_racers_asset_pack_v2.zip`
-- `.workspace/ChatGPT Image 2026年5月16日 14_30_*.png`
+- Canonical 1672x941 reference screenshots copied from workspace:
+  - `app/web/public/assets/reference/menu.png`
+  - `app/web/public/assets/reference/room.png`
+  - `app/web/public/assets/reference/map.png`
+  - `app/web/public/assets/reference/ready.png`
+  - `app/web/public/assets/reference/game.png`
+  - `app/web/public/assets/reference/result.png`
+- Course board source copied from workspace:
+  - `app/web/public/assets/v2/course-boards/course_01_pastel_planet_board.png`
+- Asset pack: `.workspace/biribiri_racers_asset_pack_v2.zip`
 - Existing screen: `app/web/index.html`
 - Existing behavior: `app/web/src/`
 - Existing styles: `app/web/styles.css`
@@ -17,18 +25,19 @@
 
 ### Desktop
 
-- Menu keeps a two-column composition: left command/navigation area and right visual preview area.
-- The right side should show large course imagery, selected kart sprites, badges, and recommended course cards.
-- Room/map screens should use card grids with real course-card imagery and course-part PNGs instead of CSS-only mini art.
-- Race-related screens should use the selected course visual as a framed preview/background accent and kart/effect images around the HUD.
-- Buttons and utility controls should retain semantic HTML controls while using the provided menu-button and UI-frame PNGs as their visible skins.
+- All primary screens are implemented as a 1672x941 reference artboard.
+- The artboard is centered in the viewport with `width: min(100vw, calc(100svh * 1672 / 941))` and `aspect-ratio: 1672 / 941`.
+- Screen regions, HUDs, button placement, course preview placement, and panel proportions should be derived from the canonical screenshot coordinates, not from fluid grid recomposition.
+- Menu, room, map, ready, game, and result should be implemented as screen-specific compositions on top of the same artboard primitive.
+- Buttons and utility controls retain semantic HTML controls while using baked PNG skins as the visible surface when the reference includes baked labels.
+- The race canvas should draw a completed course-board image first when `Course.boardAsset` is available. Generated chip tracks are a fallback and collision source, not the target visual for screenshot matching.
 
 ### Mobile
 
-- Screens collapse to a single column.
-- Primary actions remain 44px or larger.
-- Image cards keep fixed aspect ratios so labels and buttons do not shift layout.
-- Decorative badges may shrink or hide when space is constrained.
+- The desktop reference remains the canonical layout.
+- Mobile support may scale or crop the artboard in a controlled way, but must not introduce unrelated sections or fake data.
+- Primary controls still need accessible names and keyboard/touch operation.
+- Exact mobile visual parity is lower priority than desktop 1672x941 parity unless separate mobile reference screenshots are supplied.
 
 ## Component Inventory
 
@@ -75,7 +84,8 @@
 | Background themes | `00_curated_named_png/background_themes/*/{theme_badge,panorama,floor_tile,border_*}.png` | copy per theme to `app/web/public/assets/v2/themes/` and switch via selected course metadata | exact for available five themes | no dedicated Sky Spiral theme exists in the pack, so Sky keeps the course-card fallback |
 | Icons | `00_curated_named_png/icons/*.png` | copy to `app/web/public/assets/v2/icons/` and use only for decorative player/icon accents | approximate | accessible names come from text or aria-labels |
 | Kart sprites | `00_curated_named_png/kart_sprites/*_*.png` | copy selected player-color sprites and use in DOM plus canvas drawing when loaded | exact | canvas keeps CSS/vector fallback until images finish loading |
-| Existing canvas track | `app/web/src/game/track.ts` / `app/web/src/game/drawing.ts` drawn path | retain as gameplay surface | existing | v2 course images are presentation assets, not collision maps |
+| Pastel Planet course board | `app/web/public/assets/v2/course-boards/course_01_pastel_planet_board.png` | draw as the race canvas background through `Course.boardAsset` | close | visual board source is a completed course image; collision still uses `chipTrack.ts` until coordinates are recalibrated |
+| Existing chip track | `app/web/src/game/chips/*` generated path | retain as fallback and collision source | existing | not the target visual when `boardAsset` is loaded |
 
 ### Asset Text And Scale Rules
 
@@ -95,8 +105,9 @@
 
 ## Unknowns And Assumptions
 
-- The exact screenshot intended by "画像のようなUI" is not attached in the chat; this implementation treats the provided workspace reference images and v2 asset pack as the source of truth.
-- Course card images are presentation previews; race collision logic remains the existing canvas path.
+- The six `app/web/public/assets/reference/*.png` files are treated as canonical for desktop visual hierarchy.
+- Course card images are presentation previews; race collision logic currently remains the existing chip path.
+- `course_01_pastel_planet_board.png` does not yet have matching `chipTrack.ts` collision coordinates, so road visuals and collision may differ until follow-up calibration.
 - Online features remain unavailable states, not fake live data.
 - "基本アセットにあるものは全部使う" は全ファイル配信ではなく、基本カテゴリを UI の主要部品として使う意味で扱う。無差別な全ファイル追加は初回表示重量を増やすため避ける。
 - Background themes are available for Pastel, City, Candy, Ice, and Thunder Garden. Sky Spiral uses its course card and generic course-part fallback because a dedicated theme directory is not included.
@@ -113,3 +124,6 @@
 - [ ] 375px mobile and 1440px desktop render without incoherent overlap or horizontal page overflow.
 - [ ] Existing game controls and menu navigation still work.
 - [ ] Missing online/ranking data is shown as unavailable/empty, not fabricated live data.
+- [ ] 1672x941 visual regression checks exist for menu, room, map, ready, game, and result.
+- [ ] `Course.boardAsset` is preloaded and used as the race canvas background before car sprites are drawn.
+- [ ] `chipTrack.ts` coordinates are recalibrated or explicitly marked as an open mismatch for each board-backed course.

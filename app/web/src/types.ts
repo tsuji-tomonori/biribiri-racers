@@ -31,6 +31,7 @@ export interface Course {
   palette: string[];
   previewAsset: string;
   mapAsset: string;
+  boardAsset?: string;
   themeAssets: ThemeAssets | null;
   partAssets: string[];
   implementationStatus?: "thumbnail_only";
