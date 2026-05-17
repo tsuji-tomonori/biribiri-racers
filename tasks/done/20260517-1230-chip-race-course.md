@@ -1,6 +1,6 @@
 # チップ構成レースコース実装
 
-状態: in_progress
+状態: done
 
 ## 背景
 
@@ -34,20 +34,31 @@
 
 ## 受け入れ条件
 
-- [ ] `?screen=ready` で選択コースのチップベースプレビューが表示される。
-- [ ] ゲーム中 canvas で、コースごとに違う走行ライン、壁チップ、テーマ床が表示される。
-- [ ] 壁外へ出るとスタートへ戻り、接触回数が増える。
-- [ ] コース 01〜05 の `Course.partAssets` がチップ描画に使われる。
-- [ ] ミニマップがチップコースの縮小版として表示される。
-- [ ] 既存の HUD、タイム、ラップ、ブースト、リザルト遷移が維持される。
-- [ ] `cd app/web && npm run build` が通る。
-- [ ] README が新しい canvas コース仕様に更新される。
+- [x] `?screen=ready` で選択コースのチップベースプレビューが表示される。
+- [x] ゲーム中 canvas で、コースごとに違う走行ライン、壁チップ、テーマ床が表示される。
+- [x] 壁外へ出るとスタートへ戻り、接触回数が増える。
+- [x] コース 01〜05 の `Course.partAssets` がチップ描画に使われる。
+- [x] ミニマップがチップコースの縮小版として表示される。
+- [x] 既存の HUD、タイム、ラップ、ブースト、リザルト遷移が維持される。
+- [x] `cd app/web && npm run build` が通る。
+- [x] README が新しい canvas コース仕様に更新される。
 
 ## 検証計画
 
 - `cd app/web && npm run build`
 - `git diff --check`
 - 必要に応じてローカルレンダリング確認またはコード上の描画経路確認を行い、未実施項目は PR コメントと作業レポートに明記する。
+
+## 検証結果
+
+- `npm ci`: pass
+- `cd app/web && npm run build`: pass
+- `git diff --check`: pass
+- `google-chrome --headless=new --disable-gpu --screenshot=/tmp/chip-ready-adjusted.png --window-size=1440,1000 'http://127.0.0.1:5173/?screen=ready'`: pass
+- PR: https://github.com/tsuji-tomonori/biribiri-racers/pull/12
+- 受け入れ条件コメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/12#issuecomment-4469200677
+- セルフレビューコメント: https://github.com/tsuji-tomonori/biribiri-racers/pull/12#issuecomment-4469201520
+- 制約: 手動操作による 3 ラップ完走、壁接触回数インクリメント、リザルト遷移の実ブラウザ確認は未実施。
 
 ## PR レビュー観点
 
