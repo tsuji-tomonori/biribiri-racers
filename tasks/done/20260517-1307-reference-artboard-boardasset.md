@@ -1,6 +1,6 @@
 # 当初画像基準のアートボード化とコース boardAsset 化
 
-状態: do
+状態: done
 
 タスク種別: 修正
 
@@ -43,7 +43,7 @@
 - [x] CSS 分割または入口 import を作り、固定アートボード基準の土台を追加する。
 - [x] reference/board/QA 画像を PNG のまま追加できるよう、pre-commit の large-file 上限を調整する。
 - [x] 型チェック/build と必要なブラウザ確認を実施する。
-- [ ] 作業レポート、commit、push、PR、受け入れ条件コメント、task done 更新を完了する。
+- [x] 作業レポート、commit、push、PR、受け入れ条件コメント、task done 更新を完了する。
 
 ## ドキュメント保守計画
 
