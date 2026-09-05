@@ -76,10 +76,6 @@ all<HTMLButtonElement>('[data-course]').forEach((button) =>
     const preview = element<HTMLImageElement>('#course-preview');
     preview.src = assetUrl(`course-${selected}.webp`);
     preview.alt = `${track.name}のコース全体`;
-    element('#route-sign-preview').setAttribute(
-      'transform',
-      `translate(${track.routeSign.join(' ')})`,
-    );
     element('#course-name').textContent = track.name;
     element('#course-level').textContent = track.level;
     element('#course-count').textContent = `0${selected + 1} / 05`;

@@ -20,7 +20,6 @@ export interface TrackDefinition {
   speed: number;
   grip: number;
   wallRise: number;
-  routeSign: Vec;
   lapAnchor: Vec;
   points: readonly Vec[];
   outer: readonly Vec[];
