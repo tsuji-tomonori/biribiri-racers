@@ -1,0 +1,74 @@
+<section id="race" class="screen race" data-phase="menu" hidden>
+  <canvas
+    id="game"
+    tabindex="0"
+    aria-label="レース走行画面。左右キーで旋回、Spaceでチャージ。Escで一時停止。"
+  ></canvas>
+  <header class="race-top">
+    <div class="race-mark">ビリビリ<br /><b>レーサーズ</b></div><div
+      class="time-box"
+    >
+      <small>RACE TIME</small><b id="time">00:00.00</b>
+    </div><div class="race-course">
+      <small id="race-course-number">COURSE 01</small><b id="race-course-name"
+        >パステルプラネット</b
+      >
+    </div><div class="race-actions">
+      <button
+        id="camera"
+        class="icon-button"
+        title="V：全体マップと追従カメラ"
+        aria-label="カメラを切り替える">⊞</button
+      ><button
+        id="sound"
+        class="icon-button"
+        title="サウンドを切り替える"
+        aria-label="サウンドを切り替える">♪</button
+      ><button
+        id="pause"
+        class="icon-button"
+        title="Esc：一時停止"
+        aria-label="一時停止">Ⅱ</button
+      >
+    </div>
+  </header>
+  <aside class="ranking">
+    <div class="ranking-heading">POSITION</div><div id="rank-big">
+      <b>1</b><span>/ 4</span>
+    </div><div id="racers"></div>
+  </aside>
+  <div class="minimap">
+    <canvas id="minimap" width="180" height="180" aria-label="全体マップ"
+    ></canvas><span>COURSE MAP</span>
+  </div>
+  <div id="announcement" role="status" aria-live="polite"></div><div
+    id="countdown"
+  >
+  </div>
+  <div id="coach" class="coach">
+    <b>自動で進みます</b><span>← → で曲がる。カーブでは SPACE を押そう。</span>
+  </div>
+  <footer class="race-bottom">
+    <div class="speed"><b id="speed">0</b><span>km/h</span></div><div
+      class="charge-box"
+    >
+      <div>
+        <b id="charge-label">CHARGE</b><span>SPACE を押す → 離す</span>
+      </div><div class="charge-track"><i id="charge-fill"></i></div>
+    </div><div class="progress-box">
+      <span>ゴールまで <b id="progress">0%</b></span><div>
+        <i id="progress-fill"></i>
+      </div><small id="hits">壁への接触 0 回</small>
+    </div>
+  </footer>
+  <div class="touch-controls">
+    <div>
+      <button data-control="ArrowLeft" aria-label="左に曲がる">◀</button><button
+        data-control="ArrowRight"
+        aria-label="右に曲がる">▶</button
+      >
+    </div><button data-control="Space" class="push-touch"
+      >PUSH<small>ためて、はなす</small></button
+    >
+  </div>
+</section>

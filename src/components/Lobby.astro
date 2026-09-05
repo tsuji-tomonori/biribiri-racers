@@ -1,0 +1,116 @@
+---
+import { TRACKS } from '../game/tracks';
+import { COLORS } from '../game/physics';
+import { assetUrl } from '../game/assets';
+---
+
+<section id="menu" class="screen menu">
+  <header class="menu-header">
+    <div class="brand">
+      <span>ビリビリ</span><strong>レーサーズ<span class="flag">⚑</span></strong
+      >
+    </div><div class="edition">SOLO RACE <b>01</b></div><button
+      class="icon-button help-open"
+      aria-label="遊び方">?</button
+    >
+  </header>
+  <div class="lobby">
+    <aside class="setup">
+      <div class="eyebrow">LET'S RACE!</div><h1>さあ、走ろう。</h1>
+      <p class="intro">
+        かべにふれたら、スタートへ。<br />さいしょにゴールした人が勝ち！
+      </p>
+      <fieldset class="mode-select">
+        <legend>あそびかた</legend><label
+          ><input type="radio" name="mode" value="race" checked /><span
+            ><b>ひとりで対戦</b><small>あなた ＋ CPU 3台</small></span
+          ><i>01</i></label
+        ><label
+          ><input type="radio" name="mode" value="practice" /><span
+            ><b>フリー走行</b><small>ひとりで、操作を練習</small></span
+          ><i>∞</i></label
+        >
+      </fieldset>
+      <div class="color-row">
+        <span>あなたのマシン</span><div
+          id="colors"
+          role="group"
+          aria-label="マシンカラー"
+        >
+          {
+            COLORS.map((color, i) => (
+              <button
+                class="color-choice"
+                data-color={i}
+                style={{ background: color }}
+                aria-label={['ブルー', 'ピンク', 'ミント', 'イエロー'][i]}
+                aria-pressed={i === 0}
+              />
+            ))
+          }
+        </div>
+      </div>
+      <label class="difficulty"
+        >CPUの強さ <select id="difficulty"
+          ><option value="easy">やさしい</option><option value="normal"
+            >ふつう</option
+          ></select
+        ></label
+      ><label class="assist-option"
+        ><input id="assist" type="checkbox" checked /><span
+          >ステアリングアシスト<small
+            >曲がりやすさを補助。壁への接触は有効</small
+          ></span
+        ></label
+      >
+      <button id="start" class="start-button" disabled
+        >コースを読み込み中…</button
+      ><p id="load-error" role="alert" hidden></p><button
+        id="reload-assets"
+        class="secondary"
+        hidden>画像を再読み込み</button
+      ><p class="start-hint">全5コース <span>•</span> ログイン不要</p>
+    </aside>
+    <div class="course-area">
+      <div class="course-heading">
+        <span>COURSE SELECT</span><span id="course-count">01 / 05</span>
+      </div><div class="course-showcase">
+        <img
+          id="course-preview"
+          src={assetUrl('course-0.webp')}
+          alt="パステルプラネットのコース全体"
+        /><div class="course-ribbon">
+          <b id="course-name">パステルプラネット</b><span id="course-level"
+            >はじめてにおすすめ</span
+          >
+        </div><span class="preview-caption">実際にこのコースを走れます</span>
+      </div><nav id="course-list" aria-label="コースを選択">
+        {
+          TRACKS.map((t, i) => (
+            <button
+              class="course-card"
+              data-course={i}
+              aria-label={`${i + 1} ${t.name}`}
+              aria-pressed={i === 0}
+            >
+              <>
+                <img
+                  src={assetUrl(`course-${i}.webp`)}
+                  alt=""
+                  width="1254"
+                  height="1254"
+                />
+                <small>0{i + 1}</small>
+                <span>{t.name}</span>
+              </>
+            </button>
+          ))
+        }
+      </nav>
+    </div>
+  </div><footer class="menu-footer">
+    <span><kbd>←</kbd><kbd>→</kbd> 旋回</span><span
+      ><kbd>SPACE</kbd> 押してチャージ → 離してダッシュ</span
+    ><button class="text-button help-open">あそびかたを見る ↗</button>
+  </footer>
+</section>
