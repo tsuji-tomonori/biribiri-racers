@@ -54,7 +54,7 @@ Pages設定のSourceは **GitHub Actions**。mainへのpushで型検査、整形
 
 - `src/components` / `src/pages`: Astro UIと静的HTML生成
 - `src/game`: DOM非依存の走行・勝敗、入力、Canvas描画、音声
-- `public/assets`: 提供コースとオリジナルマシン画像
+- `public/assets`: ImageGenで周回用に再生成した5コースとオリジナルマシン画像
 - `tests`: VitestとPlaywright
 - `docs`: 現行仕様・設計・公開手順
 - `tasks` / `reports`: 作業・検証記録

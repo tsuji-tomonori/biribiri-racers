@@ -282,3 +282,31 @@ test('4台の長所短所を選択画面で確認できる', async ({ page }) =>
     await expect(page.locator('#machine-detail')).not.toBeEmpty();
   }
 });
+
+test('周回用の全5コース画像を隠蔽なしで表示する', async ({ page }, info) => {
+  for (const track of TRACKS) {
+    await page.locator(`[data-course="${track.id}"]`).click();
+    const preview = page.locator('#course-preview');
+    await expect(preview).toHaveAttribute(
+      'src',
+      new RegExp(`course-${track.id}.webp`),
+    );
+    await expect
+      .poll(() =>
+        preview.evaluate((img) => {
+          const image = img as HTMLImageElement;
+          return (
+            image.complete &&
+            image.naturalWidth === 1254 &&
+            image.naturalHeight === 1254
+          );
+        }),
+      )
+      .toBe(true);
+    await expect(page.locator('.course-route-overlay')).toHaveCount(0);
+    await page.screenshot({
+      path: info.outputPath(`course-${track.id}.png`),
+      fullPage: true,
+    });
+  }
+});
