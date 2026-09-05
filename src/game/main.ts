@@ -1,3 +1,4 @@
+import { MACHINES } from './machines';
 import { loadAssets, assetUrl } from './assets';
 import { Controls } from './input';
 import { COLORS } from './physics';
@@ -75,6 +76,10 @@ all<HTMLButtonElement>('[data-course]').forEach((button) =>
     const preview = element<HTMLImageElement>('#course-preview');
     preview.src = assetUrl(`course-${selected}.webp`);
     preview.alt = `${track.name}のコース全体`;
+    element('#route-sign-preview').setAttribute(
+      'transform',
+      `translate(${track.routeSign.join(' ')})`,
+    );
     element('#course-name').textContent = track.name;
     element('#course-level').textContent = track.level;
     element('#course-count').textContent = `0${selected + 1} / 05`;
@@ -86,6 +91,11 @@ all<HTMLButtonElement>('[data-course]').forEach((button) =>
 all<HTMLButtonElement>('[data-color]').forEach((button) =>
   button.addEventListener('click', () => {
     color = Number(button.dataset['color']);
+    const m = MACHINES[color]!;
+    element('#machine-name').textContent = `${m.name} · ${m.role}`;
+    element('#machine-detail').textContent = m.detail;
+    element('#machine-stats').textContent =
+      `速度 ${Math.round(m.speed * 100)} · 旋回 ${Math.round(m.turn * 100)} · ダッシュ ${Math.round(m.boost * 100)}`;
     all('[data-color]').forEach((b) =>
       b.setAttribute('aria-pressed', String(b === button)),
     );
@@ -122,7 +132,7 @@ function start(): void {
   noticeUntil = 0;
   element('#race-course-name').textContent = session.track.name;
   element('#race-course-number').textContent =
-    `COURSE 0${selected + 1} · ${mode === 'practice' ? 'FREE RUN' : '1 SPRINT'}`;
+    `COURSE 0${selected + 1} · ${mode === 'practice' ? 'FREE RUN' : '1 LAP'}`;
   element('#announcement').classList.remove('visible');
   element('#coach').hidden = false;
   element('#camera').setAttribute('aria-pressed', 'false');
@@ -251,6 +261,15 @@ function syncHud(): void {
     row.querySelector<HTMLElement>('.bar')!.style.width =
       `${racer.progress * 100}%`;
     row.style.opacity = racer.respawn ? '.55' : '1';
+    row.querySelector('small')!.textContent =
+      racer.shock > 0
+        ? 'ビリッ!'
+        : racer.respawn > 0
+          ? '復帰中'
+          : racer.cpu
+            ? 'CPU'
+            : 'YOU';
+    row.classList.toggle('shocked', racer.shock > 0);
     element('#racers').append(row);
   }
   const countdown = element('#countdown');
@@ -259,20 +278,22 @@ function syncHud(): void {
       ? String(Math.max(1, Math.ceil(s.countdown)))
       : s.phase === 'finishing'
         ? 'FINISH!'
-        : s.phase === 'racing' && s.time < 0.65
+        : s.phase === 'racing' && s.time < 0.65 && !r.shock
           ? 'GO!'
           : '';
   countdown.classList.toggle('finish-word', s.phase === 'finishing');
   const coach = element('#coach');
   coach.hidden =
     s.time > 20 || s.phase === 'finishing' || s.phase === 'finished';
-  coach.querySelector('b')!.textContent = r.respawn
-    ? 'もういちど、スタートから！'
-    : r.charge > 0.2
-      ? '曲がる方向を向いてから、離そう'
-      : r.dashCount
-        ? 'ナイスダッシュ！'
-        : '自動で進みます';
+  coach.querySelector('b')!.textContent = r.shock
+    ? 'ビリッ！ かべに気をつけて'
+    : r.respawn
+      ? 'もういちど、スタートから！'
+      : r.charge > 0.2
+        ? '曲がる方向を向いてから、離そう'
+        : r.dashCount
+          ? 'ナイスダッシュ！'
+          : '自動で進みます';
   coach.querySelector('span')!.textContent =
     '← → で旋回。SPACE を押して減速、離してダッシュ。';
   if (s.time > noticeUntil)
@@ -339,7 +360,7 @@ function frame(now: number): void {
       renderer.event(e, session);
       if (e.racer === 0 || e.type === 'finish') sound.effect(e.type);
       if (e.racer === 0 && e.type === 'collision')
-        announce('かべに接触！ スタートへ');
+        announce('ビリッ！ かべに接触 — スタートへ');
     }
     renderer.draw(session, session.phase === 'paused' ? 0 : delta);
     hudElapsed += delta;

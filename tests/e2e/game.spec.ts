@@ -3,7 +3,7 @@ import { TRACKS } from '../../src/game/tracks';
 import { createRacer, cpuInput, STEP, tick } from '../../src/game/physics';
 
 test.beforeEach(async ({ page }, info) => {
-  const manualClock = /チャージ|CPUが完走|キー操作だけ/.test(info.title);
+  const manualClock = /チャージ|CPUが完走|キー操作だけ|電撃/.test(info.title);
   if (manualClock)
     await page.clock.install({ time: new Date('2026-01-01T00:00:00Z') });
   await page.goto('./');
@@ -57,6 +57,8 @@ test('コース・モード・カラー・遊び方を実際に切り替える',
   await page.getByRole('radio', { name: /フリー走行/ }).check();
   await expect(page.locator('#difficulty')).toBeDisabled();
   await page.getByRole('button', { name: 'ピンク', exact: true }).click();
+  await expect(page.locator('#machine-name')).toHaveText('ソニック · 最高速');
+  await expect(page.locator('#machine-detail')).toContainText('早めにPUSH');
   await expect(
     page.getByRole('button', { name: 'ピンク', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
@@ -137,7 +139,7 @@ test('CPUが完走すると結果を表示し、リトライできる', async ({
   await page.locator('#difficulty').selectOption('normal');
   await page.getByRole('button', { name: 'レース スタート！' }).click();
   await page.keyboard.down('Space');
-  await page.clock.runFor(35000);
+  await page.clock.runFor(45000);
   await page.keyboard.up('Space');
   await expect(page.locator('#results')).toBeVisible();
   await expect(page.locator('#result-title')).toContainText('の勝利');
@@ -241,4 +243,42 @@ test('タッチ用PUSHはボタン外で離しても解除する', async ({ page
   await page.mouse.up();
   await expect(push).not.toHaveClass(/active/);
   await expect(page.locator('#charge-label')).toHaveText('DASH!');
+});
+
+test('電撃の表示からスタート復帰までが見える', async ({ page }, info) => {
+  await page.getByRole('radio', { name: /フリー走行/ }).check();
+  await page.locator('#assist').uncheck();
+  await page.getByRole('button', { name: 'レース スタート！' }).click();
+  await page.clock.runFor(3100);
+  await page.keyboard.down('ArrowLeft');
+  for (let i = 0; i < 80; i++) {
+    await page.clock.runFor(25);
+    if (
+      await page
+        .locator('[data-racer="0"]')
+        .getAttribute('class')
+        .then((c) => c?.includes('shocked'))
+    )
+      break;
+  }
+  await expect(page.locator('[data-racer="0"]')).toHaveClass(/shocked/);
+  await expect(page.locator('#announcement')).toContainText('ビリッ！');
+  await page.screenshot({ path: info.outputPath('electric-impact.png') });
+  await page.keyboard.up('ArrowLeft');
+  await page.clock.runFor(375);
+  await expect(page.locator('[data-racer="0"] small')).toHaveText('復帰中');
+  await expect(page.locator('#progress')).toHaveText('0%');
+  await page.screenshot({ path: info.outputPath('return-to-start.png') });
+});
+test('4台の長所短所を選択画面で確認できる', async ({ page }) => {
+  for (const [label, name] of [
+    ['ブルー', 'スパーク'],
+    ['ピンク', 'ソニック'],
+    ['ミント', 'リーフ'],
+    ['イエロー', 'ボルト'],
+  ] as const) {
+    await page.getByRole('button', { name: label, exact: true }).click();
+    await expect(page.locator('#machine-name')).toContainText(name!);
+    await expect(page.locator('#machine-detail')).not.toBeEmpty();
+  }
 });

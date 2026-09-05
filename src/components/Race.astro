@@ -1,3 +1,7 @@
+---
+import Brand from './Brand.astro';
+---
+
 <section id="race" class="screen race" data-phase="menu" hidden>
   <canvas
     id="game"
@@ -5,9 +9,7 @@
     aria-label="レース走行画面。左右キーで旋回、Spaceでチャージ。Escで一時停止。"
   ></canvas>
   <header class="race-top">
-    <div class="race-mark">ビリビリ<br /><b>レーサーズ</b></div><div
-      class="time-box"
-    >
+    <div class="race-mark"><Brand /></div><div class="time-box">
       <small>RACE TIME</small><b id="time">00:00.00</b>
     </div><div class="race-course">
       <small id="race-course-number">COURSE 01</small><b id="race-course-name"

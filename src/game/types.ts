@@ -5,6 +5,7 @@ export interface Point {
 }
 export interface PathPoint extends Point {
   s: number;
+  width?: number;
   angle: number;
 }
 export interface Finish {
@@ -18,10 +19,14 @@ export interface TrackDefinition {
   tint: string;
   speed: number;
   grip: number;
+  wallRise: number;
+  routeSign: Vec;
+  lapAnchor: Vec;
   points: readonly Vec[];
   outer: readonly Vec[];
   holes: readonly (readonly Vec[])[];
   finish: Finish;
+  checkpoints: readonly Omit<PathPoint, 's'>[];
 }
 export interface Track extends TrackDefinition {
   id: number;
@@ -45,9 +50,11 @@ export interface Racer extends Point {
   progress: number;
   hits: number;
   respawn: number;
+  shock: number;
   finish: number | null;
   dashCount: number;
   travel: number;
+  winding: number;
 }
 export interface Input {
   steer: number;

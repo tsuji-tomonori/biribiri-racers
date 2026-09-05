@@ -110,10 +110,13 @@ export class Renderer {
     c.fillStyle = t.id === 1 ? '#092968' : t.id === 4 ? '#56a244' : '#198eef';
     c.fillRect(0, 0, w, h);
     c.save();
-    c.translate(w / 2, h / 2);
+    const jolt =
+      !this.reduced && player.shock > 0 ? Math.sin(player.shock * 160) * 4 : 0;
+    c.translate(w / 2 + jolt, h / 2);
     c.scale(this.cam.zoom, this.cam.zoom);
     c.translate(-this.cam.x, -this.cam.y);
     c.drawImage(this.assets.courses[t.id]!, 0, 0, 1254, 1254);
+    this.routeSign(c, t.routeSign);
     c.lineCap = 'round';
     for (let a = 110; a < t.length - 100; a += 150) {
       const p = at(t, a);
@@ -141,9 +144,17 @@ export class Renderer {
     c.lineTo(...t.finish.b);
     c.stroke();
     c.shadowBlur = 0;
+    c.fillStyle = '#142c55';
+    c.font = '900 15px system-ui';
+    c.textAlign = 'center';
+    const fx = (t.finish.a[0] + t.finish.b[0]) / 2,
+      fy = t.finish.a[1];
+    c.fillRect(fx - 85, fy - 42, 170, 25);
+    c.fillStyle = '#e8ff59';
+    c.fillText('START / FINISH', fx, fy - 24);
     for (const r of s.racers) {
       const trail = this.trails.get(r.id) ?? [];
-      if (dt > 0 && s.phase === 'racing' && !r.respawn) {
+      if (dt > 0 && s.phase === 'racing' && !r.respawn && !r.shock) {
         trail.push({ x: r.x, y: r.y });
         if (trail.length > 20) trail.shift();
       }
@@ -171,6 +182,16 @@ export class Renderer {
     const m = this.mini;
     m.clearRect(0, 0, 180, 180);
     m.drawImage(this.assets.courses[t.id]!, 0, 0, 180, 180);
+    m.save();
+    m.scale(180 / 1254, 180 / 1254);
+    this.routeSign(m, t.routeSign);
+    m.restore();
+    m.strokeStyle = '#e8ff59';
+    m.lineWidth = 3;
+    m.beginPath();
+    m.moveTo((t.finish.a[0] * 180) / 1254, (t.finish.a[1] * 180) / 1254);
+    m.lineTo((t.finish.b[0] * 180) / 1254, (t.finish.b[1] * 180) / 1254);
+    m.stroke();
     for (const r of s.racers) {
       m.beginPath();
       m.arc(
@@ -187,6 +208,25 @@ export class Renderer {
       m.stroke();
     }
   }
+  private routeSign(
+    c: CanvasRenderingContext2D,
+    point: readonly [number, number],
+  ): void {
+    c.save();
+    c.translate(...point);
+    c.fillStyle = '#142c55';
+    c.strokeStyle = '#7ef0ff';
+    c.lineWidth = 4;
+    c.beginPath();
+    c.roundRect(-76, -25, 152, 50, 9);
+    c.fill();
+    c.stroke();
+    c.fillStyle = '#e8ff59';
+    c.textAlign = 'center';
+    c.font = '900 26px system-ui';
+    c.fillText('← LAP', 0, 9);
+    c.restore();
+  }
   private racer(r: Racer): void {
     if (r.respawn > 0 && Math.floor(r.respawn * 12) % 2 === 0) return;
     const c = this.ctx,
@@ -198,6 +238,30 @@ export class Renderer {
     c.beginPath();
     c.ellipse(0, 10, 18, 11, 0, 0, Math.PI * 2);
     c.fill();
+    if (r.shock > 0) {
+      c.strokeStyle = '#142c55';
+      c.lineWidth = 8;
+      c.beginPath();
+      for (let i = 0; i <= 24; i++) {
+        const a = (i * Math.PI) / 12,
+          radius =
+            i % 2
+              ? 29
+              : 43 + (this.reduced ? 0 : Math.sin(r.shock * 90 + i) * 5);
+        const x = Math.cos(a) * radius,
+          y = Math.sin(a) * radius;
+        if (i === 0) c.moveTo(x, y);
+        else c.lineTo(x, y);
+      }
+      c.stroke();
+      c.strokeStyle = '#f5ff68';
+      c.lineWidth = 4;
+      c.stroke();
+      c.fillStyle = '#ffffffc0';
+      c.beginPath();
+      c.arc(0, 0, 24, 0, Math.PI * 2);
+      c.fill();
+    }
     c.rotate(r.heading + Math.PI / 2);
     if (r.boost > 0 || r.charge > 0.1) {
       c.strokeStyle = r.boost ? color : '#ffe656';

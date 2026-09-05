@@ -1,4 +1,6 @@
 ---
+import Brand from './Brand.astro';
+import { MACHINES } from '../game/machines';
 import { TRACKS } from '../game/tracks';
 import { COLORS } from '../game/physics';
 import { assetUrl } from '../game/assets';
@@ -6,10 +8,7 @@ import { assetUrl } from '../game/assets';
 
 <section id="menu" class="screen menu">
   <header class="menu-header">
-    <div class="brand">
-      <span>ビリビリ</span><strong>レーサーズ<span class="flag">⚑</span></strong
-      >
-    </div><div class="edition">SOLO RACE <b>01</b></div><button
+    <Brand /><div class="edition">SOLO RACE <b>01</b></div><button
       class="icon-button help-open"
       aria-label="遊び方">?</button
     >
@@ -18,7 +17,7 @@ import { assetUrl } from '../game/assets';
     <aside class="setup">
       <div class="eyebrow">LET'S RACE!</div><h1>さあ、走ろう。</h1>
       <p class="intro">
-        かべにふれたら、スタートへ。<br />さいしょにゴールした人が勝ち！
+        かべにふれたら、スタートへ。<br />一周してスタートラインに戻ればゴール！
       </p>
       <fieldset class="mode-select">
         <legend>あそびかた</legend><label
@@ -45,10 +44,18 @@ import { assetUrl } from '../game/assets';
                 style={{ background: color }}
                 aria-label={['ブルー', 'ピンク', 'ミント', 'イエロー'][i]}
                 aria-pressed={i === 0}
-              />
+                title={`${MACHINES[i]!.name} · ${MACHINES[i]!.role}`}
+              >
+                <span>{['均', '速', '旋', '蓄'][i]}</span>
+              </button>
             ))
           }
         </div>
+      </div>
+      <div class="machine-info" aria-live="polite">
+        <b id="machine-name">スパーク · バランス</b><p id="machine-detail">
+          {MACHINES[0].detail}
+        </p><div id="machine-stats">速度 100 · 旋回 100 · ダッシュ 165</div>
       </div>
       <label class="difficulty"
         >CPUの強さ <select id="difficulty"
@@ -79,7 +86,31 @@ import { assetUrl } from '../game/assets';
           id="course-preview"
           src={assetUrl('course-0.webp')}
           alt="パステルプラネットのコース全体"
-        /><div class="course-ribbon">
+        /><svg
+          class="course-route-overlay"
+          viewBox="0 0 1254 1254"
+          aria-hidden="true"
+          ><g
+            id="route-sign-preview"
+            transform={`translate(${TRACKS[0]!.routeSign.join(' ')})`}
+            ><rect
+              x="-76"
+              y="-25"
+              width="152"
+              height="50"
+              rx="9"
+              fill="#142c55"
+              stroke="#7ef0ff"
+              stroke-width="4"></rect><text
+              x="0"
+              y="9"
+              text-anchor="middle"
+              fill="#e8ff59"
+              font-size="26"
+              font-weight="900">← LAP</text
+            ></g
+          ></svg
+        ><div class="course-ribbon">
           <b id="course-name">パステルプラネット</b><span id="course-level"
             >はじめてにおすすめ</span
           >

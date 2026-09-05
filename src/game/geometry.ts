@@ -5,7 +5,7 @@ export const angle = (v: number): number =>
   Math.atan2(Math.sin(v), Math.cos(v));
 export const distance = (a: Point, b: Point): number =>
   Math.hypot(a.x - b.x, a.y - b.y);
-export const RADIUS = 23;
+export const RADIUS = 30;
 
 export function inside(p: Point, poly: readonly Vec[]): boolean {
   let hit = false;
@@ -27,16 +27,28 @@ export function onRoad(
   y: number,
   radius = RADIUS,
 ): boolean {
-  // Centre and perimeter samples; 120Hz substeps prevent skipping a narrow wall.
-  for (let i = 0; i <= 16; i++) {
-    const a = (i * Math.PI) / 8;
-    const p =
-      i === 16
-        ? { x, y }
-        : { x: x + Math.cos(a) * radius, y: y + Math.sin(a) * radius };
-    if (!inside(p, t.outer) || t.holes.some((h) => inside(p, h))) return false;
-  }
-  return true;
+  const p = { x, y };
+  const clearance = (poly: readonly Vec[], rise = 0): number =>
+    Math.min(
+      ...poly.map((a, i) => {
+        const b = poly[(i + 1) % poly.length]!;
+        const dx = b[0] - a[0],
+          dy = b[1] - a[1];
+        const u = clamp(
+          ((x - a[0]) * dx + (y + rise - a[1]) * dy) / (dx * dx + dy * dy || 1),
+          0,
+          1,
+        );
+        return Math.hypot(x - a[0] - u * dx, y + rise - a[1] - u * dy);
+      }),
+    );
+  return (
+    inside(p, t.outer) &&
+    clearance(t.outer) >= radius &&
+    t.holes.every(
+      (h) => !inside(p, h) && clearance(h, t.wallRise) >= radius + 18,
+    )
+  );
 }
 
 export function finishSide(t: TrackDefinition, p: Point): number {
@@ -102,19 +114,21 @@ export function compile(def: TrackDefinition, id: number): Track {
       length = path[i]!.s;
   }
   if (!length) throw new Error(`${def.name}: route does not cross its finish`);
-  const gates = path.filter(
-    (p, i) =>
-      i > 0 &&
-      p.s < length - 35 &&
-      Math.floor(p.s / 130) > Math.floor(path[i - 1]!.s / 130),
-  );
+  // Three ordered course sectors accept every legal branch, without tying laps
+  // to the CPU's centreline. The start-line crossing only counts after all three.
+  const gates = def.checkpoints.map((p, index) => ({
+    ...p,
+    s: (length * (index + 1)) / (def.checkpoints.length + 1),
+  }));
   return { ...def, id, path, length, gates };
 }
 
-export function nearest(t: Track, p: Point): PathPoint {
+export function nearest(t: Track, p: Point & { gate?: number }): PathPoint {
   let best = t.path[0]!,
     bestD = Infinity;
   for (const q of t.path) {
+    if (p.gate === 0 && q.s > t.length * 0.85) continue;
+    if (p.gate === t.gates.length && q.s < t.length * 0.15) continue;
     const d = (q.x - p.x) ** 2 + (q.y - p.y) ** 2;
     if (d < bestD) {
       best = q;
@@ -141,6 +155,6 @@ export function crossedGate(old: Point, next: Point, gate: PathPoint): boolean {
   return (
     (old.x - gate.x) * tx + (old.y - gate.y) * ty < 0 &&
     (next.x - gate.x) * tx + (next.y - gate.y) * ty >= 0 &&
-    distance(next, gate) < 115
+    distance(next, gate) < (gate.width ?? 115)
   );
 }

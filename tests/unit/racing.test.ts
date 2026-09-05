@@ -33,21 +33,24 @@ for (const t of TRACKS)
         expect(r.progress).toBe(1);
       }
     });
-    it('プレイヤー速度でも順路を完走できる', () => {
-      const r = createRacer(t, 0, 0, false);
-      for (let time = 0; time < 70; time += STEP) {
-        tick(
-          t,
-          r,
-          { ...cpuInput(t, r, 'normal'), throttle: 1, assist: true },
-          STEP,
-          time,
-        );
-        if (r.finish !== null) break;
-      }
-      expect(r.finish).not.toBeNull();
-      expect(r.hits).toBe(0);
-    });
+    it.each([0, 1, 2, 3])(
+      '機体 %i はプレイヤー速度でも順路を完走できる',
+      (color) => {
+        const r = createRacer(t, 0, color, false);
+        for (let time = 0; time < 70; time += STEP) {
+          tick(
+            t,
+            r,
+            { ...cpuInput(t, r, 'normal'), throttle: 1, assist: true },
+            STEP,
+            time,
+          );
+          if (r.finish !== null) break;
+        }
+        expect(r.finish).not.toBeNull();
+        expect(r.hits).toBe(0);
+      },
+    );
     it('ゴールだけ100往復しても勝利しない', () => {
       const r = createRacer(t, 0, 0, false),
         f = t.finish,
@@ -97,15 +100,15 @@ it('逆向き・順路省略・ゲートの外側ではゴールできない', (
   const r = createRacer(track, 0, 0, false);
   r.gate = track.gates.length;
   r.travel = track.length;
-  r.x = 624;
-  r.y = 1145;
-  expect(advance(track, r, { x: 624, y: 1155 })).toBeNull();
+  r.x = 193;
+  r.y = 635;
+  expect(advance(track, r, { x: 193, y: 625 })).toBeNull();
   r.gate--;
-  r.y = 1155;
-  expect(advance(track, r, { x: 624, y: 1145 })).toBeNull();
+  r.y = 625;
+  expect(advance(track, r, { x: 193, y: 635 })).toBeNull();
   r.gate++;
   r.x = 900;
-  expect(advance(track, r, { x: 900, y: 1145 })).toBeNull();
+  expect(advance(track, r, { x: 900, y: 635 })).toBeNull();
 });
 it('押して減速とチャージ、離して1回だけダッシュする', () => {
   const r = createRacer(track, 0, 0, false);
