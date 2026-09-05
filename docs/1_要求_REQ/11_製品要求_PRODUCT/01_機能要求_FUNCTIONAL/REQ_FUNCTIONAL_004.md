@@ -11,3 +11,5 @@
 ## 検証・追跡
 検証先: `tests/unit/racing.test.ts / tests/unit/lap.test.ts / tests/e2e/game.spec.ts`。受入索引: `docs/1_要求_REQ/21_受入基準_ACCEPTANCE/REQ_ACCEPTANCE_001.md`。
 依存: REQ_TECHNICAL_CONSTRAINT_001。責任: リポジトリ保守者。レビュー: 観測可能・単一条件・検証可能であり、実装箇所とテストを対応付けた。証跡はreports/workingの当該作業報告に記録する。
+
+変更履歴: 2026-09-05、中上級3コース追加の依頼に合わせ検証対象を全8コースへ拡張。

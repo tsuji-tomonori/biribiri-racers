@@ -10,3 +10,5 @@
 
 ## 検証・追跡
 実装: machines.ts / physics.ts / Lobby.astro。検証: tests/unit/lap.test.ts、tests/unit/racing.test.ts（4機体×8コース）、tests/e2e/game.spec.ts。責任: リポジトリ保守者。観測可能な運動と選択UIで検証する。
+
+変更履歴: 2026-09-05、中上級3コース追加の依頼に合わせ検証対象を全8コースへ拡張。
