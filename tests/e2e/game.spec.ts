@@ -276,7 +276,7 @@ test('4台の長所短所を選択画面で確認できる', async ({ page }) =>
     ['ピンク', 'ソニック'],
     ['ミント', 'リーフ'],
     ['イエロー', 'ボルト'],
-  ]) {
+  ] as const) {
     await page.getByRole('button', { name: label, exact: true }).click();
     await expect(page.locator('#machine-name')).toContainText(name!);
     await expect(page.locator('#machine-detail')).not.toBeEmpty();
