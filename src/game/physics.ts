@@ -35,6 +35,7 @@ export function spawn(t: Track, r: Racer): void {
   r.gate = 0;
   r.progress = 0;
   r.travel = 0;
+  r.winding = 0;
 }
 
 export function createRacer(
@@ -65,6 +66,7 @@ export function createRacer(
     finish: null,
     dashCount: 0,
     travel: 0,
+    winding: 0,
   };
   spawn(t, r);
   return r;
@@ -84,11 +86,18 @@ export function advance(t: Track, r: Racer, old: Point): number | null {
     maxS = t.gates[r.gate]?.s ?? t.length;
   r.progress = clamp(Math.min(n.s, maxS) / t.length, 0, 1);
   r.travel += distance(old, r);
+  // Signed winding rejects collecting sectors by backtracking. Anchors lie in
+  // an impassable inner island shared by every supported branch.
+  const [ax, ay] = t.lapAnchor;
+  r.winding += angle(
+    Math.atan2(r.y - ay, r.x - ax) - Math.atan2(old.y - ay, old.x - ax),
+  );
   const before = finishSide(t, old),
     after = finishSide(t, r);
   // Every ordered gate, legal travel, and the forward crossing are required together.
   if (
     r.gate !== t.gates.length ||
+    r.winding < Math.PI * 2 ||
     r.travel <= t.length * 0.48 ||
     before >= 0 ||
     after < 0 ||
@@ -193,6 +202,7 @@ export function tick(
     r.gate = 0;
     r.progress = 0;
     r.travel = 0;
+    r.winding = 0;
     r.shock = 0.3;
     return { type: 'collision', racer: r.id, ...hit };
   }

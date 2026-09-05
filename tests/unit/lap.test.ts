@@ -81,7 +81,13 @@ it('逆走・ライン外通過・区間省略では一周と認めない', () =
   const t = TRACKS[0]!,
     r = createRacer(t, 0, 0, false),
     y = t.finish.a[1];
-  Object.assign(r, { gate: 3, travel: t.length, x: 193, y: y + 1 });
+  Object.assign(r, {
+    gate: 3,
+    travel: t.length,
+    winding: Math.PI * 2,
+    x: 193,
+    y: y + 1,
+  });
   expect(advance(t, r, { x: 193, y: y - 1 })).toBeNull();
   Object.assign(r, { gate: 2, y: y - 1 });
   expect(advance(t, r, { x: 193, y: y + 1 })).toBeNull();
@@ -201,4 +207,17 @@ it('車体の円周と壁の可視面を含む境界で接触する', () => {
   expect(onRoad(t, 100, 29.9)).toBe(false);
   expect(onRoad(TRACKS[0]!, 500, 280)).toBe(false);
   expect(onRoad(TRACKS[0]!, 500, 224)).toBe(true);
+});
+
+it('区間を逆走で回収しても、内側を一周していなければ終了しない', () => {
+  const t = TRACKS[4]!,
+    r = createRacer(t, 0, 0, false);
+  Object.assign(r, {
+    gate: 3,
+    travel: t.length * 2,
+    winding: 0,
+    x: 190,
+    y: 509,
+  });
+  expect(advance(t, r, { x: 190, y: 512 })).toBeNull();
 });

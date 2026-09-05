@@ -86,12 +86,30 @@ import { assetUrl } from '../game/assets';
           id="course-preview"
           src={assetUrl('course-0.webp')}
           alt="パステルプラネットのコース全体"
-        /><span
-          id="route-sign-preview"
-          class="route-sign-preview"
+        /><svg
+          class="course-route-overlay"
+          viewBox="0 0 1254 1254"
           aria-hidden="true"
-          style={`left:${TRACKS[0]!.routeSign[0] / 12.54}%;top:${TRACKS[0]!.routeSign[1] / 12.54}%`}
-          >← LAP</span
+          ><g
+            id="route-sign-preview"
+            transform={`translate(${TRACKS[0]!.routeSign.join(' ')})`}
+            ><rect
+              x="-76"
+              y="-25"
+              width="152"
+              height="50"
+              rx="9"
+              fill="#142c55"
+              stroke="#7ef0ff"
+              stroke-width="4"></rect><text
+              x="0"
+              y="9"
+              text-anchor="middle"
+              fill="#e8ff59"
+              font-size="26"
+              font-weight="900">← LAP</text
+            ></g
+          ></svg
         ><div class="course-ribbon">
           <b id="course-name">パステルプラネット</b><span id="course-level"
             >はじめてにおすすめ</span

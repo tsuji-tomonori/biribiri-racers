@@ -76,9 +76,10 @@ all<HTMLButtonElement>('[data-course]').forEach((button) =>
     const preview = element<HTMLImageElement>('#course-preview');
     preview.src = assetUrl(`course-${selected}.webp`);
     preview.alt = `${track.name}のコース全体`;
-    element('#route-sign-preview').style.left =
-      `${track.routeSign[0] / 12.54}%`;
-    element('#route-sign-preview').style.top = `${track.routeSign[1] / 12.54}%`;
+    element('#route-sign-preview').setAttribute(
+      'transform',
+      `translate(${track.routeSign.join(' ')})`,
+    );
     element('#course-name').textContent = track.name;
     element('#course-level').textContent = track.level;
     element('#course-count').textContent = `0${selected + 1} / 05`;
@@ -277,20 +278,22 @@ function syncHud(): void {
       ? String(Math.max(1, Math.ceil(s.countdown)))
       : s.phase === 'finishing'
         ? 'FINISH!'
-        : s.phase === 'racing' && s.time < 0.65
+        : s.phase === 'racing' && s.time < 0.65 && !r.shock
           ? 'GO!'
           : '';
   countdown.classList.toggle('finish-word', s.phase === 'finishing');
   const coach = element('#coach');
   coach.hidden =
     s.time > 20 || s.phase === 'finishing' || s.phase === 'finished';
-  coach.querySelector('b')!.textContent = r.respawn
-    ? 'もういちど、スタートから！'
-    : r.charge > 0.2
-      ? '曲がる方向を向いてから、離そう'
-      : r.dashCount
-        ? 'ナイスダッシュ！'
-        : '自動で進みます';
+  coach.querySelector('b')!.textContent = r.shock
+    ? 'ビリッ！ かべに気をつけて'
+    : r.respawn
+      ? 'もういちど、スタートから！'
+      : r.charge > 0.2
+        ? '曲がる方向を向いてから、離そう'
+        : r.dashCount
+          ? 'ナイスダッシュ！'
+          : '自動で進みます';
   coach.querySelector('span')!.textContent =
     '← → で旋回。SPACE を押して減速、離してダッシュ。';
   if (s.time > noticeUntil)

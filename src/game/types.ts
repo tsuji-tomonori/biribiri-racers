@@ -21,6 +21,7 @@ export interface TrackDefinition {
   grip: number;
   wallRise: number;
   routeSign: Vec;
+  lapAnchor: Vec;
   points: readonly Vec[];
   outer: readonly Vec[];
   holes: readonly (readonly Vec[])[];
@@ -53,6 +54,7 @@ export interface Racer extends Point {
   finish: number | null;
   dashCount: number;
   travel: number;
+  winding: number;
 }
 export interface Input {
   steer: number;

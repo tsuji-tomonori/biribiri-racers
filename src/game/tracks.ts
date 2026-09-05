@@ -10,6 +10,7 @@ const definitions: readonly TrackDefinition[] = [
     grip: 7,
     wallRise: 15,
     routeSign: [624, 1043],
+    lapAnchor: [500, 600],
     points: [
       [193, 722],
       [194, 500],
@@ -120,6 +121,7 @@ const definitions: readonly TrackDefinition[] = [
     grip: 7,
     wallRise: 15,
     routeSign: [955, 999],
+    lapAnchor: [500, 600],
     points: [
       [195, 532],
       [200, 383],
@@ -222,6 +224,7 @@ const definitions: readonly TrackDefinition[] = [
     grip: 8,
     wallRise: 15,
     routeSign: [1015, 1020],
+    lapAnchor: [330, 600],
     points: [
       [167, 554],
       [169, 374],
@@ -399,6 +402,7 @@ const definitions: readonly TrackDefinition[] = [
     grip: 3.3,
     wallRise: 0,
     routeSign: [603, 1032],
+    lapAnchor: [350, 600],
     points: [
       [202, 612],
       [208, 415],
@@ -582,6 +586,7 @@ const definitions: readonly TrackDefinition[] = [
     grip: 7,
     wallRise: 15,
     routeSign: [914, 1077],
+    lapAnchor: [300, 600],
     points: [
       [190, 609],
       [190, 426],
