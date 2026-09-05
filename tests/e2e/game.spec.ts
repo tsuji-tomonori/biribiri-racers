@@ -223,3 +223,22 @@ test('画像エラーを隠さず再読み込みできる', async ({ page }) => 
     page.getByRole('button', { name: 'レース スタート！' }),
   ).toBeEnabled();
 });
+
+test('タッチ用PUSHはボタン外で離しても解除する', async ({ page }, info) => {
+  test.skip(
+    info.project.name !== 'mobile',
+    'Pointer capture is checked on the touch layout.',
+  );
+  await page.getByRole('radio', { name: /フリー走行/ }).check();
+  await page.getByRole('button', { name: 'レース スタート！' }).click();
+  await expect(page.locator('#race')).toHaveAttribute('data-phase', 'racing');
+  const push = page.locator('[data-control="Space"]');
+  const box = await push.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await expect(page.locator('#charge-label')).toHaveText('RELEASE!');
+  await page.mouse.move(5, 5);
+  await page.mouse.up();
+  await expect(push).not.toHaveClass(/active/);
+  await expect(page.locator('#charge-label')).toHaveText('DASH!');
+});

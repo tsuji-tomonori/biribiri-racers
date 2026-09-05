@@ -1734,3 +1734,22 @@ dialog h2 {
 #countdown.finish-word {
   font-size: clamp(45px, 8vw, 115px);
 }
+
+@media (max-width: 650px) {
+  .menu-header {
+    gap: 12px;
+  }
+  .brand {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .edition {
+    font-size: 10px;
+  }
+  .edition b {
+    display: none;
+  }
+  .course-heading {
+    color: #10366c;
+  }
+}

@@ -2,7 +2,7 @@ name: Verify and publish Pages
 on:
   pull_request:
   push:
-    branches: [main, codex/astro-single-player]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read

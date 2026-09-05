@@ -218,6 +218,8 @@ export class Renderer {
       56,
     );
     c.restore();
+    // CPU names already appear in the standings; avoid overlapping start labels.
+    if (r.cpu) return;
     c.save();
     c.translate(r.x, r.y - 46);
     c.scale(1 / this.cam.zoom, 1 / this.cam.zoom);
