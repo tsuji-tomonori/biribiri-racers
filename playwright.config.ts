@@ -11,7 +11,12 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: remote ?? 'http://127.0.0.1:4321/biribiri-racers/',
-    trace: 'retain-on-failure',
+    trace: {
+      mode: 'retain-on-failure',
+      screenshots: false,
+      snapshots: true,
+      sources: true,
+    },
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },

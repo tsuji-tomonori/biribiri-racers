@@ -2,11 +2,15 @@ import { test, expect } from '@playwright/test';
 import { TRACKS } from '../../src/game/tracks';
 import { createRacer, cpuInput, STEP, tick } from '../../src/game/physics';
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }, info) => {
+  const manualClock = /チャージ|CPUが完走|キー操作だけ/.test(info.title);
+  if (manualClock)
+    await page.clock.install({ time: new Date('2026-01-01T00:00:00Z') });
   await page.goto('./');
   await expect(
     page.getByRole('button', { name: 'レース スタート！' }),
   ).toBeEnabled();
+  if (manualClock) await page.clock.pauseAt(new Date('2026-01-01T00:01:00Z'));
 });
 
 test('読み込み・開始・停止・再開・リトライ @smoke', async ({ page }) => {
@@ -107,7 +111,6 @@ test('画面幅に収まり主要な操作を隠さない', async ({ page }, inf
 });
 
 test('押してチャージ・離して加速・接触後の復帰', async ({ page }) => {
-  await page.clock.install();
   await page.getByRole('radio', { name: /フリー走行/ }).check();
   await page.getByRole('button', { name: 'レース スタート！' }).click();
   await page.clock.runFor(3100);
@@ -131,7 +134,6 @@ test('CPUが完走すると結果を表示し、リトライできる', async ({
     info.project.name !== 'chromium',
     'Full result flow is shared; mobile smoke covers controls.',
   );
-  await page.clock.install();
   await page.locator('#difficulty').selectOption('normal');
   await page.getByRole('button', { name: 'レース スタート！' }).click();
   await page.keyboard.down('Space');
@@ -176,7 +178,6 @@ test('キー操作だけでプレイヤーがゴールできる', async ({ page 
   }
   expect(racer.finish).not.toBeNull();
   expect(racer.hits).toBe(0);
-  await page.clock.install();
   await page.getByRole('radio', { name: /フリー走行/ }).check();
   await page.getByRole('button', { name: 'レース スタート！' }).click();
   await page.clock.runFor(3000);
@@ -198,7 +199,15 @@ test('キー操作だけでプレイヤーがゴールできる', async ({ page 
   if (held) await page.keyboard.up(held);
   if (pushing) await page.keyboard.up('Space');
   await page.clock.runFor(1500);
+  console.log(
+    'Keyboard replay HUD',
+    await page.locator('#time').innerText(),
+    await page.locator('#progress').innerText(),
+    await page.locator('#hits').innerText(),
+  );
+  await expect(page.locator('#results')).toBeVisible();
   await expect(page.locator('#result-title')).toHaveText('やったね、ゴール！');
+  await page.screenshot({ path: info.outputPath('player-finish.png') });
 });
 
 test('画像エラーを隠さず再読み込みできる', async ({ page }) => {
