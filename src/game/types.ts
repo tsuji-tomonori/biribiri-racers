@@ -14,6 +14,11 @@ export interface Finish {
   normal: Vec;
 }
 export interface TrackDefinition {
+  worldSize?: number;
+  timeLimit?: number;
+  theme?: 'sky' | 'jungle' | 'factory';
+  tip?: string;
+  gimmicks?: readonly Gimmick[];
   name: string;
   level: string;
   tint: string;
@@ -27,6 +32,11 @@ export interface TrackDefinition {
   finish: Finish;
   checkpoints: readonly Omit<PathPoint, 's'>[];
 }
+export interface Gimmick extends Point {
+  kind: 'wind' | 'spin' | 'dash';
+  angle: number;
+  radius: number;
+}
 export interface Track extends TrackDefinition {
   id: number;
   path: readonly PathPoint[];
@@ -34,6 +44,10 @@ export interface Track extends TrackDefinition {
   gates: readonly PathPoint[];
 }
 export interface Racer extends Point {
+  spin: number;
+  floorBoost: number;
+  wind: boolean;
+  activeGimmicks: number[];
   id: number;
   color: number;
   cpu: boolean;
@@ -62,6 +76,7 @@ export interface Input {
   throttle?: number;
 }
 export type RaceEvent =
+  | { type: 'gimmick'; kind: Gimmick['kind']; racer: number }
   | { type: 'collision'; racer: number; x: number; y: number }
   | { type: 'boost' | 'finish'; racer: number };
 export type Phase =

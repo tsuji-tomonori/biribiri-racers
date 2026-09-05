@@ -19,7 +19,7 @@ test('読み込み・開始・停止・再開・リトライ @smoke', async ({ p
   await expect(
     page.getByRole('heading', { name: 'さあ、走ろう。' }),
   ).toBeVisible();
-  await expect(page.locator('[data-course]')).toHaveCount(5);
+  await expect(page.locator('[data-course]')).toHaveCount(8);
   await page.getByRole('button', { name: 'レース スタート！' }).click();
   await expect(page.locator('#race')).toHaveAttribute('data-phase', 'racing');
   await expect(page.locator('#speed')).not.toHaveText('0');
@@ -152,65 +152,83 @@ test('CPUが完走すると結果を表示し、リトライできる', async ({
   );
 });
 
-test('キー操作だけでプレイヤーがゴールできる', async ({ page }, info) => {
-  test.skip(
-    info.project.name !== 'chromium',
-    'Deterministic keyboard replay runs on desktop.',
-  );
-  // Generate only a sequence of real key presses. No production test hooks,
-  // teleportation, finish mutation or mock race results are used by this E2E.
-  const track = TRACKS[0]!,
-    racer = createRacer(track, 0, 0, false);
-  const steps: { key: string | null; push: boolean }[] = [];
-  for (let ms = 0; ms < 60000 && racer.finish === null; ms += 50) {
-    const ai = cpuInput(track, racer, 'normal'),
-      steer = Math.abs(ai.steer) < 0.12 ? 0 : Math.sign(ai.steer);
-    steps.push({
-      key: steer < 0 ? 'ArrowLeft' : steer > 0 ? 'ArrowRight' : null,
-      push: ai.push,
-    });
-    for (let j = 0; j < 6; j++)
-      tick(
-        track,
-        racer,
-        { steer, push: ai.push, throttle: 1, assist: true },
-        STEP,
-        ms / 1000 + j * STEP,
-      );
-  }
-  expect(racer.finish).not.toBeNull();
-  expect(racer.hits).toBe(0);
-  await page.getByRole('radio', { name: /フリー走行/ }).check();
-  await page.getByRole('button', { name: 'レース スタート！' }).click();
-  await page.clock.runFor(3000);
-  let held: string | null = null,
-    pushing = false;
-  for (const step of steps) {
-    if (step.key !== held) {
-      if (held) await page.keyboard.up(held);
-      if (step.key) await page.keyboard.down(step.key);
-      held = step.key;
+for (const track of [TRACKS[0]!, ...TRACKS.slice(5)])
+  test(`${track.name}: キー操作だけでプレイヤーがゴールできる`, async ({
+    page,
+  }, info) => {
+    test.setTimeout(track.worldSize ? 300000 : 90000);
+    test.skip(
+      info.project.name !== 'chromium',
+      'Deterministic keyboard replay runs on desktop.',
+    );
+    // Generate only a sequence of real key presses. No production test hooks,
+    // teleportation, finish mutation or mock race results are used by this E2E.
+    const racer = createRacer(track, 0, 0, false);
+    const steps: { key: string | null; push: boolean; ms: number }[] = [];
+    for (let ms = 0; ms < 180000 && racer.finish === null; ms += 50) {
+      const ai = cpuInput(track, racer, 'normal'),
+        steer = Math.abs(ai.steer) < 0.12 ? 0 : Math.sign(ai.steer);
+      const key = steer < 0 ? 'ArrowLeft' : steer > 0 ? 'ArrowRight' : null;
+      const last = steps.at(-1);
+      if (last && last.key === key && last.push === ai.push && last.ms < 200)
+        last.ms += 50;
+      else steps.push({ key, push: ai.push, ms: 50 });
+      for (let j = 0; j < 6; j++)
+        tick(
+          track,
+          racer,
+          { steer, push: ai.push, throttle: 1, assist: true },
+          STEP,
+          ms / 1000 + j * STEP,
+        );
     }
-    if (step.push !== pushing) {
-      if (step.push) await page.keyboard.down('Space');
-      else await page.keyboard.up('Space');
-      pushing = step.push;
+    expect(racer.finish).not.toBeNull();
+    expect(racer.hits).toBe(0);
+    await page.locator(`[data-course="${track.id}"]`).click();
+    await page.getByRole('radio', { name: /フリー走行/ }).check();
+    await page.getByRole('button', { name: 'レース スタート！' }).click();
+    await page.clock.runFor(3000);
+    const seenEffects = new Set<string>();
+    let held: string | null = null,
+      pushing = false;
+    for (const step of steps) {
+      if (step.key !== held) {
+        if (held) await page.keyboard.up(held);
+        if (step.key) await page.keyboard.down(step.key);
+        held = step.key;
+      }
+      if (step.push !== pushing) {
+        if (step.push) await page.keyboard.down('Space');
+        else await page.keyboard.up('Space');
+        pushing = step.push;
+      }
+      await page.clock.runFor(step.ms);
+      if (track.gimmicks) {
+        const label = await page.locator('#charge-label').innerText();
+        seenEffects.add(label);
+      }
     }
-    await page.clock.runFor(50);
-  }
-  if (held) await page.keyboard.up(held);
-  if (pushing) await page.keyboard.up('Space');
-  await page.clock.runFor(1500);
-  console.log(
-    'Keyboard replay HUD',
-    await page.locator('#time').innerText(),
-    await page.locator('#progress').innerText(),
-    await page.locator('#hits').innerText(),
-  );
-  await expect(page.locator('#results')).toBeVisible();
-  await expect(page.locator('#result-title')).toHaveText('やったね、ゴール！');
-  await page.screenshot({ path: info.outputPath('player-finish.png') });
-});
+    if (held) await page.keyboard.up(held);
+    if (pushing) await page.keyboard.up('Space');
+    await page.clock.runFor(1500);
+    console.log(
+      'Keyboard replay HUD',
+      await page.locator('#time').innerText(),
+      await page.locator('#progress').innerText(),
+      await page.locator('#hits').innerText(),
+    );
+    await expect(page.locator('#results')).toBeVisible();
+    for (const kind of new Set(track.gimmicks?.map((g) => g.kind)))
+      expect(
+        seenEffects.has(
+          { spin: 'SPIN!', wind: 'WIND!', dash: 'FLOOR DASH!' }[kind],
+        ),
+      ).toBe(true);
+    await expect(page.locator('#result-title')).toHaveText(
+      'やったね、ゴール！',
+    );
+    await page.screenshot({ path: info.outputPath('player-finish.png') });
+  });
 
 test('画像エラーを隠さず再読み込みできる', async ({ page }) => {
   await page.route('**/assets/racers.webp*', (route) => route.abort());
@@ -283,8 +301,8 @@ test('4台の長所短所を選択画面で確認できる', async ({ page }) =>
   }
 });
 
-test('周回用の全5コース画像を隠蔽なしで表示する', async ({ page }, info) => {
-  for (const track of TRACKS) {
+test('既存5コースの周回画像を隠蔽なしで表示する', async ({ page }, info) => {
+  for (const track of TRACKS.slice(0, 5)) {
     await page.locator(`[data-course="${track.id}"]`).click();
     const preview = page.locator('#course-preview');
     await expect(preview).toHaveAttribute('src', /[?]v=[a-zA-Z0-9]+$/);
@@ -311,3 +329,54 @@ test('周回用の全5コース画像を隠蔽なしで表示する', async ({ p
     });
   }
 });
+
+for (const track of TRACKS.slice(5)) {
+  test(`${track.name}: 新コースを選んで開始し全体表示できる @smoke`, async ({
+    page,
+  }, info) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page
+      .getByRole('button', {
+        name: `${track.id + 1} ${track.name}`,
+        exact: true,
+      })
+      .click();
+    await expect(page.locator('#course-name')).toHaveText(track.name);
+    await expect(page.locator('#course-count')).toHaveText(
+      `0${track.id + 1} / 08`,
+    );
+    await expect(page.locator('#course-tip')).toHaveText(track.tip!);
+    await expect(page.locator('#course-level')).toBeVisible();
+    await expect(page.locator('#course-level')).toHaveText(track.level);
+    await expect
+      .poll(() =>
+        page
+          .locator('#course-preview')
+          .evaluate((img) => (img as HTMLImageElement).naturalWidth),
+      )
+      .toBe(track.worldSize);
+    await page.screenshot({
+      path: info.outputPath(`advanced-select-${track.id}.png`),
+      fullPage: true,
+    });
+    await page.getByRole('radio', { name: /フリー走行/ }).check();
+    await page.getByRole('button', { name: 'レース スタート！' }).click();
+    await page.clock.runFor(3500);
+    await expect(page.locator('#race-course-name')).toHaveText(track.name);
+    await expect(page.locator('#speed')).not.toHaveText('0');
+    await page.locator('#camera').click();
+    await page.clock.runFor(1500);
+    await expect(page.locator('#camera')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await page.screenshot({
+      path: info.outputPath(`advanced-map-${track.id}.png`),
+      fullPage: true,
+    });
+    await page.locator('#pause').click();
+    await page.getByRole('button', { name: 'コースを選びなおす' }).click();
+    expect(errors).toEqual([]);
+  });
+}

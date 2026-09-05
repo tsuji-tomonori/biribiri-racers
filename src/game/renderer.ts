@@ -1,3 +1,4 @@
+import { SPIN_SECONDS } from './gimmicks';
 import { at, clamp } from './geometry';
 import { COLORS } from './physics';
 import type { Assets } from './assets';
@@ -79,11 +80,13 @@ export class Renderer {
       h = this.h,
       player = s.racers[0];
     if (!player) return;
+    const size = s.track.worldSize ?? 1254,
+      center = size / 2;
     let z: number, tx: number, ty: number;
     if (this.overview) {
-      z = Math.min(w / 1320, h / 1430);
-      tx = 627;
-      ty = 650;
+      z = Math.min(w / (size + 66), h / (size + 176));
+      tx = center;
+      ty = center + 23;
     } else {
       z = Math.min(w < 650 ? w / 550 : w / 1050, h / 850);
       if (player.boost > 0 && !this.reduced) z *= 0.94;
@@ -91,13 +94,13 @@ export class Renderer {
         halfH = h / (2 * z);
       tx = clamp(
         player.x + Math.cos(player.heading) * 110,
-        Math.min(halfW, 627),
-        Math.max(1254 - halfW, 627),
+        Math.min(halfW, center),
+        Math.max(size - halfW, center),
       );
       ty = clamp(
         player.y + Math.sin(player.heading) * 110,
-        Math.min(halfH, 627),
-        Math.max(1254 - halfH, 627),
+        Math.min(halfH, center),
+        Math.max(size - halfH, center),
       );
     }
     const smooth = 1 - Math.exp(-dt * 6);
@@ -115,7 +118,7 @@ export class Renderer {
     c.translate(w / 2 + jolt, h / 2);
     c.scale(this.cam.zoom, this.cam.zoom);
     c.translate(-this.cam.x, -this.cam.y);
-    c.drawImage(this.assets.courses[t.id]!, 0, 0, 1254, 1254);
+    c.drawImage(this.assets.courses[t.id]!, 0, 0, size, size);
     c.lineCap = 'round';
     for (let a = 110; a < t.length - 100; a += 150) {
       const p = at(t, a);
@@ -174,19 +177,19 @@ export class Renderer {
     m.clearRect(0, 0, 180, 180);
     m.drawImage(this.assets.courses[t.id]!, 0, 0, 180, 180);
     m.save();
-    m.scale(180 / 1254, 180 / 1254);
+    m.scale(180 / size, 180 / size);
     m.restore();
     m.strokeStyle = '#e8ff59';
     m.lineWidth = 3;
     m.beginPath();
-    m.moveTo((t.finish.a[0] * 180) / 1254, (t.finish.a[1] * 180) / 1254);
-    m.lineTo((t.finish.b[0] * 180) / 1254, (t.finish.b[1] * 180) / 1254);
+    m.moveTo((t.finish.a[0] * 180) / size, (t.finish.a[1] * 180) / size);
+    m.lineTo((t.finish.b[0] * 180) / size, (t.finish.b[1] * 180) / size);
     m.stroke();
     for (const r of s.racers) {
       m.beginPath();
       m.arc(
-        (r.x / 1254) * 180,
-        (r.y / 1254) * 180,
+        (r.x / size) * 180,
+        (r.y / size) * 180,
         r.id === 0 ? 5 : 3.5,
         0,
         Math.PI * 2,
@@ -233,7 +236,13 @@ export class Renderer {
       c.arc(0, 0, 24, 0, Math.PI * 2);
       c.fill();
     }
-    c.rotate(r.heading + Math.PI / 2);
+    c.rotate(
+      r.heading +
+        Math.PI / 2 +
+        (!this.reduced && r.spin > 0
+          ? (1 - r.spin / SPIN_SECONDS) * Math.PI * 2
+          : 0),
+    );
     if (r.boost > 0 || r.charge > 0.1) {
       c.strokeStyle = r.boost ? color : '#ffe656';
       c.lineWidth = 3;
@@ -259,7 +268,14 @@ export class Renderer {
     c.translate(r.x, r.y - 46);
     c.scale(1 / this.cam.zoom, 1 / this.cam.zoom);
     c.font = '800 12px system-ui';
-    const label = r.cpu ? r.name : '▼ YOU',
+    const label =
+        r.spin > 0
+          ? 'SPIN!'
+          : r.wind
+            ? 'WIND!'
+            : r.floorBoost > 0
+              ? 'DASH!'
+              : '▼ YOU',
       width = c.measureText(label).width + 16;
     c.fillStyle = r.cpu ? '#fffffff2' : color;
     c.beginPath();

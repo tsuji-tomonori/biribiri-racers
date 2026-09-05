@@ -357,7 +357,7 @@ button:disabled {
 }
 #course-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-top: 20px;
 }
@@ -1048,7 +1048,9 @@ dialog h2 {
     font-size: 20px;
   }
   .course-ribbon span {
-    display: none;
+    display: inline-block;
+    margin-top: 6px;
+    white-space: normal;
   }
   .course-card span {
     font-size: 8px;
@@ -1856,5 +1858,20 @@ dialog h2 {
 @media (max-width: 650px) {
   .machine-info {
     grid-column: 1/-1;
+  }
+}
+
+.course-tip {
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 12px 4px 0;
+}
+@media (max-width: 600px) {
+  #course-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .course-card span {
+    font-size: 12px;
   }
 }

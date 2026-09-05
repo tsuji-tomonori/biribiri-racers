@@ -9,4 +9,4 @@
 バランス・最高速・旋回・チャージ型の4種類について、表示と同じ設定からプレイヤーとCPUの速度・旋回・グリップ・充填時間・ダッシュを計算する。速度型は旋回型より速く、旋回型は小回りが効き、チャージ型は基礎速度と引き換えに短時間でためて長く加速する。
 
 ## 検証・追跡
-実装: machines.ts / physics.ts / Lobby.astro。検証: tests/unit/lap.test.ts、tests/unit/racing.test.ts（4機体×5コース）、tests/e2e/game.spec.ts。責任: リポジトリ保守者。観測可能な運動と選択UIで検証する。
+実装: machines.ts / physics.ts / Lobby.astro。検証: tests/unit/lap.test.ts、tests/unit/racing.test.ts（4機体×8コース）、tests/e2e/game.spec.ts。責任: リポジトリ保守者。観測可能な運動と選択UIで検証する。
