@@ -1,5 +1,7 @@
+declare const __BUILD_SHA__: string;
+
 export const assetUrl = (file: string): string =>
-  `${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/${file}`;
+  `${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/${file}?v=${encodeURIComponent(__BUILD_SHA__)}`;
 export interface Assets {
   courses: HTMLImageElement[];
   racers: HTMLImageElement;

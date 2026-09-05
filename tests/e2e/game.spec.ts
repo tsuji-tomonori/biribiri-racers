@@ -213,13 +213,13 @@ test('キー操作だけでプレイヤーがゴールできる', async ({ page 
 });
 
 test('画像エラーを隠さず再読み込みできる', async ({ page }) => {
-  await page.route('**/assets/racers.webp', (route) => route.abort());
+  await page.route('**/assets/racers.webp*', (route) => route.abort());
   await page.reload();
   await expect(page.getByRole('alert')).toContainText(
     'コース画像を読み込めませんでした',
   );
   await expect(page.locator('#start')).toBeDisabled();
-  await page.unroute('**/assets/racers.webp');
+  await page.unroute('**/assets/racers.webp*');
   await page.getByRole('button', { name: '画像を再読み込み' }).click();
   await expect(
     page.getByRole('button', { name: 'レース スタート！' }),
@@ -287,6 +287,7 @@ test('周回用の全5コース画像を隠蔽なしで表示する', async ({ p
   for (const track of TRACKS) {
     await page.locator(`[data-course="${track.id}"]`).click();
     const preview = page.locator('#course-preview');
+    await expect(preview).toHaveAttribute('src', /[?]v=[a-zA-Z0-9]+$/);
     await expect(preview).toHaveAttribute(
       'src',
       new RegExp(`course-${track.id}.webp`),
