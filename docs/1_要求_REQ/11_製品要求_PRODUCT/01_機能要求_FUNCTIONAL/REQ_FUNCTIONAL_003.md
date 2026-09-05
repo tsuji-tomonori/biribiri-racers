@@ -6,8 +6,8 @@
 走路外との接触時、システムは機体の当該走行進捗をスタート状態へ戻す。
 
 ## 受け入れ条件
-位置、順路ゲート、進行度、速度、チャージをリセットし、接触数を加算する。
+人間/CPUの4機体とも接触数を1加算し、進行度・速度・チャージを直ちにリセットする。最後の合法位置で0.3秒感電表示した後に初期位置へ戻り、0.75秒待機する。
 
 ## 検証・追跡
-検証先: `tests/unit/racing.test.ts`。受入索引: `docs/1_要求_REQ/21_受入基準_ACCEPTANCE/REQ_ACCEPTANCE_001.md`。
+検証先: `tests/unit/lap.test.ts / tests/e2e/game.spec.ts`。受入索引: `docs/1_要求_REQ/21_受入基準_ACCEPTANCE/REQ_ACCEPTANCE_001.md`。
 依存: REQ_TECHNICAL_CONSTRAINT_001。責任: リポジトリ保守者。レビュー: 観測可能・単一条件・検証可能であり、実装箇所とテストを対応付けた。証跡はreports/workingの当該作業報告に記録する。
