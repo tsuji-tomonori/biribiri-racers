@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { TRACKS } from '../../src/game/tracks';
-import { createRacer, cpuInput, STEP, tick } from '../../src/game/physics';
+import { cpuInput } from '../../src/game/physics';
+import { Session } from '../../src/game/session';
 
 test.beforeEach(async ({ page }, info) => {
   const manualClock = /チャージ|CPUが完走|キー操作だけ|電撃/.test(info.title);
@@ -163,31 +164,36 @@ for (const track of [TRACKS[0]!, ...TRACKS.slice(5)])
     );
     // Generate only a sequence of real key presses. No production test hooks,
     // teleportation, finish mutation or mock race results are used by this E2E.
-    const racer = createRacer(track, 0, 0, false);
+    // Playwright's virtual animation frames run every 16 ms. Use the same
+    // accumulator and frame boundaries as the browser, including countdown.
+    const model = new Session(track, {
+      mode: 'practice',
+      color: 0,
+      assist: true,
+      difficulty: 'easy',
+    });
+    model.start();
+    for (let frame = 0; frame < 190; frame++)
+      model.update(0.016, { steer: 0, push: false, assist: true });
+    const racer = model.racers[0]!;
     const steps: { key: string | null; push: boolean; ms: number }[] = [];
-    for (let ms = 0; ms < 180000 && racer.finish === null; ms += 50) {
+    for (let ms = 0; ms < 180000 && racer.finish === null; ms += 80) {
       const ai = cpuInput(track, racer, 'normal'),
         steer = Math.abs(ai.steer) < 0.12 ? 0 : Math.sign(ai.steer);
-      const key = steer < 0 ? 'ArrowLeft' : steer > 0 ? 'ArrowRight' : null;
-      const last = steps.at(-1);
-      if (last && last.key === key && last.push === ai.push && last.ms < 200)
-        last.ms += 50;
-      else steps.push({ key, push: ai.push, ms: 50 });
-      for (let j = 0; j < 6; j++)
-        tick(
-          track,
-          racer,
-          { steer, push: ai.push, throttle: 1, assist: true },
-          STEP,
-          ms / 1000 + j * STEP,
-        );
+      steps.push({
+        key: steer < 0 ? 'ArrowLeft' : steer > 0 ? 'ArrowRight' : null,
+        push: ai.push,
+        ms: 80,
+      });
+      for (let frame = 0; frame < 5; frame++)
+        model.update(0.016, { steer, push: ai.push, assist: true });
     }
     expect(racer.finish).not.toBeNull();
     expect(racer.hits).toBe(0);
     await page.locator(`[data-course="${track.id}"]`).click();
     await page.getByRole('radio', { name: /フリー走行/ }).check();
     await page.getByRole('button', { name: 'レース スタート！' }).click();
-    await page.clock.runFor(3000);
+    await page.clock.runFor(3040);
     const seenEffects = new Set<string>();
     let held: string | null = null,
       pushing = false;
