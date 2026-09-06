@@ -1,0 +1,15 @@
+CONTRACT = {
+    "operation_id": "roomCommand",
+    "slug": "command",
+    "method": "POST",
+    "path": "/api/rooms/{code}/commands",
+    "auth": "member",
+    "permission": "member",
+    "request": "Command",
+    "response": "Response",
+    "errors": [400, 403, 404, 409, 410, 422, 429, 503],
+    "idempotency": "per-player requestId / input seq",
+    "transaction": "DynamoDB version CAS",
+    "effects": "DynamoDB state then Streams delivery",
+    "requirements": ["BR-RACE-001", "BR-SYNC-001", "BR-GP-001", "BR-FREE-001"],
+}

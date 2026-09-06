@@ -1,0 +1,15 @@
+CONTRACT = {
+    "operation_id": "health",
+    "slug": "health",
+    "method": "GET",
+    "path": "/api/health",
+    "auth": "public",
+    "permission": "public",
+    "request": "none",
+    "response": "dict[str,str]",
+    "errors": [400, 403, 404, 409, 410, 422, 429, 503],
+    "idempotency": "per-player requestId / input seq",
+    "transaction": "DynamoDB version CAS",
+    "effects": "DynamoDB state then Streams delivery",
+    "requirements": ["BR-AWS-001"],
+}

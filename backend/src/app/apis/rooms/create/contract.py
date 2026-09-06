@@ -1,0 +1,15 @@
+CONTRACT = {
+    "operation_id": "createRoom",
+    "slug": "create",
+    "method": "POST",
+    "path": "/api/rooms",
+    "auth": "public",
+    "permission": "public",
+    "request": "Enter",
+    "response": "Response",
+    "errors": [400, 403, 404, 409, 410, 422, 429, 503],
+    "idempotency": "per-player requestId / input seq",
+    "transaction": "DynamoDB version CAS",
+    "effects": "DynamoDB state then Streams delivery",
+    "requirements": ["BR-ROOM-001"],
+}

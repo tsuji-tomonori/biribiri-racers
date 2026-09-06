@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "authority": "project-owned-adapter-contract",
+  "generators": [
+    {
+      "id": "course-data",
+      "command": "npm run data:generate",
+      "check": "npm run data:check",
+      "inputs": [
+        "src/game/tracks.ts",
+        "src/game/machines.ts",
+        "src/game/geometry.ts",
+        "scripts/export-game.ts"
+      ],
+      "outputs": [
+        "backend/src/app/data/game.gen.json"
+      ],
+      "depends_on": [],
+      "ci_safe": true,
+      "check_writes": false
+    },
+    {
+      "id": "canonical-requirements",
+      "command": "python tools/quintflow.py generate",
+      "check": "python tools/quintflow.py check",
+      "inputs": [
+        "spec/requirements/requirements.qnt"
+      ],
+      "outputs": [
+        "spec/requirements/requirements.json",
+        "docs/requirements/REQUIREMENTS.md"
+      ],
+      "depends_on": [],
+      "ci_safe": true,
+      "check_writes": false
+    },
+    {
+      "id": "api-design",
+      "command": "uv run --locked --project backend app-docs",
+      "check": "uv run --locked --project backend app-docs --check",
+      "inputs": [
+        "backend/src/app/**/*.py",
+        "backend/src/app/data/game.gen.json",
+        "spec/trace/api.json",
+        "spec/requirements/requirements.json",
+        "backend/tests/*.py"
+      ],
+      "outputs": [
+        "docs/design/generated/fastapi/*"
+      ],
+      "depends_on": [
+        "course-data",
+        "canonical-requirements"
+      ],
+      "ci_safe": true,
+      "check_writes": false
+    },
+    {
+      "id": "cdk-synth",
+      "command": "npm run infra:synth",
+      "check": null,
+      "inputs": [
+        "infra/app.ts",
+        "backend/src/app/**/*",
+        "backend/uv.lock",
+        "scripts/package-lambda.sh",
+        "cdk.json"
+      ],
+      "outputs": [
+        "cdk.out/BiribiriMultiplayer.template.json"
+      ],
+      "depends_on": [
+        "course-data"
+      ],
+      "ci_safe": true,
+      "check_writes": false
+    },
+    {
+      "id": "cdk-design",
+      "command": "bash scripts/design-cdk.sh",
+      "check": "bash scripts/design-cdk.sh --check",
+      "inputs": [
+        "cdk.out/BiribiriMultiplayer.template.json",
+        "spec/trace/cdk.json",
+        "spec/requirements/requirements.json",
+        "backend/tests/*.py"
+      ],
+      "outputs": [
+        "docs/design/generated/cdk/BiribiriMultiplayer/*"
+      ],
+      "depends_on": [
+        "cdk-synth",
+        "canonical-requirements"
+      ],
+      "ci_safe": true,
+      "check_writes": false
+    },
+    {
+      "id": "requirement-pages",
+      "command": "python scripts/requirements-pages.py",
+      "check": "python scripts/requirements-pages.py --check",
+      "inputs": [
+        "spec/requirements/requirements.json"
+      ],
+      "outputs": [
+        "docs/1_要求_REQ/**/BR-*.md"
+      ],
+      "depends_on": [
+        "canonical-requirements"
+      ],
+      "ci_safe": true,
+      "check_writes": false
+    }
+  ]
+}

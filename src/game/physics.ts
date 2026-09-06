@@ -19,8 +19,15 @@ const NAMES = ['ビリリ', 'さくら', 'みどり', 'ひかる'] as const;
 export function spawn(t: Track, r: Racer): void {
   clearGimmicks(r);
   const p = t.path[0]!,
-    lateral = [-25, 25, -25, 25][r.id] ?? 0,
-    back = r.id >= 2 ? 48 : 0;
+    back = Math.floor(r.id / 2) * 24,
+    lanes = [-25, 25, 0, -50, 50].filter((v) =>
+      onRoad(
+        t,
+        p.x - Math.sin(p.angle) * v - Math.cos(p.angle) * back,
+        p.y + Math.cos(p.angle) * v - Math.sin(p.angle) * back,
+      ),
+    ),
+    lateral = lanes[r.id % 2] ?? lanes[0] ?? 0;
   r.x = p.x - Math.sin(p.angle) * lateral - Math.cos(p.angle) * back;
   r.y = p.y + Math.cos(p.angle) * lateral - Math.sin(p.angle) * back;
   if (!onRoad(t, r.x, r.y)) {

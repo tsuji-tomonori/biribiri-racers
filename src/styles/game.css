@@ -1861,6 +1861,84 @@ dialog h2 {
   }
 }
 
+.online {
+  overflow: auto;
+  padding: 30px;
+  background: #eff8ff;
+  color: #12366d;
+  height: 100svh;
+}
+.online > header,
+.online > div,
+.online > p {
+  max-width: 760px;
+  margin: 16px auto;
+}
+.online label {
+  display: block;
+  margin: 14px 0;
+  font-weight: 700;
+}
+.online input,
+.online select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #b9d9ef;
+  border-radius: 12px;
+  font: inherit;
+  min-height: 44px;
+}
+.online form {
+  padding: 20px;
+  background: white;
+  border-radius: 24px;
+  margin: 20px 0;
+}
+#room-code {
+  font-size: 32px;
+  letter-spacing: 4px;
+}
+#room-members {
+  max-height: 35svh;
+  overflow: auto;
+  padding: 16px 32px;
+  background: white;
+  border-radius: 20px;
+  line-height: 2;
+}
+#online-error {
+  color: #a32147;
+}
+#racers {
+  max-height: 28svh;
+  overflow: auto;
+  pointer-events: auto;
+}
+.race-actions .online-exit {
+  font-size: 13px;
+  font-weight: 800;
+}
+.online h1 {
+  font-size: clamp(24px, 6vw, 32px);
+}
+.online-race-status {
+  position: absolute;
+  z-index: 20;
+  right: 15px;
+  top: 65px;
+  color: #12366d;
+  background: #ffffffe8;
+  border-radius: 10px;
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+.result-row > strong {
+  width: 2ch;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
 .course-tip {
   color: #fff;
   font-size: 13px;
@@ -1874,4 +1952,10 @@ dialog h2 {
   .course-card span {
     font-size: 12px;
   }
+}
+
+.online-open {
+  width: 100%;
+  margin: 12px 0;
+  min-height: 48px;
 }

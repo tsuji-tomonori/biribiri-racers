@@ -3,6 +3,7 @@ import Brand from './Brand.astro';
 ---
 
 <section id="race" class="screen race" data-phase="menu" hidden>
+  <p id="online-race-status" class="online-race-status" hidden></p>
   <canvas
     id="game"
     tabindex="0"
@@ -26,6 +27,12 @@ import Brand from './Brand.astro';
         class="icon-button"
         title="サウンドを切り替える"
         aria-label="サウンドを切り替える">♪</button
+      ><button
+        id="online-exit"
+        class="icon-button online-exit"
+        hidden
+        title="ルームから退出"
+        aria-label="ルームから退出">退出</button
       ><button
         id="pause"
         class="icon-button"

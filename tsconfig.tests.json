@@ -8,6 +8,9 @@
     "tests/**/*.ts",
     "playwright.config.ts",
     "vitest.config.ts",
-    "src/game/**/*.ts"
+    "src/game/**/*.ts",
+    "playwright.online.config.ts",
+    "scripts/physics-trace.ts",
+    "scripts/export-game.ts"
   ]
 }

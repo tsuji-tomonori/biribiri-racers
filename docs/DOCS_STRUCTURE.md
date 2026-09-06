@@ -10,3 +10,5 @@
 - `2_アーキテクチャ_ARC`: 構造と状態
 - `3_設計_DES`: UIとアセット
 - `4_運用_OPS`: 開発・公開・復旧
+
+匿名対戦の追加要件は `spec/requirements/requirements.qnt` を正本とし、JSONから `docs/requirements/REQUIREMENTS.md` と既存REQ階層の1要件1ファイルを生成する。実装由来の派生設計は `docs/design/generated/`、手動の設計判断はARC、運用手順はOPSに置く。

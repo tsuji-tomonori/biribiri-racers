@@ -1,0 +1,8 @@
+{
+  "app": "node --import tsx infra/app.ts",
+  "context": {
+    "@aws-cdk/core:checkSecretUsage": true,
+    "cli-telemetry": false
+  },
+  "versionReporting": false
+}
