@@ -232,7 +232,7 @@ function retry(): void {
   } else start();
 }
 startButton.addEventListener('click', () => {
-  element('#retry').textContent = 'もう一度レース';
+  element('#retry').textContent = 'もういちど走る';
   start();
 });
 element('#retry').addEventListener('click', retry);
