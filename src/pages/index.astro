@@ -1,4 +1,5 @@
 ---
+import Online from '../components/Online.astro';
 import Lobby from '../components/Lobby.astro';
 import Race from '../components/Race.astro';
 import Dialogs from '../components/Dialogs.astro';
@@ -23,7 +24,7 @@ const revision = process.env['GITHUB_SHA'] ?? 'local';
       ビリビリレーサーズ | ひとりでレース
     </title></head
   ><body
-    ><main id="app"><Lobby /><Race /><Dialogs /></main><noscript
+    ><main id="app"><Lobby /><Online /><Race /><Dialogs /></main><noscript
       ><p class="noscript">
         このゲームを遊ぶにはJavaScriptを有効にしてください。
       </p></noscript

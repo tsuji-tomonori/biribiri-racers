@@ -1,3 +1,5 @@
+import { mountOnline } from '../online/lobby';
+import { OnlineSession } from '../online/session';
 import { MACHINES } from './machines';
 import { loadAssets, assetUrl } from './assets';
 import { Controls } from './input';
@@ -60,6 +62,7 @@ async function prepare(): Promise<void> {
     renderer = new Renderer(canvas, mini, await loadAssets());
     startButton.disabled = false;
     startButton.textContent = 'レース スタート！ ↗';
+    if (onlineClient.room) onlineClient.changed(onlineClient.room);
   } catch {
     element('#load-error').textContent =
       'コース画像を読み込めませんでした。通信を確認して再読み込みしてください。';
@@ -119,6 +122,14 @@ function start(): void {
   };
   session = new Session(TRACKS[selected]!, options);
   session.start();
+  startScene();
+}
+function startScene(): void {
+  if (!renderer || !session) return;
+  element('#online').hidden = true;
+  element('#online-exit').hidden = !(session instanceof OnlineSession);
+  element('#online-race-status').hidden = !(session instanceof OnlineSession);
+  element('#pause').hidden = session instanceof OnlineSession;
   renderer.reset(session);
   controls.clear();
   controls.active = true;
@@ -128,7 +139,7 @@ function start(): void {
   noticeUntil = 0;
   element('#race-course-name').textContent = session.track.name;
   element('#race-course-number').textContent =
-    `COURSE 0${selected + 1} · ${mode === 'practice' ? 'FREE RUN' : '1 LAP'}`;
+    `COURSE 0${TRACKS.indexOf(session.track) + 1} · ${session.options.mode === 'practice' ? 'FREE RUN' : '1 LAP'}`;
   element('#announcement').classList.remove('visible');
   element('#coach').hidden = false;
   element('#camera').setAttribute('aria-pressed', 'false');
@@ -136,7 +147,7 @@ function start(): void {
   list.replaceChildren();
   for (const r of session.racers) {
     const row = document.createElement('div');
-    row.className = `racer-row ${r.cpu ? '' : 'you'}`;
+    row.className = `racer-row ${r.id === session.racers[0]?.id ? 'you' : ''}`;
     row.dataset['racer'] = String(r.id);
     row.style.setProperty('--c', COLORS[r.color]!);
     const rank = document.createElement('strong'),
@@ -146,7 +157,11 @@ function start(): void {
       bar = document.createElement('div');
     dot.style.background = COLORS[r.color]!;
     name.textContent = r.name;
-    kind.textContent = r.cpu ? 'CPU' : 'YOU';
+    kind.textContent = r.cpu
+      ? 'CPU'
+      : r.id === session.racers[0]?.id
+        ? 'YOU'
+        : 'PLAYER';
     bar.className = 'bar';
     row.append(rank, dot, name, kind, bar);
     list.append(row);
@@ -155,12 +170,74 @@ function start(): void {
   syncHud();
   canvas.focus();
 }
-startButton.addEventListener('click', start);
-element('#retry').addEventListener('click', start);
+const onlineClient = mountOnline((client, room) => {
+  if (room.phase === 'lobby') {
+    if (session instanceof OnlineSession) {
+      session.phase = 'menu';
+      results.close();
+      race.hidden = true;
+      element('#online').hidden = false;
+    }
+    return;
+  }
+  if (!renderer) return;
+  if (
+    !(session instanceof OnlineSession) ||
+    session.room.raceId !== room.raceId
+  ) {
+    session = new OnlineSession(client, room);
+    startScene();
+  } else if (!(
+    session.phase === 'menu' &&
+    resultShown &&
+    room.phase !== 'racing'
+  ))
+    session.accept(room);
+}, home);
+function showOnlineResults(s: OnlineSession): void {
+  resultShown = true;
+  controls.active = false;
+  controls.clear();
+  element('#result-kicker').textContent = 'RACE FINISHED';
+  element('#result-title').textContent = '順位が確定しました！';
+  element('#result-subtitle').textContent =
+    `${s.room.mode === 'grand-prix' ? `第${s.room.round}戦 / ${TRACKS.length}戦` : 'フリー対戦'} · 総合得点はルームで確認できます。`;
+  const list = element('#result-list');
+  list.replaceChildren();
+  for (const standing of s.room.standings) {
+    const row = document.createElement('div');
+    row.className = 'result-row';
+    const rank = document.createElement('strong'),
+      name = document.createElement('b'),
+      score = document.createElement('span');
+    rank.textContent = String(standing.rank);
+    name.textContent = standing.name;
+    score.textContent = `${standing.outcome === 'dnf' ? 'リタイア' : '順位確定'} · +${standing.points}pt`;
+    row.append(rank, name, score);
+    list.append(row);
+  }
+  element('#retry').textContent = 'ルームへ・次のレース';
+  results.showModal();
+  sound.update(0, false);
+}
+function retry(): void {
+  if (session instanceof OnlineSession) {
+    results.close();
+    session.phase = 'menu';
+    race.hidden = true;
+    element('#online').hidden = false;
+  } else start();
+}
+startButton.addEventListener('click', () => {
+  element('#retry').textContent = 'もう一度レース';
+  start();
+});
+element('#retry').addEventListener('click', retry);
 element('#retry-pause').addEventListener('click', start);
 
 function home(): void {
   if (session) session.phase = 'menu';
+  element('#online').hidden = true;
   all<HTMLDialogElement>('dialog[open]').forEach((d) => d.close());
   controls.active = false;
   controls.clear();
@@ -169,9 +246,13 @@ function home(): void {
   sound.update(0, false);
   startButton.focus();
 }
-element('#home').addEventListener('click', home);
+element('#home').addEventListener('click', () => {
+  if (session instanceof OnlineSession) retry();
+  else home();
+});
 element('#home-pause').addEventListener('click', home);
 function pause(): void {
+  if (session instanceof OnlineSession) return;
   if (!session || !['countdown', 'racing'].includes(session.phase)) return;
   session.pause();
   controls.clear();
@@ -264,7 +345,9 @@ function syncHud(): void {
           ? '復帰中'
           : racer.cpu
             ? 'CPU'
-            : 'YOU';
+            : racer.id === s.racers[0]?.id
+              ? 'YOU'
+              : 'PLAYER';
     row.classList.toggle('shocked', racer.shock > 0);
     element('#racers').append(row);
   }
@@ -299,6 +382,10 @@ function syncHud(): void {
 
 function showResults(): void {
   if (!session || resultShown) return;
+  if (session instanceof OnlineSession) {
+    showOnlineResults(session);
+    return;
+  }
   resultShown = true;
   controls.active = false;
   controls.clear();
@@ -354,8 +441,9 @@ function frame(now: number): void {
     const events = session.update(delta, controls.read(session.options.assist));
     for (const e of events) {
       renderer.event(e, session);
-      if (e.racer === 0 || e.type === 'finish') sound.effect(e.type);
-      if (e.racer === 0 && e.type === 'collision')
+      if (e.racer === session.racers[0]?.id || e.type === 'finish')
+        sound.effect(e.type);
+      if (e.racer === session.racers[0]?.id && e.type === 'collision')
         announce('ビリッ！ かべに接触 — スタートへ');
     }
     renderer.draw(session, session.phase === 'paused' ? 0 : delta);

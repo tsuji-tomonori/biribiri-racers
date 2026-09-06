@@ -1,0 +1,73 @@
+---
+import { TRACKS } from '../game/tracks';
+---
+
+<section
+  id="online"
+  class="screen online"
+  hidden
+  aria-labelledby="online-title"
+>
+  <header>
+    <h1 id="online-title">みんなで、ビリビリ。</h1><button
+      id="online-home"
+      class="secondary">ひとりで遊ぶ</button>
+  </header>
+  <p>ログイン不要。コードを共有して、2〜10人でレース！</p>
+  <p id="online-status" role="status"></p><p id="online-error" role="alert"></p>
+  <div id="online-entry">
+    <label
+      >あなたの名前<input
+        id="online-name"
+        maxlength="16"
+        value="レーサー"
+      /></label
+    >
+    <label
+      >マシン<select id="online-color"
+        ><option value="0">ビリリ</option><option value="1">さくら</option
+        ><option value="2">みどり</option><option value="3">ひかる</option
+        ></select
+      ></label
+    >
+    <form id="create-room">
+      <h2>ルームをつくる</h2><label
+        >モード<select id="create-mode"
+          ><option value="grand-prix">グランプリ</option><option value="free"
+            >フリー対戦</option
+          ></select
+        ></label
+      ><button class="primary">ルームをつくる</button>
+    </form>
+    <form id="join-room">
+      <h2>コードで参加</h2><label
+        >ルームコード<input
+          id="join-code"
+          required
+          minlength="6"
+          maxlength="6"
+          placeholder="6文字のコード"
+        /></label
+      ><button class="secondary">ルームに参加する</button>
+    </form>
+  </div>
+  <div id="room-panel" hidden>
+    <p>ルームコード <strong id="room-code"></strong></p><button
+      id="room-invite"
+      class="secondary">招待リンクをコピー</button
+    >
+    <p id="room-mode"></p><ol id="room-members"></ol>
+    <div id="room-settings">
+      <label
+        >次のコース<select id="room-course"
+          >{TRACKS.map((t) => <option value={t.id}>{t.name}</option>)}</select
+        ></label
+      ><button id="room-save" class="secondary">コースを選ぶ</button>
+    </div>
+    <button id="room-ready" class="primary">準備完了</button><button
+      id="room-start"
+      class="primary">レース開始</button
+    ><button id="room-next" class="primary" hidden>ルームへ・次のレース</button
+    ><button id="room-leave" class="secondary">退出</button>
+  </div>
+</section>

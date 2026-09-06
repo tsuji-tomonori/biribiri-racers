@@ -1858,3 +1858,85 @@ dialog h2 {
     grid-column: 1/-1;
   }
 }
+
+.online {
+  overflow: auto;
+  padding: 30px;
+  background: #eff8ff;
+  color: #12366d;
+  height: 100svh;
+}
+.online > header,
+.online > div,
+.online > p {
+  max-width: 760px;
+  margin: 16px auto;
+}
+.online label {
+  display: block;
+  margin: 14px 0;
+  font-weight: 700;
+}
+.online input,
+.online select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #b9d9ef;
+  border-radius: 12px;
+  font: inherit;
+  min-height: 44px;
+}
+.online form {
+  padding: 20px;
+  background: white;
+  border-radius: 24px;
+  margin: 20px 0;
+}
+#room-code {
+  font-size: 32px;
+  letter-spacing: 4px;
+}
+#room-members {
+  max-height: 35svh;
+  overflow: auto;
+  padding: 16px 32px;
+  background: white;
+  border-radius: 20px;
+  line-height: 2;
+}
+#online-error {
+  color: #a32147;
+}
+#racers {
+  max-height: 28svh;
+  overflow: auto;
+  pointer-events: auto;
+}
+.online-exit {
+  position: absolute;
+  z-index: 20;
+  right: 15px;
+  top: 100px;
+  background: white;
+  color: #12366d;
+  border: 0;
+  border-radius: 20px;
+  padding: 12px;
+}
+.online-race-status {
+  position: absolute;
+  z-index: 20;
+  right: 15px;
+  top: 145px;
+  color: #12366d;
+  background: #ffffffe8;
+  border-radius: 10px;
+  padding: 6px;
+  font-size: 12px;
+}
+.result-row > strong {
+  width: 2ch;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}

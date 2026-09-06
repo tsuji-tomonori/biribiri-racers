@@ -1,0 +1,15 @@
+CONTRACT = {
+    "operation_id": "getConfig",
+    "slug": "config",
+    "method": "GET",
+    "path": "/api/config",
+    "auth": "public",
+    "permission": "public",
+    "request": "none",
+    "response": "Connection",
+    "errors": [400, 403, 404, 409, 410, 422, 429, 503],
+    "idempotency": "per-player requestId / input seq",
+    "transaction": "DynamoDB version CAS",
+    "effects": "DynamoDB state then Streams delivery",
+    "requirements": ["BR-AWS-001"],
+}

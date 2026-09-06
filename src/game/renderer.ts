@@ -49,7 +49,7 @@ export class Renderer {
     };
   }
   event(e: RaceEvent, s: Session): void {
-    const r = s.racers[e.racer]!;
+    const r = s.racers.find((r) => r.id === e.racer)!;
     if (e.type === 'collision') this.trails.delete(r.id);
     if (this.reduced) return;
     for (let i = 0; i < (e.type === 'finish' ? 60 : 18); i++) {

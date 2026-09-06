@@ -1,0 +1,36 @@
+[project]
+name = "biribiri-api"
+version = "1.0.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["fastapi>=0.115", "mangum>=0.19", "boto3>=1.35", "pydantic>=2.10"]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[tool.hatch.build.targets.wheel]
+packages = ["src/app"]
+[dependency-groups]
+dev = ["uvicorn[standard]", "httpx", "httpx2", "pytest", "pytest-cov", "ruff", "pyright", "mypy", "boto3-stubs-lite[dynamodb]", "moto[dynamodb]"]
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC", "S", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"] # Japanese text.
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101"]
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.12"
+include = ["src", "tests"]
+venvPath = "."
+venv = ".venv"
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "backend/src"
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers"
+testpaths = ["tests"]
+[project.scripts]
+app-docs = "app.tools.design:main"
+app-archlint = "app.tools.archlint:main"
