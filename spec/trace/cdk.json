@@ -1,0 +1,408 @@
+{
+  "schema_version": 2,
+  "applicable_requirement_ids": [
+    "BR-AWS-001"
+  ],
+  "links": [
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "RoomsB5ADC23C"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "ApiHandlerLogs7BF57C16"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "ApiHandlerServiceRole592E70E9"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "ApiHandlerServiceRoleDefaultPolicy10321D87"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "ApiHandler5E7490E8"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "AuthorizerLogsBA5DABC9"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "AuthorizerServiceRoleB8F38EC9"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "AuthorizerServiceRoleDefaultPolicy1B90C858"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "AuthorizerBD825682"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "AuthorizerEventsappsyncE2746016"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "EventsD32975C2"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "EventsroomsF4A4FA55"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "PublisherLogsF6EE885C"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "PublisherServiceRoleF4D9160F"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "PublisherServiceRoleDefaultPolicy0E21E942"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "PublisherF0355618"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "PublisherDynamoDBEventSourceBiribiriMultiplayerRoomsDA8E597705530117"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "FailedEventsA83487DA"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "FailedEventsPolicy9E93B8CD"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "FailedEventAlarm465C2E4D"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "ApiErrorAlarmD3E841A2"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiF5A9A8A7"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiDefaultStage3EEB07D6"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapihealthFastApi9BC91470"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapihealthFastApiPermission8540C7D2"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapihealth7FA5887F"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapiconfigFastApiPermissionA7624E24"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapiconfig3A1D883F"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapiroomsFastApiPermissionEF51A857"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapirooms68334942"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapiroomscodejoinFastApiPermissionD490E658"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapiroomscodejoin9099AAF5"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapiroomscodeFastApiPermission07821F28"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiGETapiroomscode61052319"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapiroomscodecommandsFastApiPermissionC2B1C7D7"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "HttpApiPOSTapiroomscodecommandsA51AF102"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "Frontend23D93C55"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "FrontendPolicy442AF6CA"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "DistributionOrigin1S3OriginAccessControlEB606076"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "resource",
+        "id": "Distribution830FAC52"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    }
+  ]
+}

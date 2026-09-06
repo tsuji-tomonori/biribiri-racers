@@ -11,5 +11,5 @@ CONTRACT = {
     "idempotency": "per-player requestId / input seq",
     "transaction": "DynamoDB version CAS",
     "effects": "DynamoDB state then Streams delivery",
-    "requirements": ["BR-RACE-001"],
+    "requirements": ["BR-RACE-001", "BR-SYNC-001", "BR-GP-001", "BR-FREE-001"],
 }

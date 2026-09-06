@@ -1,0 +1,106 @@
+{
+  "schema_version": 2,
+  "applicable_requirement_ids": [
+    "BR-AWS-001",
+    "BR-FREE-001",
+    "BR-GP-001",
+    "BR-RACE-001",
+    "BR-ROOM-001",
+    "BR-ROOM-002",
+    "BR-SEC-001",
+    "BR-SYNC-001"
+  ],
+  "links": [
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "getConfig"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-AWS-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "health"
+      },
+      "tests": [
+        "backend/tests/test_infra.py::test_serverless_template"
+      ]
+    },
+    {
+      "requirement_id": "BR-ROOM-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "createRoom"
+      },
+      "tests": [
+        "backend/tests/test_rooms.py::test_api"
+      ]
+    },
+    {
+      "requirement_id": "BR-SEC-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "readRoom"
+      },
+      "tests": [
+        "backend/tests/test_security.py::test_room_authorization_and_stream"
+      ]
+    },
+    {
+      "requirement_id": "BR-ROOM-002",
+      "artifact": {
+        "kind": "operation",
+        "id": "joinRoom"
+      },
+      "tests": [
+        "backend/tests/test_rooms.py::test_ten_players"
+      ]
+    },
+    {
+      "requirement_id": "BR-RACE-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "roomCommand"
+      },
+      "tests": [
+        "backend/tests/test_rooms.py::test_ranking_and_gp"
+      ]
+    },
+    {
+      "requirement_id": "BR-SYNC-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "roomCommand"
+      },
+      "tests": [
+        "backend/tests/test_physics.py::test_typescript_python_parity",
+        "backend/tests/test_security.py::test_room_authorization_and_stream"
+      ]
+    },
+    {
+      "requirement_id": "BR-GP-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "roomCommand"
+      },
+      "tests": [
+        "backend/tests/test_security.py::test_input_boundaries_and_gp_all_courses"
+      ]
+    },
+    {
+      "requirement_id": "BR-FREE-001",
+      "artifact": {
+        "kind": "operation",
+        "id": "roomCommand"
+      },
+      "tests": [
+        "backend/tests/test_rooms.py::test_free_course_selection"
+      ]
+    }
+  ]
+}

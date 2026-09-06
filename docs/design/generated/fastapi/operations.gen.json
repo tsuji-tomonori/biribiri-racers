@@ -1,0 +1,167 @@
+[
+  {
+    "auth": "member",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "POST",
+    "operation_id": "roomCommand",
+    "path": "/api/rooms/{code}/commands",
+    "permission": "member",
+    "request": "Command",
+    "requirements": [
+      "BR-RACE-001",
+      "BR-SYNC-001",
+      "BR-GP-001",
+      "BR-FREE-001"
+    ],
+    "response": "Response",
+    "slug": "command",
+    "source": "backend/src/app/apis/rooms/command",
+    "transaction": "DynamoDB version CAS"
+  },
+  {
+    "auth": "public",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "POST",
+    "operation_id": "createRoom",
+    "path": "/api/rooms",
+    "permission": "public",
+    "request": "Enter",
+    "requirements": [
+      "BR-ROOM-001"
+    ],
+    "response": "Response",
+    "slug": "create",
+    "source": "backend/src/app/apis/rooms/create",
+    "transaction": "DynamoDB version CAS"
+  },
+  {
+    "auth": "public",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "POST",
+    "operation_id": "joinRoom",
+    "path": "/api/rooms/{code}/join",
+    "permission": "public",
+    "request": "Enter",
+    "requirements": [
+      "BR-ROOM-002"
+    ],
+    "response": "Response",
+    "slug": "join",
+    "source": "backend/src/app/apis/rooms/join",
+    "transaction": "DynamoDB version CAS"
+  },
+  {
+    "auth": "member",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "GET",
+    "operation_id": "readRoom",
+    "path": "/api/rooms/{code}",
+    "permission": "member",
+    "request": "none",
+    "requirements": [
+      "BR-SEC-001"
+    ],
+    "response": "Response",
+    "slug": "read",
+    "source": "backend/src/app/apis/rooms/read",
+    "transaction": "DynamoDB version CAS"
+  },
+  {
+    "auth": "public",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "GET",
+    "operation_id": "getConfig",
+    "path": "/api/config",
+    "permission": "public",
+    "request": "none",
+    "requirements": [
+      "BR-AWS-001"
+    ],
+    "response": "Connection",
+    "slug": "config",
+    "source": "backend/src/app/apis/system/config",
+    "transaction": "DynamoDB version CAS"
+  },
+  {
+    "auth": "public",
+    "effects": "DynamoDB state then Streams delivery",
+    "errors": [
+      400,
+      403,
+      404,
+      409,
+      410,
+      422,
+      429,
+      503
+    ],
+    "idempotency": "per-player requestId / input seq",
+    "method": "GET",
+    "operation_id": "health",
+    "path": "/api/health",
+    "permission": "public",
+    "request": "none",
+    "requirements": [
+      "BR-AWS-001"
+    ],
+    "response": "dict[str,str]",
+    "slug": "health",
+    "source": "backend/src/app/apis/system/health",
+    "transaction": "DynamoDB version CAS"
+  }
+]

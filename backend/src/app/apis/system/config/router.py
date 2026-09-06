@@ -1,6 +1,9 @@
+from typing import cast
+
 from fastapi import APIRouter
 
 from . import functions as api_functions
+from .contract import CONTRACT
 from .samples import ERROR
 from .schemas import Connection
 
@@ -12,7 +15,11 @@ router = APIRouter()
     operation_id="getConfig",
     summary="getConfig",
     responses={
-        403: {"description": "Forbidden", "content": {"application/json": {"example": ERROR}}}
+        status: {
+            "description": "Operation error",
+            "content": {"application/json": {"example": ERROR}},
+        }
+        for status in cast(list[int], CONTRACT["errors"])
     },
     openapi_extra={"x-requirement-ids": ["BR-AWS-001"]},
 )

@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://tsuji-tomonori.github.io',
-  base: '/biribiri-racers',
+  base: process.env.PUBLIC_SITE_BASE ?? '/biribiri-racers',
   output: 'static',
   trailingSlash: 'always',
   vite: {

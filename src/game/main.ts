@@ -1,7 +1,7 @@
 import { mountOnline } from '../online/lobby';
 import { OnlineSession } from '../online/session';
 import { MACHINES } from './machines';
-import { loadAssets, assetUrl } from './assets';
+import { loadAssets, courseUrl } from './assets';
 import { Controls } from './input';
 import { COLORS } from './physics';
 import { Renderer } from './renderer';
@@ -77,11 +77,14 @@ all<HTMLButtonElement>('[data-course]').forEach((button) =>
     selected = Number(button.dataset['course']);
     const track = TRACKS[selected]!;
     const preview = element<HTMLImageElement>('#course-preview');
-    preview.src = assetUrl(`course-${selected}.webp`);
+    preview.src = courseUrl(track);
     preview.alt = `${track.name}のコース全体`;
     element('#course-name').textContent = track.name;
     element('#course-level').textContent = track.level;
-    element('#course-count').textContent = `0${selected + 1} / 05`;
+    element('#course-tip').textContent =
+      track.tip ?? 'まずは基本のコースで旋回とダッシュを練習しよう。';
+    element('#course-count').textContent =
+      `${String(selected + 1).padStart(2, '0')} / ${String(TRACKS.length).padStart(2, '0')}`;
     all('[data-course]').forEach((b) =>
       b.setAttribute('aria-pressed', String(b === button)),
     );
@@ -276,7 +279,8 @@ pauseDialog.addEventListener('cancel', (e) => {
 });
 results.addEventListener('cancel', (e) => {
   e.preventDefault();
-  home();
+  if (session instanceof OnlineSession) retry();
+  else home();
 });
 all<HTMLButtonElement>('.help-open').forEach((b) =>
   b.addEventListener('click', () => {
@@ -324,7 +328,17 @@ function syncHud(): void {
   element('#rank-big').append(rank, total);
   element('#charge-fill').style.width = `${r.charge * 100}%`;
   element('#charge-label').textContent =
-    r.boost > 0 ? 'DASH!' : r.charge >= 0.98 ? 'RELEASE!' : 'CHARGE';
+    r.spin > 0
+      ? 'SPIN!'
+      : r.wind
+        ? 'WIND!'
+        : r.floorBoost > 0
+          ? 'FLOOR DASH!'
+          : r.boost > 0
+            ? 'DASH!'
+            : r.charge >= 0.98
+              ? 'RELEASE!'
+              : 'CHARGE';
   element('.charge-box').classList.toggle(
     'full',
     r.charge >= 0.98 || r.boost > 0,
@@ -406,7 +420,7 @@ function showResults(): void {
     s.options.mode === 'practice'
       ? '完走おめでとう！ 次はノーミスを目指そう。'
       : s.timeout
-        ? '180秒が経過しました。練習モードで走り込もう。'
+        ? `${s.track.timeLimit ?? 180}秒が経過しました。練習モードで走り込もう。`
         : '最初にゴールしたレーサーの勝利！';
   const list = element('#result-list');
   list.replaceChildren();
@@ -441,8 +455,19 @@ function frame(now: number): void {
     const events = session.update(delta, controls.read(session.options.assist));
     for (const e of events) {
       renderer.event(e, session);
-      if (e.racer === session.racers[0]?.id || e.type === 'finish')
+      if (
+        e.type !== 'gimmick' &&
+        (e.racer === session.racers[0]?.id || e.type === 'finish')
+      )
         sound.effect(e.type);
+      if (e.racer === session.racers[0]?.id && e.type === 'gimmick')
+        announce(
+          {
+            wind: '向かい風！ 矢印の方向に押されるよ',
+            spin: 'くるっ！ バナナでスピン',
+            dash: '加速床！ PUSHで減速できるよ',
+          }[e.kind],
+        );
       if (e.racer === session.racers[0]?.id && e.type === 'collision')
         announce('ビリッ！ かべに接触 — スタートへ');
     }

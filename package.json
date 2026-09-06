@@ -16,7 +16,17 @@
     "test:e2e": "playwright test",
     "test:smoke": "playwright test --project=chromium --grep @smoke",
     "format": "prettier --write src tests scripts *.mjs *.ts *.json .github/workflows/*.yml",
-    "format:check": "prettier --check src tests scripts *.mjs *.ts *.json .github/workflows/*.yml"
+    "format:check": "prettier --check src tests scripts *.mjs *.ts *.json .github/workflows/*.yml",
+    "dev:api": "uv run --project backend uvicorn app.local:app --host 127.0.0.1 --port 4322",
+    "data:generate": "node --import tsx scripts/export-game.ts",
+    "data:check": "node --import tsx scripts/export-game.ts --check",
+    "test:physics-parity": "mkdir -p .build && node --import tsx scripts/physics-trace.ts > .build/physics-trace.json",
+    "infra:check": "tsc -p infra/tsconfig.json",
+    "infra:synth": "bash scripts/package-lambda.sh && cdk synth --quiet",
+    "docs:generate": "python tools/quintflow.py generate && uv run --project backend app-docs && bash scripts/design-cdk.sh && python scripts/requirements-pages.py",
+    "docs:check": "python tools/quintflow.py check && uv run --project backend app-docs --check && bash scripts/design-cdk.sh --check && python scripts/requirements-pages.py --check",
+    "test:online": "playwright test -c playwright.online.config.ts",
+    "build:aws": "PUBLIC_SITE_BASE=/ PUBLIC_API_BASE=/api astro build"
   },
   "dependencies": {
     "astro": "7.3.1"

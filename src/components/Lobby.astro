@@ -3,12 +3,10 @@ import Brand from './Brand.astro';
 import { MACHINES } from '../game/machines';
 import { TRACKS } from '../game/tracks';
 import { COLORS } from '../game/physics';
-import { assetUrl } from '../game/assets';
+import { assetUrl, courseUrl } from '../game/assets';
 ---
 
 <section id="menu" class="screen menu">
-  <button id="online-open" class="primary">みんなで対戦（最大10人）</button>
-
   <header class="menu-header">
     <Brand /><div class="edition">SOLO RACE <b>01</b></div><button
       class="icon-button help-open"
@@ -21,6 +19,9 @@ import { assetUrl } from '../game/assets';
       <p class="intro">
         かべにふれたら、スタートへ。<br />一周してスタートラインに戻ればゴール！
       </p>
+      <button id="online-open" class="primary online-open"
+        >みんなで対戦（最大10人）</button
+      >
       <fieldset class="mode-select">
         <legend>あそびかた</legend><label
           ><input type="radio" name="mode" value="race" checked /><span
@@ -78,11 +79,15 @@ import { assetUrl } from '../game/assets';
         id="reload-assets"
         class="secondary"
         hidden>画像を再読み込み</button
-      ><p class="start-hint">全5コース <span>•</span> ログイン不要</p>
+      ><p class="start-hint">
+        全{TRACKS.length}コース <span>•</span> ログイン不要
+      </p>
     </aside>
     <div class="course-area">
       <div class="course-heading">
-        <span>COURSE SELECT</span><span id="course-count">01 / 05</span>
+        <span>COURSE SELECT</span><span id="course-count"
+          >01 / {String(TRACKS.length).padStart(2, '0')}</span
+        >
       </div><div class="course-showcase">
         <img
           id="course-preview"
@@ -93,7 +98,9 @@ import { assetUrl } from '../game/assets';
             >はじめてにおすすめ</span
           >
         </div><span class="preview-caption">実際にこのコースを走れます</span>
-      </div><nav id="course-list" aria-label="コースを選択">
+      </div><p id="course-tip" class="course-tip" aria-live="polite">
+        {TRACKS[0]!.tip ?? 'まずは基本のコースで旋回とダッシュを練習しよう。'}
+      </p><nav id="course-list" aria-label="コースを選択">
         {
           TRACKS.map((t, i) => (
             <button
@@ -103,12 +110,7 @@ import { assetUrl } from '../game/assets';
               aria-pressed={i === 0}
             >
               <>
-                <img
-                  src={assetUrl(`course-${i}.webp`)}
-                  alt=""
-                  width="1254"
-                  height="1254"
-                />
+                <img src={courseUrl(t)} alt="" width="1254" height="1254" />
                 <small>0{i + 1}</small>
                 <span>{t.name}</span>
               </>

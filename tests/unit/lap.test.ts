@@ -15,7 +15,7 @@ it.each(TRACKS)(
   (t) => {
     const r = createRacer(t, 0, 0, false);
     let first = false;
-    for (let time = 0; time < 70; time += STEP) {
+    for (let time = 0; time < (t.worldSize ? 180 : 70); time += STEP) {
       tick(
         t,
         r,
@@ -33,6 +33,7 @@ it.each(TRACKS)(
     expect(r.finish).not.toBeNull();
     expect(Math.abs(r.y - t.finish.a[1])).toBeLessThan(3);
   },
+  120000,
 );
 it.each(
   [false, true].flatMap((cpu) => [0, 1, 2, 3].map((color) => ({ cpu, color }))),

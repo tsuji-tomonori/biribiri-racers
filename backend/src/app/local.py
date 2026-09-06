@@ -80,7 +80,11 @@ async def socket(ws: WebSocket) -> None:
                 if room and room.version != version:
                     version = room.version
                     await ws.send_json(
-                        {"type": "data", "id": subscription, "event": view(room).model_dump_json()}
+                        {
+                            "type": "data",
+                            "id": subscription,
+                            "event": [view(room).model_dump_json()],
+                        }
                     )
     except WebSocketDisconnect:
         return

@@ -106,3 +106,19 @@ def test_api() -> None:
         for _ in range(5):
             assert client.post("/api/rooms", json={"name": "host", "color": 0}).status_code == 200
         assert client.post("/api/rooms", json={"name": "host", "color": 0}).status_code == 429
+
+
+def test_free_course_selection() -> None:
+    api = Rooms(MemoryStore())
+    room, host = api.create(Enter(name="host", color=0))
+    _, guest = api.join(room.code, Enter(name="guest", color=1))
+    for course in (7, 2):
+        room = api.command(room.code, host.token, cmd("settings", mode="free", course=course))
+        assert room.course == course
+        for c in (host, guest):
+            api.command(room.code, c.token, cmd("ready", ready=True))
+        assert api.command(room.code, host.token, cmd("start")).course == course
+        room = api.command(room.code, guest.token, cmd("leave"))
+        assert room.phase == "results"
+        room = api.command(room.code, host.token, cmd("next"))
+        _, guest = api.join(room.code, Enter(name="guest", color=1))

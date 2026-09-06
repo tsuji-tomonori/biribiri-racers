@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, cast
 
 from fastapi import APIRouter, Depends
 
@@ -6,6 +6,7 @@ from app.core.rooms import Rooms
 from app.integrations.deps import service, source_ip
 
 from . import functions as api_functions
+from .contract import CONTRACT
 from .samples import ERROR
 from .schemas import Enter, Response
 
@@ -17,7 +18,11 @@ router = APIRouter()
     operation_id="joinRoom",
     summary="joinRoom",
     responses={
-        403: {"description": "Forbidden", "content": {"application/json": {"example": ERROR}}}
+        status: {
+            "description": "Operation error",
+            "content": {"application/json": {"example": ERROR}},
+        }
+        for status in cast(list[int], CONTRACT["errors"])
     },
     openapi_extra={"x-requirement-ids": ["BR-ROOM-002"]},
 )

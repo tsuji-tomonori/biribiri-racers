@@ -1,0 +1,395 @@
+{
+  "catalog_revision": 1,
+  "product": "biribiri-racers",
+  "requirements": [
+    {
+      "acceptance_criteria": [
+        {
+          "given": "参加者が名前を入力する",
+          "id": "BR-ROOM-001-AC1",
+          "then": "匿名の参加トークンと6文字コードを返す",
+          "when": "作成する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-ROOM-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "ログインなしでルームを作成する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "ログインなしでルームを作成する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/apis/rooms/create/router.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_api",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "10人が参加済み",
+          "id": "BR-ROOM-002-AC1",
+          "then": "409で拒否し10人を超えない",
+          "when": "11人目が参加する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-ROOM-002",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "ルームの同時参加を10人に制限する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "ルームの同時参加を10人に制限する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/core/rooms.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_ten_players",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "異なるルームのトークンがある",
+          "id": "BR-SEC-001-AC1",
+          "then": "操作を拒否しトークンを状態配信に含めない",
+          "when": "参照または購読する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-SEC-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "ルームの状態参照を参加者に制限する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "ルームの状態参照を参加者に制限する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/authorizer.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_api",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "未確定が2人",
+          "id": "BR-RACE-001-AC1",
+          "then": "残る1人の順位を確定して結果に遷移する",
+          "when": "1人の順位が確定する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-RACE-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "最下位が決定した時点でレースを終了する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "最下位が決定した時点でレースを終了する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/core/rooms.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_ranking_and_gp",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "レース進行中",
+          "id": "BR-SYNC-001-AC1",
+          "then": "サーバー計算した位置と接触回数を全参加者に配信する",
+          "when": "入力イベントを送信する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-SYNC-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "参加者の入力から計算した位置と接触を同期する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "参加者の入力から計算した位置と接触を同期する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/publisher.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_api",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "グランプリが開始される",
+          "id": "BR-GP-001-AC1",
+          "then": "登録された全コースを順に進めて総合点を確定する",
+          "when": "各戦の結果が確定する"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-GP-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "グランプリで全コースを順番に進める",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "グランプリで全コースを順番に進める",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/core/rooms.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_ranking_and_gp",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "フリー対戦の待機中",
+          "id": "BR-FREE-001-AC1",
+          "then": "次のレースに選択コースを使用する",
+          "when": "ホストがコースを選ぶ"
+        }
+      ],
+      "action": "provide",
+      "category": "functional",
+      "id": "BR-FREE-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "フリー対戦で毎回コースを選べる",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "フリー対戦で毎回コースを選べる",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/core/rooms.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_rooms.py"
+        ]
+      },
+      "type": "functional",
+      "verification": {
+        "evidence": "backend/tests/test_rooms.py::test_api",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "AWS構成を生成する",
+          "id": "BR-AWS-001-AC1",
+          "then": "CloudFront・非公開S3・API Gateway・FastAPI Lambda・AppSync・DynamoDBのみのDB構成を生成する",
+          "when": "CDK synthを実行する"
+        }
+      ],
+      "action": "provide",
+      "category": "nonfunctional",
+      "id": "BR-AWS-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "指定されたフルサーバレス構成をCDKで定義する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "指定されたフルサーバレス構成をCDKで定義する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "infra/app.ts"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_infra.py"
+        ]
+      },
+      "type": "constraint",
+      "verification": {
+        "evidence": "backend/tests/test_infra.py::test_serverless_template",
+        "method": "automated tests"
+      }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "実装を変更する",
+          "id": "BR-DOC-001-AC1",
+          "then": "OpenAPIとsynthの設計書が決定的に生成されドリフトを検出する",
+          "when": "設計書生成と差分検査を実行する"
+        }
+      ],
+      "action": "provide",
+      "category": "nonfunctional",
+      "id": "BR-DOC-001",
+      "last_changed_by": "task:20260906-rebuild-multiplayer",
+      "object": "APIとCDKの設計書を実装から自動生成する",
+      "rationale": "ユーザーが指定した匿名複数人対戦を実現し保守する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "project",
+      "source_refs": [
+        "conversation:20260906-multiplayer-rebuild"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "APIとCDKの設計書を実装から自動生成する",
+      "traces": {
+        "design": [],
+        "implementation": [
+          "backend/src/app/tools/design.py"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "backend/tests/test_design.py"
+        ]
+      },
+      "type": "constraint",
+      "verification": {
+        "evidence": "backend/tests/test_design.py::test_generated_documents",
+        "method": "automated tests"
+      }
+    }
+  ],
+  "schema_version": 1,
+  "updated_at": "2026-09-06"
+}

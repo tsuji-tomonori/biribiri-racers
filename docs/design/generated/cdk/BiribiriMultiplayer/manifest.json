@@ -1,0 +1,47 @@
+{
+  "managed_by": "dev-standard-designflow",
+  "notice": "AUTO-GENERATED. DO NOT EDIT DIRECTLY.",
+  "generate_command": "python tools/portable_python.py run <host-skill-path>/scripts/designflow.py -- cdk --template <template.yaml> --requirements <requirements.json> --trace <trace.json> --test-root <test-root> --out <output>",
+  "check_command": "python tools/portable_python.py run <host-skill-path>/scripts/designflow.py -- cdk --template <template.yaml> --requirements <requirements.json> --trace <trace.json> --test-root <test-root> --out <output> --check",
+  "schema_version": 2,
+  "sources": [
+    {
+      "path": "backend/tests/test_design.py",
+      "sha256": "bbaabf1806f3fa8d75fbc379007c967ac1a4acb8cc16c3f2afff84cff25116f8"
+    },
+    {
+      "path": "backend/tests/test_infra.py",
+      "sha256": "45f824fbf20273ec705d41c6c45a8f66f40a70e7f8ac9820ee723e3ed47e20bc"
+    },
+    {
+      "path": "backend/tests/test_physics.py",
+      "sha256": "cce858358e438349d0a85cc3a407b6cb62b59f3a759454af7bee3934f403a2dd"
+    },
+    {
+      "path": "backend/tests/test_rooms.py",
+      "sha256": "b2845335b3fcb920bbfe7ef0b7e43142bb5a7f1933c6d02b9a31ff431bcbe9ec"
+    },
+    {
+      "path": "backend/tests/test_security.py",
+      "sha256": "2950e0088fcaac0d70027a0d62ef75a10ca979025db748e8b6ff5f80b4baa04e"
+    },
+    {
+      "path": "cdk.out/BiribiriMultiplayer.template.json",
+      "sha256": "fdbe13bcc942252a66f5822b3f151a3ad17f1dc8053d2172cf062863dcc87b9d"
+    },
+    {
+      "path": "spec/requirements/requirements.json",
+      "sha256": "0677e810c14ab2be90b10648313c2907772bdc48913c77acf085bb1312a7cce6"
+    },
+    {
+      "path": "spec/trace/cdk.json",
+      "sha256": "53e0faf362b778dbffe1e56ff2a1bd3d2fbd93daefdb1083113b1a48bb87942e"
+    }
+  ],
+  "generated": [
+    "PARAMETERS.gen.md",
+    "RESOURCES.gen.md",
+    "TEST_MANIFEST.gen.json",
+    "TRACEABILITY.gen.md"
+  ]
+}

@@ -22,6 +22,10 @@ class Frame(Model):
 
 
 class Racer(Model):
+    spin: float = 0
+    floorBoost: float = 0
+    wind: bool = False
+    activeGimmicks: list[int] = Field(default_factory=list[int])
     id: int
     color: int
     cpu: bool = False

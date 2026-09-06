@@ -83,7 +83,11 @@ export class Session {
           if (e.type === 'finish') finished = true;
         }
       }
-      if (finished || (this.time >= 180 && this.options.mode === 'race')) {
+      if (
+        finished ||
+        (this.time >= (this.track.timeLimit ?? 180) &&
+          this.options.mode === 'race')
+      ) {
         this.phase = 'finishing';
         this.timeout = !finished;
       }

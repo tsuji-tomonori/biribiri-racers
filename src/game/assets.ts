@@ -1,16 +1,18 @@
+import { TRACKS } from './tracks';
+import { advancedCourseUrl } from './course-artwork';
+import type { Track } from './types';
 declare const __BUILD_SHA__: string;
 
 export const assetUrl = (file: string): string =>
   `${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/${file}?v=${encodeURIComponent(__BUILD_SHA__)}`;
+export const courseUrl = (t: Track): string =>
+  t.theme ? advancedCourseUrl(t) : assetUrl(`course-${t.id}.webp`);
 export interface Assets {
   courses: HTMLImageElement[];
   racers: HTMLImageElement;
 }
 export async function loadAssets(): Promise<Assets> {
-  const urls = [
-    ...Array.from({ length: 5 }, (_, i) => assetUrl(`course-${i}.webp`)),
-    assetUrl('racers.webp'),
-  ];
+  const urls = [...TRACKS.map(courseUrl), assetUrl('racers.webp')];
   const images = await Promise.all(
     urls.map(async (src) => {
       const image = new Image();
@@ -33,5 +35,8 @@ export async function loadAssets(): Promise<Assets> {
       return image;
     }),
   );
-  return { courses: images.slice(0, 5), racers: images[5]! };
+  return {
+    courses: images.slice(0, TRACKS.length),
+    racers: images[TRACKS.length]!,
+  };
 }

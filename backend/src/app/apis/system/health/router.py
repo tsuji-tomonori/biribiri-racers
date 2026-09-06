@@ -1,6 +1,9 @@
+from typing import cast
+
 from fastapi import APIRouter
 
 from . import functions as api_functions
+from .contract import CONTRACT
 from .samples import ERROR
 
 router = APIRouter()
@@ -11,7 +14,11 @@ router = APIRouter()
     operation_id="health",
     summary="health",
     responses={
-        403: {"description": "Forbidden", "content": {"application/json": {"example": ERROR}}}
+        status: {
+            "description": "Operation error",
+            "content": {"application/json": {"example": ERROR}},
+        }
+        for status in cast(list[int], CONTRACT["errors"])
     },
     openapi_extra={"x-requirement-ids": ["BR-AWS-001"]},
 )

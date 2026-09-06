@@ -19,3 +19,6 @@ cdk.out/
 cdk.out-*/
 .dev-standard/python/
 .dev-standard/quint/runtime/
+
+.devflow/
+.dev-standard/install/.install.lock

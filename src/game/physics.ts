@@ -1,3 +1,4 @@
+import { applyGimmicks, clearGimmicks } from './gimmicks';
 import { MACHINES } from './machines';
 import {
   angle,
@@ -16,6 +17,7 @@ export const COLORS = ['#078bff', '#ff3a89', '#06a37b', '#ec9b05'] as const;
 const NAMES = ['ビリリ', 'さくら', 'みどり', 'ひかる'] as const;
 
 export function spawn(t: Track, r: Racer): void {
+  clearGimmicks(r);
   const p = t.path[0]!,
     back = Math.floor(r.id / 2) * 24,
     lanes = [-25, 25, 0, -50, 50].filter((v) =>
@@ -52,6 +54,10 @@ export function createRacer(
   cpu: boolean,
 ): Racer {
   const r: Racer = {
+    spin: 0,
+    floorBoost: 0,
+    wind: false,
+    activeGimmicks: [],
     id,
     color,
     cpu,
@@ -151,10 +157,18 @@ export function tick(
     r.respawn = Math.max(0, r.respawn - dt);
     return null;
   }
+  r.floorBoost = Math.max(0, r.floorBoost - dt);
+  // A spin is one complete visual turn, with stationary physics and no stored input.
+  if (r.spin > 0) {
+    r.spin = Math.max(0, r.spin - dt);
+    return null;
+  }
+  const gimmickEvent = applyGimmicks(t, r);
+  if (r.spin > 0) return gimmickEvent;
   const machine = MACHINES[r.color]!;
   const old = { x: r.x, y: r.y },
     steer = clamp(input.steer, -1, 1);
-  let event: RaceEvent | null = null;
+  let event: RaceEvent | null = gimmickEvent;
   if (!input.push && r.pushing) {
     if (r.charge > 0.12) {
       r.boost = (0.35 + 1.15 * r.charge) * machine.duration;
@@ -168,13 +182,14 @@ export function tick(
   if (input.push) {
     r.charge = clamp(r.charge + dt / machine.charge, 0, 1);
     r.boost = 0;
+    r.floorBoost = 0;
   }
   const target = input.push
     ? 52
     : t.speed *
       machine.speed *
       (input.throttle ?? 1) *
-      (r.boost > 0 ? machine.boost : 1);
+      (r.boost > 0 ? machine.boost : r.floorBoost > 0 ? 1.55 : 1);
   r.speed += (target - r.speed) * (1 - Math.exp(-(input.push ? 7 : 1.6) * dt));
   let turn =
     steer *
@@ -193,8 +208,17 @@ export function tick(
     1 - Math.exp(-(input.push ? 10 : t.grip * machine.grip) * dt);
   r.vx += (Math.cos(r.heading) * r.speed - r.vx) * traction;
   r.vy += (Math.sin(r.heading) * r.speed - r.vy) * traction;
-  r.x += r.vx * dt;
-  r.y += r.vy * dt;
+  let windX = 0,
+    windY = 0;
+  for (const i of r.activeGimmicks) {
+    const g = t.gimmicks?.[i];
+    if (g?.kind === 'wind') {
+      windX += Math.cos(g.angle) * 85;
+      windY += Math.sin(g.angle) * 85;
+    }
+  }
+  r.x += (r.vx + windX) * dt;
+  r.y += (r.vy + windY) * dt;
   if (!onRoad(t, r.x, r.y)) {
     const hit = { x: r.x, y: r.y };
     r.hits++;
@@ -210,6 +234,7 @@ export function tick(
     r.progress = 0;
     r.travel = 0;
     r.winding = 0;
+    clearGimmicks(r);
     r.shock = 0.3;
     return { type: 'collision', racer: r.id, ...hit };
   }

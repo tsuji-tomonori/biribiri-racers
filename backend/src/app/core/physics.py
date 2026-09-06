@@ -2,7 +2,7 @@ import json
 import math
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .models import Input, Racer
 
@@ -23,7 +23,16 @@ class Finish(BaseModel):
     normal: tuple[float, float]
 
 
+class Gimmick(BaseModel):
+    kind: str
+    x: float
+    y: float
+    radius: float
+    angle: float = 0
+
+
 class Track(BaseModel):
+    gimmicks: list[Gimmick] = Field(default_factory=list[Gimmick])
     id: int
     name: str
     speed: float
@@ -91,7 +100,14 @@ def on_road(t: Track, x: float, y: float) -> bool:
     )
 
 
+def clear_gimmicks(r: Racer) -> None:
+    r.spin = r.floorBoost = 0
+    r.wind = False
+    r.activeGimmicks = []
+
+
 def spawn(t: Track, r: Racer) -> None:
+    clear_gimmicks(r)
     p = t.path[0]
     back = (r.id // 2) * 24
     lanes = [
@@ -156,6 +172,29 @@ def tick(t: Track, r: Racer, inp: Input, time: float) -> None:
     if r.respawn > 0:
         r.respawn = max(0, r.respawn - dt)
         return
+    r.floorBoost = max(0, r.floorBoost - dt)
+    if r.spin > 0:
+        r.spin = max(0, r.spin - dt)
+        return
+    active: list[int] = []
+    r.wind = False
+    for i, g in enumerate(t.gimmicks):
+        if math.hypot(r.x - g.x, r.y - g.y) > g.radius:
+            continue
+        active.append(i)
+        if g.kind == "wind":
+            r.wind = True
+        if i in r.activeGimmicks:
+            continue
+        if g.kind == "spin":
+            r.spin = 0.8
+            r.speed = r.vx = r.vy = r.boost = r.floorBoost = r.charge = 0
+            r.pushing = False
+        if g.kind == "dash":
+            r.floorBoost = 1.1
+    r.activeGimmicks = active
+    if r.spin > 0:
+        return
     m = MACHINES[r.color]
     ox, oy = r.x, r.y
     if not inp.push and r.pushing:
@@ -167,8 +206,12 @@ def tick(t: Track, r: Racer, inp: Input, time: float) -> None:
     r.boost = max(0, r.boost - dt)
     if inp.push:
         r.charge = clamp(r.charge + dt / m.charge, 0, 1)
-        r.boost = 0
-    target = 52 if inp.push else t.speed * m.speed * (m.boost if r.boost > 0 else 1)
+        r.boost = r.floorBoost = 0
+    target = (
+        52
+        if inp.push
+        else t.speed * m.speed * (m.boost if r.boost > 0 else (1.55 if r.floorBoost > 0 else 1))
+    )
     r.speed += (target - r.speed) * (1 - math.exp(-(7 if inp.push else 1.6) * dt))
     turn = (
         inp.steer
@@ -185,23 +228,30 @@ def tick(t: Track, r: Racer, inp: Input, time: float) -> None:
     traction = 1 - math.exp(-(10 if inp.push else t.grip * m.grip) * dt)
     r.vx += (math.cos(r.heading) * r.speed - r.vx) * traction
     r.vy += (math.sin(r.heading) * r.speed - r.vy) * traction
-    r.x += r.vx * dt
-    r.y += r.vy * dt
+    wind_x = wind_y = 0.0
+    for i in r.activeGimmicks:
+        g = t.gimmicks[i]
+        if g.kind == "wind":
+            wind_x += math.cos(g.angle) * 85
+            wind_y += math.sin(g.angle) * 85
+    r.x += (r.vx + wind_x) * dt
+    r.y += (r.vy + wind_y) * dt
     if not on_road(t, r.x, r.y):
         r.hits += 1
         r.x, r.y = ox, oy
         r.speed = r.vx = r.vy = r.charge = r.boost = r.progress = r.travel = r.winding = 0
         r.pushing = False
         r.gate = 0
+        clear_gimmicks(r)
         r.shock = 0.3
         return
     if r.gate < len(t.gates):
-        g = t.gates[r.gate]
-        tx, ty = math.cos(g.angle), math.sin(g.angle)
+        gate = t.gates[r.gate]
+        tx, ty = math.cos(gate.angle), math.sin(gate.angle)
         if (
-            (ox - g.x) * tx + (oy - g.y) * ty < 0
-            and (r.x - g.x) * tx + (r.y - g.y) * ty >= 0
-            and math.hypot(r.x - g.x, r.y - g.y) < g.width
+            (ox - gate.x) * tx + (oy - gate.y) * ty < 0
+            and (r.x - gate.x) * tx + (r.y - gate.y) * ty >= 0
+            and math.hypot(r.x - gate.x, r.y - gate.y) < gate.width
         ):
             r.gate += 1
     n = nearest(t, r)

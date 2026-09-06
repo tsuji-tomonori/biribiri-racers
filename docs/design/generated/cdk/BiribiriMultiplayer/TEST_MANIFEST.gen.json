@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "notice": "AUTO-GENERATED. DO NOT EDIT DIRECTLY.",
+  "collector": "portable-pytest-static-v1",
+  "sources": [
+    {
+      "path": "backend/tests/test_design.py",
+      "sha256": "bbaabf1806f3fa8d75fbc379007c967ac1a4acb8cc16c3f2afff84cff25116f8"
+    },
+    {
+      "path": "backend/tests/test_infra.py",
+      "sha256": "45f824fbf20273ec705d41c6c45a8f66f40a70e7f8ac9820ee723e3ed47e20bc"
+    },
+    {
+      "path": "backend/tests/test_physics.py",
+      "sha256": "cce858358e438349d0a85cc3a407b6cb62b59f3a759454af7bee3934f403a2dd"
+    },
+    {
+      "path": "backend/tests/test_rooms.py",
+      "sha256": "b2845335b3fcb920bbfe7ef0b7e43142bb5a7f1933c6d02b9a31ff431bcbe9ec"
+    },
+    {
+      "path": "backend/tests/test_security.py",
+      "sha256": "2950e0088fcaac0d70027a0d62ef75a10ca979025db748e8b6ff5f80b4baa04e"
+    }
+  ],
+  "nodes": [
+    "backend/tests/test_design.py::test_generated_documents",
+    "backend/tests/test_infra.py::test_serverless_template",
+    "backend/tests/test_physics.py::test_typescript_python_parity",
+    "backend/tests/test_rooms.py::test_api",
+    "backend/tests/test_rooms.py::test_expiry_reconnect",
+    "backend/tests/test_rooms.py::test_free_course_selection",
+    "backend/tests/test_rooms.py::test_ranking_and_gp",
+    "backend/tests/test_rooms.py::test_ten_players",
+    "backend/tests/test_security.py::test_dynamo_conditional_store",
+    "backend/tests/test_security.py::test_input_boundaries_and_gp_all_courses",
+    "backend/tests/test_security.py::test_room_authorization_and_stream"
+  ]
+}
