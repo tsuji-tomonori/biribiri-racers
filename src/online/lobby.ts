@@ -128,7 +128,7 @@ export function mountOnline(
       room.players.some((p) => p.active && !p.ready);
     el('room-next').hidden =
       !host || !['results', 'complete'].includes(room.phase);
-    if (room.raceId) racing(client, room);
+    if (room.raceId && mine?.racer) racing(client, room);
   };
   const code = new URL(location.href).searchParams.get('room');
   if (code) {

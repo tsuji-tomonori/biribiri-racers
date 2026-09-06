@@ -55,6 +55,8 @@ test('作成・参加・実入力同期・切断・結果・次コース', async
     await expect(page.locator('#result-list .result-row')).toHaveCount(2);
     await page.locator('#retry').click();
     await expect(page.locator('#room-panel')).toBeVisible();
+    await enter(guest.page, '再参加レーサー', code);
+    await expect(guest.page.locator('#room-panel')).toBeVisible();
     await page.locator('#room-next').click();
     await page.locator('#room-course').selectOption('7');
     await page.locator('#room-save').click();
