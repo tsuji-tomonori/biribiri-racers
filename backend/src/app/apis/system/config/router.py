@@ -1,6 +1,8 @@
-from typing import cast
+from typing import Annotated, cast
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from app.integrations.deps import connection
 
 from . import functions as api_functions
 from .contract import CONTRACT
@@ -23,5 +25,5 @@ router = APIRouter()
     },
     openapi_extra={"x-requirement-ids": ["BR-AWS-001"]},
 )
-def execute() -> Connection:
-    return api_functions.execute()
+def execute(config: Annotated[Connection, Depends(connection)]) -> Connection:
+    return api_functions.execute(config)

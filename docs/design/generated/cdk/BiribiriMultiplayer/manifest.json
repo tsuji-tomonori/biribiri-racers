@@ -14,8 +14,12 @@
       "sha256": "45f824fbf20273ec705d41c6c45a8f66f40a70e7f8ac9820ee723e3ed47e20bc"
     },
     {
+      "path": "backend/tests/test_local.py",
+      "sha256": "c69ab4cb070641aab453e6a1a03f739d02de843e72ebecda0494eacc372953d8"
+    },
+    {
       "path": "backend/tests/test_physics.py",
-      "sha256": "cce858358e438349d0a85cc3a407b6cb62b59f3a759454af7bee3934f403a2dd"
+      "sha256": "d7d8e0729615118b03b6036e921ee90a8f9660704ddfacf5d301c7c426e3e304"
     },
     {
       "path": "backend/tests/test_rooms.py",
@@ -27,7 +31,7 @@
     },
     {
       "path": "cdk.out/BiribiriMultiplayer.template.json",
-      "sha256": "fdbe13bcc942252a66f5822b3f151a3ad17f1dc8053d2172cf062863dcc87b9d"
+      "sha256": "61d125a60e54344cc18c89d1b606fa406bb22c9d4a335af215c5b75b39fd8ba6"
     },
     {
       "path": "spec/requirements/requirements.json",

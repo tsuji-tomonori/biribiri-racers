@@ -1,3 +1,6 @@
+import { createHash } from 'node:crypto';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   App,
   Stack,
@@ -32,7 +35,11 @@ class Requirements implements IAspect {
       node.addMetadata('RequirementIds', ['BR-AWS-001']);
   }
 }
-const app = new App({ analyticsReporting: false });
+const app = new App({
+  analyticsReporting: false,
+  outdir: 'cdk.out',
+  context: JSON.parse(readFileSync('cdk.json', 'utf8')).context,
+});
 const stack = new Stack(app, 'BiribiriMultiplayer', {
   env: { region: 'ap-northeast-1' },
 });
@@ -48,7 +55,31 @@ const table = new db.Table(stack, 'Rooms', {
   deletionProtection: true,
   removalPolicy: RemovalPolicy.RETAIN,
 });
-const code = lambda.Code.fromAsset('.build/lambda');
+// Bind deployment identity to every source byte, locked dependency and packaging rule.
+// Installed console-script shebangs contain workstation-specific paths.
+const digest = createHash('sha256');
+function hashDirectory(directory: string): void {
+  for (const entry of readdirSync(directory, { withFileTypes: true }).sort(
+    (a, b) => a.name.localeCompare(b.name, 'en'),
+  )) {
+    if (entry.name === '__pycache__') continue;
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) hashDirectory(path);
+    else {
+      digest.update(path);
+      digest.update(readFileSync(path));
+    }
+  }
+}
+hashDirectory('backend/src/app');
+for (const path of ['backend/uv.lock', 'scripts/package-lambda.sh']) {
+  digest.update(path);
+  digest.update(readFileSync(path));
+}
+digest.update('python3.12-x86_64-manylinux2014-uv0.11.33');
+const code = lambda.Code.fromAsset('.build/lambda', {
+  assetHash: digest.digest('hex'),
+});
 function fn(id: string, handler: string): lambda.Function {
   return new lambda.Function(stack, id, {
     runtime: lambda.Runtime.PYTHON_3_12,
@@ -67,8 +98,18 @@ function fn(id: string, handler: string): lambda.Function {
 }
 const apiHandler = fn('ApiHandler', 'app.main.handler');
 const authorizer = fn('Authorizer', 'app.authorizer.handler');
-table.grantReadWriteData(apiHandler);
-table.grantReadData(authorizer);
+apiHandler.addToRolePolicy(
+  new iam.PolicyStatement({
+    actions: ['dynamodb:GetItem', 'dynamodb:PutItem', 'dynamodb:UpdateItem'],
+    resources: [table.tableArn],
+  }),
+);
+authorizer.addToRolePolicy(
+  new iam.PolicyStatement({
+    actions: ['dynamodb:GetItem'],
+    resources: [table.tableArn],
+  }),
+);
 const events = new appsync.EventApi(stack, 'Events', {
   apiName: 'biribiri-rooms',
   authorizationConfig: {

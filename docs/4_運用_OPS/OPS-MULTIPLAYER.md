@@ -54,3 +54,5 @@ aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --path
 CDKは静的S3バケットまで構築する。成果物のuploadは上記の明示的な配備工程で行う。DynamoDBは削除保護・PITR・RETAIN、S3もRETAIN。復旧は既知のコミットからLambdaと静的buildを再配備し、破壊的なtable削除をしない。FailedEventsキュー、ApiErrorAlarm、DynamoDB throttle、Lambda duration/concurrency、AppSync配信エラーを確認する。DLQの内容はStream再処理情報でありroom tokenではない。停止期間がStreams保持時間を超えた場合はAPI readで最新状態を再取得する。
 
 リリース前に実AWSでCloudFront WebSocket upgrade・IAM配信・切断再接続・10人同時入力の遅延と消費容量を計測する。ローカル互換serverのテストはAWS経路の配備確認を代替しない。
+
+`infra:synth` はCDK CLIを起動せず、CDKアプリの `App.synth()` で同じcloud assemblyを生成する。ローカル検証で不要なCLIテレメトリー通信を発生させないための実行経路である。配備時のCLI操作は対象アカウントを指定して別途実行する。

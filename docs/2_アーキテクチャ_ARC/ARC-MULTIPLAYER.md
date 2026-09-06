@@ -16,3 +16,5 @@ DBはDynamoDBの単一オンデマンドテーブルのみ。Redis、RDS、常�
 生成設計は `docs/design/generated/fastapi` と `docs/design/generated/cdk/BiribiriMultiplayer`にあり、手書き本文から生成していない。FastAPIはDynamoDB専用のプロジェクトadapterでOpenAPI・operation AST/contract・要件/test trace・source digestを生成する。標準SQL adapterは非該当。SQLの不存在を明示し、DynamoDBのトランザクション意味論はこの文書とテストで補う。CDKはDev-standard標準generatorがsynth templateの完全なbytesに紐づく文書を生成する。`--check`は既存文書を書き換えない。
 
 参照: [AppSync認可](https://docs.aws.amazon.com/appsync/latest/eventapi/configure-event-api-auth.html)、[WebSocket protocol](https://docs.aws.amazon.com/appsync/latest/eventapi/event-api-websocket-protocol.html)。
+
+Lambda asset IDは全application source・uv.lock・packaging script・固定runtimeのSHA-256から生成する。依存のhashはuvがlockと照合する。生成console scriptの絶対shebangがWorkとCIで異なっても、同じsource/lockのデプロイ識別子が変わらないようにする。CDK設計書のtemplate bytes検査自体は省略しない。

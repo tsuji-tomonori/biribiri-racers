@@ -12,8 +12,12 @@
       "sha256": "45f824fbf20273ec705d41c6c45a8f66f40a70e7f8ac9820ee723e3ed47e20bc"
     },
     {
+      "path": "backend/tests/test_local.py",
+      "sha256": "c69ab4cb070641aab453e6a1a03f739d02de843e72ebecda0494eacc372953d8"
+    },
+    {
       "path": "backend/tests/test_physics.py",
-      "sha256": "cce858358e438349d0a85cc3a407b6cb62b59f3a759454af7bee3934f403a2dd"
+      "sha256": "d7d8e0729615118b03b6036e921ee90a8f9660704ddfacf5d301c7c426e3e304"
     },
     {
       "path": "backend/tests/test_rooms.py",
@@ -27,6 +31,8 @@
   "nodes": [
     "backend/tests/test_design.py::test_generated_documents",
     "backend/tests/test_infra.py::test_serverless_template",
+    "backend/tests/test_local.py::test_local_websocket_contract",
+    "backend/tests/test_physics.py::test_ten_starts_are_distinct_and_legal",
     "backend/tests/test_physics.py::test_typescript_python_parity",
     "backend/tests/test_rooms.py::test_api",
     "backend/tests/test_rooms.py::test_expiry_reconnect",

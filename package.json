@@ -7,10 +7,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev --host 0.0.0.0",
-    "check": "astro check && tsc --noEmit -p tsconfig.tests.json",
-    "build": "astro build",
-    "preview": "astro preview --host 0.0.0.0",
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check && tsc --noEmit -p tsconfig.tests.json",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
@@ -22,11 +22,11 @@
     "data:check": "node --import tsx scripts/export-game.ts --check",
     "test:physics-parity": "mkdir -p .build && node --import tsx scripts/physics-trace.ts > .build/physics-trace.json",
     "infra:check": "tsc -p infra/tsconfig.json",
-    "infra:synth": "bash scripts/package-lambda.sh && cdk synth --quiet",
+    "infra:synth": "bash scripts/package-lambda.sh && node --import tsx infra/app.ts",
     "docs:generate": "python tools/quintflow.py generate && uv run --project backend app-docs && bash scripts/design-cdk.sh && python scripts/requirements-pages.py",
     "docs:check": "python tools/quintflow.py check && uv run --project backend app-docs --check && bash scripts/design-cdk.sh --check && python scripts/requirements-pages.py --check",
     "test:online": "playwright test -c playwright.online.config.ts",
-    "build:aws": "PUBLIC_SITE_BASE=/ PUBLIC_API_BASE=/api astro build"
+    "build:aws": "ASTRO_TELEMETRY_DISABLED=1 PUBLIC_SITE_BASE=/ PUBLIC_API_BASE=/api astro build"
   },
   "dependencies": {
     "astro": "7.3.1"

@@ -106,7 +106,7 @@ export function mountOnline(
     el('room-panel').hidden = false;
     el('room-code').textContent = room.code;
     el('room-mode').textContent =
-      `${room.mode === 'free' ? 'フリー対戦' : 'グランプリ'} · ${TRACKS[room.course]!.name} · ${room.round}/${TRACKS.length}戦`;
+      `${room.mode === 'free' ? 'フリー対戦' : 'グランプリ'} · ${TRACKS[room.course]!.name}${room.mode === 'grand-prix' ? ` · ${room.round}/${TRACKS.length}戦` : ''}`;
     const host = room.hostId === client.credentials?.playerId;
     el('room-settings').hidden =
       !host || room.mode !== 'free' || room.phase !== 'lobby';

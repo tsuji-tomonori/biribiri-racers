@@ -37,6 +37,7 @@ test('作成・参加・実入力同期・切断・結果・次コース', async
     await guest.page.locator('#room-ready').click();
     await page.locator('#room-start').click();
     await expect(page.locator('#race')).toBeVisible();
+    await guest.page.reload();
     await expect(guest.page.locator('#race')).toBeVisible();
     await expect(page.locator('#countdown')).not.toBeVisible({
       timeout: 10000,

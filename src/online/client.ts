@@ -37,6 +37,7 @@ export class Client {
     return result.json() as Promise<Response>;
   }
   accept(room: Room): void {
+    if (!this.credentials || room.code !== this.credentials.code) return;
     if (!this.room || room.version > this.room.version) {
       this.room = room;
       this.changed(room);
