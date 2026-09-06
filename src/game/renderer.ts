@@ -18,6 +18,7 @@ interface Trail {
 }
 export class Renderer {
   overview = false;
+  private playerId = 0;
   private ctx: CanvasRenderingContext2D;
   private mini: CanvasRenderingContext2D;
   private w = 0;
@@ -40,6 +41,7 @@ export class Renderer {
     this.mini = mini;
   }
   reset(s: Session): void {
+    this.playerId = s.racers[0]!.id;
     this.particles = [];
     this.trails.clear();
     this.overview = false;
@@ -190,7 +192,7 @@ export class Renderer {
       m.arc(
         (r.x / size) * 180,
         (r.y / size) * 180,
-        r.id === 0 ? 5 : 3.5,
+        r.id === this.playerId ? 5 : 3.5,
         0,
         Math.PI * 2,
       );
@@ -262,8 +264,8 @@ export class Renderer {
       56,
     );
     c.restore();
-    // CPU names already appear in the standings; avoid overlapping start labels.
-    if (r.cpu) return;
+    // Label only the local racer; opponents appear in the standings.
+    if (r.id !== this.playerId) return;
     c.save();
     c.translate(r.x, r.y - 46);
     c.scale(1 / this.cam.zoom, 1 / this.cam.zoom);

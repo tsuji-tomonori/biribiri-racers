@@ -1915,27 +1915,24 @@ dialog h2 {
   overflow: auto;
   pointer-events: auto;
 }
-.online-exit {
-  position: absolute;
-  z-index: 20;
-  right: 15px;
-  top: 100px;
-  background: white;
-  color: #12366d;
-  border: 0;
-  border-radius: 20px;
-  padding: 12px;
+.race-actions .online-exit {
+  font-size: 13px;
+  font-weight: 800;
+}
+.online h1 {
+  font-size: clamp(24px, 6vw, 32px);
 }
 .online-race-status {
   position: absolute;
   z-index: 20;
   right: 15px;
-  top: 145px;
+  top: 65px;
   color: #12366d;
   background: #ffffffe8;
   border-radius: 10px;
-  padding: 6px;
-  font-size: 12px;
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 1.2;
 }
 .result-row > strong {
   width: 2ch;

@@ -29,15 +29,15 @@ jobs:
       - run: uv sync --project backend --locked --python 3.12.13
       - run: npm ci
       - run: npm run check && npm run infra:check
-      - run: uv run --project backend ruff check backend && uv run --project backend ruff format backend --check
-      - run: uv run --project backend pyright --project backend/pyproject.toml
-      - run: uv run --project backend mypy --config-file backend/pyproject.toml backend/src backend/tests
-      - run: uv run --project backend app-archlint
+      - run: uv run --locked --project backend ruff check backend && uv run --locked --project backend ruff format backend --check
+      - run: uv run --locked --project backend pyright --project backend/pyproject.toml
+      - run: uv run --locked --project backend mypy --config-file backend/pyproject.toml backend/src backend/tests
+      - run: uv run --locked --project backend app-archlint
       - run: npm run data:check && npm run test:physics-parity
       - run: npm run infra:synth
       - run: python tools/quintflow.py setup && python tools/portable_python.py setup
       - run: npm run docs:check
-      - run: uv run --project backend pytest backend/tests --cov=app --cov-report=term-missing
+      - run: uv run --locked --project backend pytest backend/tests --cov=app --cov-report=term-missing
       - run: PUBLIC_API_BASE=http://127.0.0.1:4322/api npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:online
