@@ -1,3 +1,4 @@
+import { ADVANCED_TRACKS } from './advanced-tracks';
 import { compile } from './geometry';
 import type { TrackDefinition } from './types';
 // Coordinates trace the supplied 1254px course artwork, not generated UI geometry.
@@ -736,4 +737,4 @@ const definitions: readonly TrackDefinition[] = [
     finish: { a: [120, 510], b: [258, 510], normal: [0, -1] },
   },
 ];
-export const TRACKS = definitions.map(compile);
+export const TRACKS = [...definitions.map(compile), ...ADVANCED_TRACKS];

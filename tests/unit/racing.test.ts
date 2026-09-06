@@ -22,7 +22,7 @@ for (const t of TRACKS)
   describe(t.name, () => {
     it('4台のCPUが同じ物理と衝突判定で順路を完走する', () => {
       const racers = [0, 1, 2, 3].map((i) => createRacer(t, i, i, true));
-      for (let time = 0; time < 70; time += STEP) {
+      for (let time = 0; time < (t.worldSize ? 180 : 70); time += STEP) {
         racers.forEach((r) => tick(t, r, cpuInput(t, r, 'normal'), STEP, time));
         if (racers.every((r) => r.finish !== null)) break;
       }
@@ -32,12 +32,12 @@ for (const t of TRACKS)
         expect(r.gate).toBe(t.gates.length);
         expect(r.progress).toBe(1);
       }
-    });
+    }, 120000);
     it.each([0, 1, 2, 3])(
       '機体 %i はプレイヤー速度でも順路を完走できる',
       (color) => {
         const r = createRacer(t, 0, color, false);
-        for (let time = 0; time < 70; time += STEP) {
+        for (let time = 0; time < (t.worldSize ? 180 : 70); time += STEP) {
           tick(
             t,
             r,
@@ -50,6 +50,7 @@ for (const t of TRACKS)
         expect(r.finish).not.toBeNull();
         expect(r.hits).toBe(0);
       },
+      120000,
     );
     it('ゴールだけ100往復しても勝利しない', () => {
       const r = createRacer(t, 0, 0, false),
