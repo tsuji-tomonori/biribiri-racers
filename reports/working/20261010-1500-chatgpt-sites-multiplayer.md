@@ -27,9 +27,10 @@
 
 - `$control-browser`が提供されていないため、Sitesスキルに従ってブラウザーQA・375/768/1440pxでの操作E2Eは実施していない。視覚一致や実機での操作感を検証済みとはしない。
 - 自分のマシンは予測し、相手のマシンは200msおきの取得で表示する。遅延の大きい回線で表示に遅れが出る可能性がある。
-- pre-commitは未インストール。整形検査・差分検査・リポジトリのgit-secretsを個別に実行する。
+- pre-commitは未インストール。整形検査・差分検査・リポジトリのgit-secretsを個別に実行済み。
 - 既存AWSは配備していない。今回の公開先はChatGPT Sites。
-- GitHub PRの作成とコメントは後続で記録する。mainへのマージは今回実施しない。
+- GitHub Appsで[PR #24](https://github.com/tsuji-tomonori/biribiri-racers/pull/24)を作成し、受け入れ条件とセルフレビューをコメント済み。mainへのマージは今回実施しない。CI結果は未確認。
+- 通常のgit pushはHTTPS認証がなく失敗。GitHub Appsでtree/commit/branchを作成して反映した。リモートtreeはローカルで検証済みのtreeと一致。
 
 ## Fit
 
