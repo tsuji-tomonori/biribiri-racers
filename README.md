@@ -77,10 +77,20 @@ Pages設定のSourceは **GitHub Actions**。mainへのpushで型検査、整形
 - `docs`: 現行仕様・設計・公開手順
 - `tasks` / `reports`: 作業・検証記録
 
-この版は1人用のサンプルです。オンライン、ローカル2人対戦、アカウント、サーバー保存は含みません。過去のtasks/reportsは履歴であり、現行仕様はREADMEとdocsを参照してください。
+GitHub Pages版は1人用として利用できます。オンライン対戦はAPIの配備が必要です。過去のtasks/reportsは履歴であり、現行仕様はREADMEとdocsを参照してください。
 
 ## 匿名オンライン対戦
 
 最大10人のルーム、全8コースのグランプリ、コースを毎回選べるフリー対戦を追加。ローカルは `npm run dev:api` と `PUBLIC_API_BASE=http://127.0.0.1:4322/api npm run dev` を起動します。CloudFront/S3/API Gateway/FastAPI Lambda/AppSync/DynamoDBをCDKで定義しています。AWSへの配備は別工程です。
 
 [構成・状態](docs/2_アーキテクチャ_ARC/ARC-MULTIPLAYER.md) / [開発・生成・配備手順](docs/4_運用_OPS/OPS-MULTIPLAYER.md) / [自動生成API設計](docs/design/generated/fastapi/DESIGN.gen.md) / [要件正本](spec/requirements/requirements.qnt)
+
+## ChatGPT Sites版
+
+公開先: https://biribiri-racers-online.tsujitomonori.chatgpt.site
+
+「みんなで対戦」から部屋を作り、6文字の部屋コードまたは招待リンクを共有します。全員が「準備完了」にすると、ホストがレースを開始できます。2〜10人、8コースのグランプリとフリー対戦に対応します。
+
+Sites版は同一オリジンHTTPで同期し、D1へ部屋状態を保存します。サーバーが共通TypeScript物理から位置・接触・ゴールを計算します。AWS接続先の場合は従来のAppSync WebSocketを使用します。
+
+[Sites配信と更新手順](sites-host/README.md)

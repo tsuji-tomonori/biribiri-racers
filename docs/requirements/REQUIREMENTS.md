@@ -2,9 +2,9 @@
 # biribiri-racers 要件一覧
 
 - スキーマ版: 1
-- カタログ版: 1
+- カタログ版: 2
 - Product(JSON): <code>"biribiri-racers"</code>
-- 更新日(JSON): <code>"2026-09-06"</code>
+- 更新日(JSON): <code>"2026-10-10"</code>
 - 正本: `spec/requirements/requirements.qnt`
 - 機械可読view: `spec/requirements/requirements.json`
 
@@ -19,6 +19,7 @@
 | <code>"BR-FREE-001"</code> | 1 | 有効 | 機能 | ビリビリレーサーズは、フリー対戦で毎回コースを選べるを**提供する**（<code>"provide"</code>） | automated tests |
 | <code>"BR-AWS-001"</code> | 1 | 有効 | 制約 | ビリビリレーサーズは、指定されたフルサーバレス構成をCDKで定義するを**提供する**（<code>"provide"</code>） | automated tests |
 | <code>"BR-DOC-001"</code> | 1 | 有効 | 制約 | ビリビリレーサーズは、APIとCDKの設計書を実装から自動生成するを**提供する**（<code>"provide"</code>） | automated tests |
+| <code>"BR-SITES-001"</code> | 1 | 有効 | 制約 | ビリビリレーサーズは、ChatGPT Sitesで遊べるマルチプレイを**提供する**（<code>"provide"</code>） | automated tests and Sites deployment |
 
 ## BR-ROOM-001: ログインなしでルームを作成する
 
@@ -304,6 +305,38 @@
 - 設計: <code>[]</code>
 - 実装: <code>["backend/src/app/tools/design.py"]</code>
 - テスト: <code>["backend/tests/test_design.py"]</code>
+- 参照資料: <code>["dev-standard"]</code>
+廃止理由: <code>""</code>
+後継要件: <code>""</code>
+
+## BR-SITES-001: ChatGPT Sitesでマルチプレイを公開する
+
+要件ID(JSON): <code>"BR-SITES-001"</code>
+タイトル(JSON): <code>"ChatGPT Sitesでマルチプレイを公開する"</code>
+主体(JSON): <code>"ビリビリレーサーズ"</code>
+対象(JSON): <code>"ChatGPT Sitesで遊べるマルチプレイ"</code>
+ビリビリレーサーズは、ChatGPT Sitesで遊べるマルチプレイを**提供する**。
+行為enum: <code>"provide"</code>
+
+根拠: ユーザーが指定した公開先で別端末から対戦できる状態を維持する。
+根拠(JSON): <code>"ユーザーが指定した公開先で別端末から対戦できる状態を維持する。"</code>
+
+項目版: 1 / 状態: `active` / 種別: `constraint`
+変更識別子: <code>"task:20261010-chatgpt-sites-multiplayer"</code>
+分類: scope=<code>"product"</code> / category=<code>"nonfunctional"</code>
+
+受入条件:
+- <code>"BR-SITES-001-AC1"</code> 前提: 別々の端末が公開URLを開く。条件: 同じルームへ参加しレースを開始する。期待結果: 部屋・開始時刻・サーバー計算した走行状態を共有する。
+  - criterion(JSON Object): <code>{"given":"別々の端末が公開URLを開く","id":"BR-SITES-001-AC1","then":"部屋・開始時刻・サーバー計算した走行状態を共有する","when":"同じルームへ参加しレースを開始する"}</code>
+
+要求源(JSON List): <code>["conversation:20261010-chatgpt-sites-multiplayer"]</code>
+検証方法: automated tests and Sites deployment
+検証証跡: tests/unit/polling.test.ts; Sites deployment status
+検証(JSON Object): <code>{"evidence":"tests/unit/polling.test.ts; Sites deployment status","method":"automated tests and Sites deployment"}</code>
+トレース(JSON List、順序保持):
+- 設計: <code>["sites-host/README.md"]</code>
+- 実装: <code>["src/sites/rooms.ts","src/sites/d1-store.ts","sites-host/app/api/[...path]/route.ts"]</code>
+- テスト: <code>["tests/unit/sites.test.ts","tests/unit/polling.test.ts"]</code>
 - 参照資料: <code>["dev-standard"]</code>
 廃止理由: <code>""</code>
 後継要件: <code>""</code>

@@ -9,7 +9,13 @@ export class Client {
   private heartbeat: ReturnType<typeof setInterval> | undefined;
   private reconnect: ReturnType<typeof setTimeout> | undefined;
   private stopped = false;
-  private config: { websocketUrl: string; httpHost: string } | null = null;
+  private polling = false;
+  private pollTimer: ReturnType<typeof setTimeout> | undefined;
+  private config: {
+    websocketUrl: string;
+    httpHost: string;
+    transport?: string;
+  } | null = null;
   private heartBusy = false;
   async request(path: string, body?: object): Promise<Response> {
     if (!base) throw new Error('オンライン対戦の接続先が未設定です。');
@@ -85,6 +91,7 @@ export class Client {
   }
   stop(): void {
     this.stopped = true;
+    clearTimeout(this.pollTimer);
     clearInterval(this.heartbeat);
     clearTimeout(this.reconnect);
     this.ws?.close();
@@ -102,6 +109,7 @@ export class Client {
     this.config = (await response.json()) as {
       websocketUrl: string;
       httpHost: string;
+      transport?: string;
     };
     this.stopped = false;
     clearTimeout(this.reconnect);
@@ -109,7 +117,10 @@ export class Client {
       this.ws.onclose = null;
       this.ws.close();
     }
-    this.socket();
+    clearTimeout(this.pollTimer);
+    this.polling = this.config.transport === 'poll';
+    if (this.polling) this.poll();
+    else this.socket();
     clearInterval(this.heartbeat);
     this.heartbeat = setInterval(() => {
       if (this.heartBusy || this.stopped) return;
@@ -120,6 +131,26 @@ export class Client {
           this.heartBusy = false;
         });
     }, 2000);
+  }
+  private poll(): void {
+    if (this.stopped || !this.credentials || !this.polling) return;
+    const credentials = this.credentials;
+    void this.request(`/rooms/${credentials.code}`)
+      .then((response) => {
+        if (this.credentials !== credentials || this.stopped) return;
+        this.accept(response.room);
+        this.status('オンライン接続中');
+      })
+      .catch((error: unknown) => {
+        if (!this.stopped) this.status(`再接続中… ${String(error)}`);
+      })
+      .finally(() => {
+        if (this.stopped || this.credentials !== credentials) return;
+        this.pollTimer = setTimeout(
+          () => this.poll(),
+          this.room?.phase === 'racing' ? 200 : 1000,
+        );
+      });
   }
   private socket(): void {
     if (this.stopped || !this.credentials || !this.config) return;
