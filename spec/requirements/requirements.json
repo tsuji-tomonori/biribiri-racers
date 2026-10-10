@@ -1,5 +1,5 @@
 {
-  "catalog_revision": 1,
+  "catalog_revision": 2,
   "product": "biribiri-racers",
   "requirements": [
     {
@@ -388,8 +388,56 @@
         "evidence": "backend/tests/test_design.py::test_generated_documents",
         "method": "automated tests"
       }
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "given": "別々の端末が公開URLを開く",
+          "id": "BR-SITES-001-AC1",
+          "then": "部屋・開始時刻・サーバー計算した走行状態を共有する",
+          "when": "同じルームへ参加しレースを開始する"
+        }
+      ],
+      "action": "provide",
+      "category": "nonfunctional",
+      "id": "BR-SITES-001",
+      "last_changed_by": "task:20261010-chatgpt-sites-multiplayer",
+      "object": "ChatGPT Sitesで遊べるマルチプレイ",
+      "rationale": "ユーザーが指定した公開先で別端末から対戦できる状態を維持する。",
+      "retirement_reason": "",
+      "revision": 1,
+      "scope": "product",
+      "source_refs": [
+        "conversation:20261010-chatgpt-sites-multiplayer"
+      ],
+      "status": "active",
+      "subject": "ビリビリレーサーズ",
+      "superseded_by": "",
+      "title": "ChatGPT Sitesでマルチプレイを公開する",
+      "traces": {
+        "design": [
+          "sites-host/README.md"
+        ],
+        "implementation": [
+          "src/sites/rooms.ts",
+          "src/sites/d1-store.ts",
+          "sites-host/app/api/[...path]/route.ts"
+        ],
+        "standards": [
+          "dev-standard"
+        ],
+        "tests": [
+          "tests/unit/sites.test.ts",
+          "tests/unit/polling.test.ts"
+        ]
+      },
+      "type": "constraint",
+      "verification": {
+        "evidence": "tests/unit/polling.test.ts; Sites deployment status",
+        "method": "automated tests and Sites deployment"
+      }
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-09-06"
+  "updated_at": "2026-10-10"
 }
